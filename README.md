@@ -1,10 +1,10 @@
 local Rayfield = loadstring(game:HttpGet('https://raw.githubusercontent.com/zepthical/Vayfield/refs/heads/main/README.md'))()
 
 local Window = Rayfield:CreateWindow({
-   Name = "🍪 | Cookie Hub",
+   Name = "🍪 | Cookie Hub DEV",
    Icon = 0,
-   LoadingTitle = "Loading, please wait...",
-   LoadingSubtitle = "by Nakhun12310",
+   LoadingTitle = "CookieHub DEV",
+   LoadingSubtitle = "by Zepthical",
    Theme = "Default",
    DisableRayfieldPrompts = false,
    DisableBuildWarnings = false,
@@ -224,10 +224,10 @@ MainTab:CreateToggle({
          while _G.InstantReel do
             local player = game:GetService("Players").LocalPlayer
             local Rod = Char:FindFirstChildOfClass("Tool"))
-            if rod then
-               rod.events.reset:FireServer()
+            if Rod then
+               game:GetService("Players").LocalPlayer.Character:FindFirstChild(Rod).events.reset:FireServer()
                task.wait()
-               rod.events.reset:FireServer()
+               game:GetService("Players").LocalPlayer.Character:FindFirstChild(Rod).events.reset:FireServer()
             end
 
             local bar = v:FindFirstChild("bar")
