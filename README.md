@@ -191,8 +191,8 @@ MainTab:CreateToggle({
    Name = "Instant Shake",
    Callback = function(v)
       _G.InstantShake = v
-      
-      -- If Instant Shake is turned on, enable Auto Shake as well
+
+      -- If Instant Shake is enabled, Auto Shake should also turn on
       if v then
          _G.AutoShake = true
       end
@@ -220,6 +220,7 @@ MainTab:CreateToggle({
 
 
 
+
 -- Instant Reel Toggle
 MainTab:CreateToggle({
    Name = "Instant Reel",
@@ -228,7 +229,7 @@ MainTab:CreateToggle({
       spawn(function()
          while _G.InstantReel do
             local player = game:GetService("Players").LocalPlayer
-            local Rod = Char:FindFirstChildOfClass("Tool"))
+            local Rod = Char:FindFirstChildOfClass("Tool")
             if Rod then
                game:GetService("Players").LocalPlayer.Character:FindFirstChild(Rod).events.reset:FireServer()
                task.wait()
