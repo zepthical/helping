@@ -204,18 +204,8 @@ MainTab:CreateToggle({
                      GuiService.SelectedObject = button
                      VirtualInputManager:SendKeyEvent(true, Enum.KeyCode.Return, false, game)
                      VirtualInputManager:SendKeyEvent(false, Enum.KeyCode.Return, false, game)
-                  end
-               end
-            end
-            task.wait(0.01)
-             local PlayerGUI = LocalPlayer:FindFirstChild("PlayerGui")
-            local shakeUI = PlayerGUI and PlayerGUI:FindFirstChild("shakeui")
-            if shakeUI and shakeUI.Enabled then
-               local safezone = shakeUI:FindFirstChild("safezone")
-               if safezone then
-                  local button = safezone:FindFirstChild("button")
-                  if button and button:IsA("ImageButton") and button.Visible then
-                     GuiService.SelectedObject = button
+                     VirtualInputManager:SendKeyEvent(true, Enum.KeyCode.Return, false, game)
+                     VirtualInputManager:SendKeyEvent(false, Enum.KeyCode.Return, false, game)
                      VirtualInputManager:SendKeyEvent(true, Enum.KeyCode.Return, false, game)
                      VirtualInputManager:SendKeyEvent(false, Enum.KeyCode.Return, false, game)
                   end
@@ -227,6 +217,7 @@ MainTab:CreateToggle({
    end
 })
 
+local Rod = Char:FindFirstChildOfClass("Tool")
 
 -- Instant Reel Toggle
 MainTab:CreateToggle({
@@ -235,20 +226,21 @@ MainTab:CreateToggle({
       _G.InstantReel = v
       spawn(function()
          while _G.InstantReel do
+         if Rod and Rod:FindFirstChild("events") and Rod.events:FindFirstChild("cast") then
+            task.wait(0.05)
+            game:GetService("Players").LocalPlayer.Character:FindFirstChild(Rod).events.reset:FireServer()
+            task.wait(0.01)
+            game:GetService("Players").LocalPlayer.Character:FindFirstChild(Rod).events.reset:FireServer()
+            
             for _, v in pairs(LocalPlayer.PlayerGui:GetChildren()) do
                if v:IsA("ScreenGui") and v.Name == "reel" then
                   local bar = v:FindFirstChild("bar")
                   if bar then
                      local playerbar = bar:FindFirstChild("playerbar")
                      playerbar.Size = UDim2.new(1, 0, 1, 0)
-                     local Rod = Char:FindFirstChildOfClass("Tool")
-                     if Rod and Rod:FindFirstChild("events") and Rod.events:FindFirstChild("cast") then
-                       game:GetService("Players").LocalPlayer.Character:FindFirstChild(Rod).events.reset:FireServer()
-                       task.wait(0.01)
-                       game:GetService("Players").LocalPlayer.Character:FindFirstChild(Rod).events.reset:FireServer()
                        task.wait(0.01)
                        ReplicatedStorage.events.reelfinished:FireServer(100, true)
-                       task.wait(0.01)
+                       task.wait(0.035)
                        ReplicatedStorage.events.reelfinished:FireServer(100, true)
                     end
                   end
