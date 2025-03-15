@@ -208,6 +208,20 @@ MainTab:CreateToggle({
                end
             end
             task.wait(0.01)
+             local PlayerGUI = LocalPlayer:FindFirstChild("PlayerGui")
+            local shakeUI = PlayerGUI and PlayerGUI:FindFirstChild("shakeui")
+            if shakeUI and shakeUI.Enabled then
+               local safezone = shakeUI:FindFirstChild("safezone")
+               if safezone then
+                  local button = safezone:FindFirstChild("button")
+                  if button and button:IsA("ImageButton") and button.Visible then
+                     GuiService.SelectedObject = button
+                     VirtualInputManager:SendKeyEvent(true, Enum.KeyCode.Return, false, game)
+                     VirtualInputManager:SendKeyEvent(false, Enum.KeyCode.Return, false, game)
+                  end
+               end
+            end
+            task.wait(0.01)
          end
       end)
    end
