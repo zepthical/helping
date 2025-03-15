@@ -21,6 +21,35 @@ local Window = Rayfield:CreateWindow({
    KeySystem = false,
 })
 
+--------------- FUNCTIONS -----------------
+
+local function Reset()
+   game:GetService("Players").LocalPlayer.Character:FindFirstChild(Rod).events.reset:FireServer()
+end
+
+local function Cast()
+   local Rod = Char:FindFirstChildOfClass("Tool")
+      if Rod and Rod:FindFirstChild("events") and Rod.events:FindFirstChild("cast") then
+     Rod.events.cast:FireServer(100, 1)
+  end 
+end
+
+local function Reel()
+   task.wait(0.15)
+   for _, v in pairs(LocalPlayer.PlayerGui:GetChildren()) do
+      if v:IsA("ScreenGui") and v.Name == "reel" then
+         local bar = v:FindFirstChild("bar")
+            if bar then
+               local playerbar = bar:FindFirstChild("playerbar")
+               playerbar.Size = UDim2.new(1, 0, 1, 0)
+               task.wait(0.01)
+         ReplicatedStorage.events.reelfinished:FireServer(100, true)
+      end
+   end
+end
+
+-------------------------------------------
+
 local MainTab = Window:CreateTab("Main", 124714113910876)
 
 
@@ -131,29 +160,21 @@ MainTab:CreateToggle({
    end
 })
 
--- Auto Reel Toggle
+
+
 MainTab:CreateToggle({
    Name = "Auto Reel",
    Callback = function(v)
       _G.AutoReel = v
       spawn(function()
          while _G.AutoReel do
-            task.wait(0.15)
-            for _, v in pairs(LocalPlayer.PlayerGui:GetChildren()) do
-               if v:IsA("ScreenGui") and v.Name == "reel" then
-                  local bar = v:FindFirstChild("bar")
-                  if bar then
-                     local playerbar = bar:FindFirstChild("playerbar")
-                     playerbar.Size = UDim2.new(1, 0, 1, 0)
-                     task.wait(0.01)
-                     ReplicatedStorage.events.reelfinished:FireServer(100, true)
-                  end
-               end
-            end
+            Reel()
+            task.wait(0.01) 
          end
       end)
    end
 })
+
 
 
 
@@ -222,24 +243,20 @@ MainTab:CreateToggle({
       _G.InstantReel = v
       spawn(function()
          while _G.InstantReel do
-            local player = game:GetService("Players").LocalPlayer
-            local Rod = Char:FindFirstChildOfClass("Tool")
-            if Rod then
-               game:GetService("Players").LocalPlayer.Character:FindFirstChild(Rod).events.reset:FireServer()
+               Reset()
                task.wait()
-               game:GetService("Players").LocalPlayer.Character:FindFirstChild(Rod).events.reset:FireServer()
-            end
-
+               Reset()
+               task.wait(0.7)
+               
             local bar = v:FindFirstChild("bar")
             if bar then
-               local playerbar = bar:FindFirstChild("playerbar")
-               if playerbar then
+                  local playerbar = bar:FindFirstChild("playerbar")
                   playerbar.Size = UDim2.new(1, 0, 1, 0)
                   task.wait(0.04)
                   game:GetService("ReplicatedStorage").events.reelfinished:FireServer(100, true)
-                  task.wait(0.035)
+                  task.wait(0.1)
                   game:GetService("ReplicatedStorage").events.reelfinished:FireServer(100, true)
-               end
+              end
             end
          end
       end)
