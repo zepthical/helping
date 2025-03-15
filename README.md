@@ -11,7 +11,7 @@ local Window = Rayfield:CreateWindow({
    ConfigurationSaving = {
       Enabled = true,
       FolderName = nil,
-      FileName = "Cookie Hub"
+      FileName = "sigma.lua"
    },
    Discord = {
       Enabled = false,
