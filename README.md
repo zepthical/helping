@@ -204,10 +204,6 @@ MainTab:CreateToggle({
                      GuiService.SelectedObject = button
                      VirtualInputManager:SendKeyEvent(true, Enum.KeyCode.Return, false, game)
                      VirtualInputManager:SendKeyEvent(false, Enum.KeyCode.Return, false, game)
-                     VirtualInputManager:SendKeyEvent(true, Enum.KeyCode.Return, false, game)
-                     VirtualInputManager:SendKeyEvent(false, Enum.KeyCode.Return, false, game)
-                     VirtualInputManager:SendKeyEvent(true, Enum.KeyCode.Return, false, game)
-                     VirtualInputManager:SendKeyEvent(false, Enum.KeyCode.Return, false, game)
                   end
                end
             end
@@ -239,7 +235,7 @@ MainTab:CreateToggle({
                local playerbar = bar:FindFirstChild("playerbar")
                if playerbar then
                   playerbar.Size = UDim2.new(1, 0, 1, 0)
-                  task.wait(0.01)
+                  task.wait(0.04)
                   game:GetService("ReplicatedStorage").events.reelfinished:FireServer(100, true)
                   task.wait(0.035)
                   game:GetService("ReplicatedStorage").events.reelfinished:FireServer(100, true)
