@@ -24,6 +24,7 @@ local Window = Rayfield:CreateWindow({
 --------------- FUNCTIONS -----------------
 
 local function Reset()
+   local Rod = Char:FindFirstChildOfClass("Tool")
    game:GetService("Players").LocalPlayer.Character:FindFirstChild(Rod).events.reset:FireServer()
 end
 
