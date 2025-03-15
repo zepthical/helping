@@ -187,11 +187,16 @@ MainTab:CreateToggle({
 
 local Divider = MainTab:CreateDivider()
 
--- Instant Shake Toggle
 MainTab:CreateToggle({
    Name = "Instant Shake",
    Callback = function(v)
       _G.InstantShake = v
+      
+      -- If Instant Shake is turned on, enable Auto Shake as well
+      if v then
+         _G.AutoShake = true
+      end
+
       spawn(function()
          while _G.InstantShake do
             local PlayerGUI = LocalPlayer:FindFirstChild("PlayerGui")
