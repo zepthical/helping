@@ -133,7 +133,7 @@ MainTab:CreateToggle({
 
 -- Auto Reel Toggle
 MainTab:CreateToggle({
-   Name = "Auto Reel",
+   Name = "Auto Reel[Enable with Instant Shake]",
    Callback = function(v)
       _G.AutoReel = v
       spawn(function()
@@ -188,15 +188,8 @@ MainTab:CreateToggle({
 local Divider = MainTab:CreateDivider()
 
 MainTab:CreateToggle({
-   Name = "Instant Shake",
+   Name = "Instant Shake[Enable with Auto Shake]",
    Callback = function(v)
-      _G.InstantShake = v
-
-      -- If Instant Shake is enabled, Auto Shake should also turn on
-      if v then
-         _G.AutoShake = true
-      end
-
       spawn(function()
          while _G.InstantShake do
             local PlayerGUI = LocalPlayer:FindFirstChild("PlayerGui")
@@ -261,7 +254,7 @@ AutoTab:CreateToggle({
    Name = "Auto Sell",
    Callback = function(v)
       _G.AutoSell = v
-      spawn(function()
+      spawn(function()7
          while _G.AutoSell do
             game:GetService("ReplicatedStorage").events.SellAll:InvokeServer()
             task.wait(1.5)
