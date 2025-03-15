@@ -217,7 +217,7 @@ MainTab:CreateToggle({
    end
 })
 
-local Rod = Char:FindFirstChildOfClass("Tool")
+
 
 -- Instant Reel Toggle
 MainTab:CreateToggle({
@@ -226,34 +226,33 @@ MainTab:CreateToggle({
       _G.InstantReel = v
       spawn(function()
          while _G.InstantReel do
-         if Rod and Rod:FindFirstChild("events") and Rod.events:FindFirstChild("cast") then
-            task.wait(0.05)
-            game:GetService("Players").LocalPlayer.Character:FindFirstChild(Rod).events.reset:FireServer()
-            task.wait(0.01)
-            game:GetService("Players").LocalPlayer.Character:FindFirstChild(Rod).events.reset:FireServer()
-            
-            for _, v in pairs(LocalPlayer.PlayerGui:GetChildren()) do
-               if v:IsA("ScreenGui") and v.Name == "reel" then
-                  local bar = v:FindFirstChild("bar")
-                  if bar then
-                     local playerbar = bar:FindFirstChild("playerbar")
-                     playerbar.Size = UDim2.new(1, 0, 1, 0)
-                       task.wait(0.01)
-                       ReplicatedStorage.events.reelfinished:FireServer(100, true)
-                       task.wait(0.035)
-                       ReplicatedStorage.events.reelfinished:FireServer(100, true)
-                    end
-                  end
+            local player = game:GetService("Players").LocalPlayer
+            local Rod = Char:FindFirstChildOfClass("Tool"))
+            if rod then
+               rod.events.reset:FireServer()
+               task.wait()
+               rod.events.reset:FireServer()
+            end
+
+            local bar = v:FindFirstChild("bar")
+            if bar then
+               local playerbar = bar:FindFirstChild("playerbar")
+               if playerbar then
+                  playerbar.Size = UDim2.new(1, 0, 1, 0)
+                  task.wait(0.01)
+                  game:GetService("ReplicatedStorage").events.reelfinished:FireServer(100, true)
+                  task.wait(0.035)
+                  game:GetService("ReplicatedStorage").events.reelfinished:FireServer(100, true)
                end
             end
-            task.wait(0.01)
          end
       end)
    end
 })
 
+
 local AutoTab = Window:CreateTab("Auto", 124714113910876)
-local AutoSection = MainTab:CreateSection("Auto")
+local AutoSection = AutoTab:CreateSection("Auto")
 
 -- Add this toggle under the other toggles in the script
 AutoTab:CreateToggle({
