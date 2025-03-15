@@ -107,7 +107,7 @@ MainTab:CreateToggle({
 
 -- Auto Shake Toggle
 MainTab:CreateToggle({
-   Name = "Auto Shake",
+   Name = "Auto Shake[Enable with Instant Shake]",
    Callback = function(v)
       _G.AutoShake = v
       spawn(function()
@@ -133,7 +133,7 @@ MainTab:CreateToggle({
 
 -- Auto Reel Toggle
 MainTab:CreateToggle({
-   Name = "Auto Reel[Enable with Instant Shake]",
+   Name = "Auto Reel",
    Callback = function(v)
       _G.AutoReel = v
       spawn(function()
@@ -190,6 +190,7 @@ local Divider = MainTab:CreateDivider()
 MainTab:CreateToggle({
    Name = "Instant Shake[Enable with Auto Shake]",
    Callback = function(v)
+   _G.InstantShake = v
       spawn(function()
          while _G.InstantShake do
             local PlayerGUI = LocalPlayer:FindFirstChild("PlayerGui")
