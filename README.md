@@ -254,7 +254,7 @@ AutoTab:CreateToggle({
    Name = "Auto Sell",
    Callback = function(v)
       _G.AutoSell = v
-      spawn(function()7
+      spawn(function()
          while _G.AutoSell do
             game:GetService("ReplicatedStorage").events.SellAll:InvokeServer()
             task.wait(1.5)
