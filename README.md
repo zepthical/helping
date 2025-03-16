@@ -160,7 +160,6 @@ MainTab:CreateToggle({
  
  -- Auto Shake Toggle
  MainTab:CreateToggle({
-    Name = "Auto Shake",
     Name = "Auto Shake[Enable with Instant Shake]",
     Callback = function(v)
        _G.AutoShake = v
@@ -185,34 +184,38 @@ MainTab:CreateToggle({
     end
  })
  
- -- Auto Reel Toggle
- MainTab:CreateToggle({
-    Name = "Auto Reel",
+-- Auto Reel Toggle
+MainTab:CreateToggle({
     Name = "Auto Reel",
     Callback = function(v)
-       _G.AutoReel = v
-       spawn(function()
-          while _G.AutoReel do
-             task.wait(0.15)
-             for _, v in pairs(LocalPlayer.PlayerGui:GetChildren()) do
-                if v:IsA("ScreenGui") and v.Name == "reel" then
-                   local bar = v:FindFirstChild("bar")
-                    if bar then
-                      if Rod and Rod:FindFirstChild("events") and Rod.events:FindFirstChild("reset") then
-                       if Rod.values.bites == true then
-                       local playerbar = bar:FindFirstChild("playerbar")
-                       playerbar.Size = UDim2.new(1, 0, 1, 0)
-                       task.wait(0.01)
-                       ReplicatedStorage.events.reelfinished:FireServer(100, true)
-                     end
-                   end
+        _G.AutoReel = v
+        spawn(function()
+            while _G.AutoReel do
+                task.wait(0.15)
+                local Rod = Char:FindFirstChildOfClass("Tool")
+                if Rod and Rod:FindFirstChild("values") and Rod:FindFirstChild("events") and Rod.events:FindFirstChild("reset") then
+                    if Rod.values:FindFirstChild("bites") and Rod.values.bites.Value then
+                        for _, gui in pairs(LocalPlayer.PlayerGui:GetChildren()) do
+                            if gui:IsA("ScreenGui") and gui.Name == "reel" then
+                                local bar = gui:FindFirstChild("bar")
+                                if bar then
+                                    local playerbar = bar:FindFirstChild("playerbar")
+                                    if playerbar then
+                                        playerbar.Size = UDim2.new(1, 0, 1, 0)
+                                        task.wait(0.01)
+                                        ReplicatedStorage.events.reelfinished:FireServer(100, true)
+                                    end
+                                end
+                            end
+                        end
+                    end
                 end
-             end
-          end
-       end)
+                if not _G.AutoReel then break end
+            end
+        end)
     end
- })
- 
+})
+
  
  
  
@@ -287,7 +290,7 @@ MainTab:CreateToggle({
                         local Rod = Char and Char:FindFirstChildOfClass("Tool")
                         if Rod and Rod:FindFirstChild("events") and Rod.events:FindFirstChild("reset") then
                             local RodValues = Rod:FindFirstChild("values")
-                            if RodValues and RodValues:FindFirstChild("bites") and RodValues.bites.Value == true then
+                            if Rod:FindFirstChild("values") and Rod.values:FindFirstChild("bites") and Rod.values.bites.Value == true then
                                 Rod.events.reset:FireServer()
                                 task.wait(0.01)
                                 Rod.events.reset:FireServer()
