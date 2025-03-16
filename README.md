@@ -185,11 +185,14 @@ end
              for _, v in pairs(LocalPlayer.PlayerGui:GetChildren()) do
                 if v:IsA("ScreenGui") and v.Name == "reel" then
                    local bar = v:FindFirstChild("bar")
-                   if bar then
-                      local playerbar = bar:FindFirstChild("playerbar")
-                      playerbar.Size = UDim2.new(1, 0, 1, 0)
-                      task.wait(0.01)
-                      ReplicatedStorage.events.reelfinished:FireServer(100, true)
+                    if bar then
+                      if Rod and Rod:FindFirstChild("events") and Rod.events:FindFirstChild("reset") then
+                       if Rod.values.bites == true then
+                       local playerbar = bar:FindFirstChild("playerbar")
+                       playerbar.Size = UDim2.new(1, 0, 1, 0)
+                       task.wait(0.01)
+                       ReplicatedStorage.events.reelfinished:FireServer(100, true)
+                     end
                    end
                 end
              end
@@ -247,35 +250,46 @@ end
  
  
  
- -- Instant Toggle
- MainTab:CreateToggle({
-    Name = "Instant Reel",
+-- Instant Reel Toggle
+MainTab:CreateToggle({
     Name = "Instant Reel",
     Callback = function(v)
-       _G.InstantReel = v
-       spawn(function()
-          while _G.InstantReel do
-             task.wait(0.13)
-             for _, v in pairs(LocalPlayer.PlayerGui:GetChildren()) do
-                if v:IsA("ScreenGui") and v.Name == "reel" then
-                   local bar = v:FindFirstChild("bar")
-                   if bar then
-                      local playerbar = bar:FindFirstChild("playerbar")
-                      playerbar.Size = UDim2.new(1, 0, 1, 0)
-                      local Rod = Char:FindFirstChildOfClass("Tool")
-                     if Rod and Rod:FindFirstChild("events") and Rod.events:FindFirstChild("reset") then
-                        Rod.events.reset:FireServer()
-                        task.wait(0.01)
-                        Rod.events.reset:FireServer()
-                        task.wait(0.01)
-                        ReplicatedStorage.events.reelfinished:FireServer(100, true)
-                   end
+        _G.InstantReel = v
+        spawn(function()
+            while _G.InstantReel do
+                task.wait(0.13)
+                local LocalPlayer = game:GetService("Players").LocalPlayer
+                local Char = LocalPlayer.Character
+                local ReplicatedStorage = game:GetService("ReplicatedStorage")
+
+                for _, gui in pairs(LocalPlayer.PlayerGui:GetChildren()) do
+                    if gui:IsA("ScreenGui") and gui.Name == "reel" then
+                        local bar = gui:FindFirstChild("bar")
+                        if bar then
+                            local playerbar = bar:FindFirstChild("playerbar")
+                            if playerbar then
+                                playerbar.Size = UDim2.new(1, 0, 1, 0)
+                            end
+                        end
+
+                        local Rod = Char and Char:FindFirstChildOfClass("Tool")
+                        if Rod and Rod:FindFirstChild("events") and Rod.events:FindFirstChild("reset") then
+                            local RodValues = Rod:FindFirstChild("values")
+                            if RodValues and RodValues:FindFirstChild("bites") and RodValues.bites.Value == true then
+                                Rod.events.reset:FireServer()
+                                task.wait(0.01)
+                                Rod.events.reset:FireServer()
+                                task.wait(0.01)
+                                ReplicatedStorage.events.reelfinished:FireServer(100, true)
+                            end
+                        end
+                    end
                 end
-             end
-          end
-       end)
+            end
+        end)
     end
- })
+})
+
  
  
  
