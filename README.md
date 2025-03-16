@@ -209,7 +209,6 @@ MainTab:CreateToggle({
                 task.wait(0.15)
                 local Rod = Char:FindFirstChildOfClass("Tool")
                 if Rod and Rod:FindFirstChild("values") and Rod:FindFirstChild("events") and Rod.events:FindFirstChild("reset") then
-                    if Rod.values:FindFirstChild("bites") and Rod.values.bites.Value then
                         for _, gui in pairs(LocalPlayer.PlayerGui:GetChildren()) do
                             if gui:IsA("ScreenGui") and gui.Name == "reel" then
                                 local bar = gui:FindFirstChild("bar")
