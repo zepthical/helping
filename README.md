@@ -239,11 +239,11 @@ local Rayfield = loadstring(game:HttpGet('https://raw.githubusercontent.com/zept
                    game:GetService("ReplicatedStorage").events.reelfinished:FireServer(100, true)
                    task.wait(0.1)
                    game:GetService("ReplicatedStorage").events.reelfinished:FireServer(100, true)
-             end
- 
-             
+                  end
+                  task.wait()
                 end
              end
+             task.wait(0.01)
           end
        end)
     end
