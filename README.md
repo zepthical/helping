@@ -303,8 +303,6 @@ MainTab:CreateToggle({
 
                         local Rod = Char and Char:FindFirstChildOfClass("Tool")
                         if Rod and Rod:FindFirstChild("events") and Rod.events:FindFirstChild("reset") then
-                            local RodValues = Rod:FindFirstChild("values")
-                            if Rod:FindFirstChild("values") and Rod.values:FindFirstChild("bites") and Rod.values.bites.Value then
                                 task.wait(0.2)
                                 Rod.events.reset:FireServer()
                                 task.wait(0.01)
