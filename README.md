@@ -135,22 +135,37 @@ MainTab:CreateToggle({
                 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 
                 if Char then
-                    local Rod = Char:FindFirstChildOfClass("Tool")
-                    if Rod and Rod:FindFirstChild("events") and Rod.events:FindFirstChild("cast") then
-                        local RodValues = Rod:FindFirstChild("values")
-                        if RodValues and RodValues:FindFirstChild("casted") and RodValues.casted.Value == true then
-                            -- Handle freeze character setting
-                            if _G.FreezeCharacter then
-                                Char.HumanoidRootPart.Anchored = false
+                    local Rod = Char:FindFirstChildOfClass("Tool")  -- Find the rod tool
+                    if Rod and Rod:FindFirstChild("events") then
+                        local castEvent = Rod.events:FindFirstChild("cast")  -- Get the cast event
+                        if castEvent then
+                            local RodValues = Rod:FindFirstChild("values")  -- Get rod values
+                            if RodValues and RodValues:FindFirstChild("casted") then
+                                if RodValues.casted.Value == true then
+                                    -- Handle freeze character setting
+                                    if _G.FreezeCharacter then
+                                        Char.HumanoidRootPart.Anchored = false
+                                    end
+                                    
+                                    -- Fire the cast event with proper parameters
+                                    castEvent:FireServer(100, 1)
+                                    
+                                    -- Re-freeze character if needed
+                                    if _G.FreezeCharacter then
+                                        Char.HumanoidRootPart.Anchored = true
+                                    end
+                                end
+                            else
+                                warn("rodvalues or casted value not found")
                             end
-                            
-                            Rod.events.cast:FireServer(100, 1)
-                            
-                            if _G.FreezeCharacter then
-                                Char.HumanoidRootPart.Anchored = true
-                            end
+                        else
+                            warn("cast not found in rod")
                         end
+                    else
+                        warn("rod or remotes not found")
                     end
+                else
+                    warn("char not found")
                 end
             end
         end)
@@ -290,7 +305,7 @@ MainTab:CreateToggle({
                         local Rod = Char and Char:FindFirstChildOfClass("Tool")
                         if Rod and Rod:FindFirstChild("events") and Rod.events:FindFirstChild("reset") then
                             local RodValues = Rod:FindFirstChild("values")
-                            if Rod:FindFirstChild("values") and Rod.values:FindFirstChild("bites") and Rod.values.bites.Value == true then
+                            if Rod:FindFirstChild("values") and Rod.values:FindFirstChild("bites") and Rod.values.bites.Value then
                                 task.wait(0.2)
                                 Rod.events.reset:FireServer()
                                 task.wait(0.01)
