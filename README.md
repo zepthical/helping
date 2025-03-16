@@ -247,47 +247,36 @@ end
  
  
  
- -- Instant Reel Toggle
-MainTab:CreateToggle({
+ -- Instant Toggle
+ MainTab:CreateToggle({
+    Name = "Instant Reel",
     Name = "Instant Reel",
     Callback = function(v)
-        _G.InstantReel = v
-        spawn(function()
-            while _G.InstantReel do
-                task.wait(0.15)
-                local player = game:GetService("Players").LocalPlayer
-                local Char = player.Character
-                if not Char then continue end
-                
-                local Rod = Char:FindFirstChildOfClass("Tool")
-                if Rod and Rod:FindFirstChild("events") and Rod.events:FindFirstChild("reset") then
-                    Rod.events.reset:FireServer()
-                    task.wait()
-                    Rod.events.reset:FireServer()
-                    
-                    local bar = player:FindFirstChild("bar") -- Fixed this part, assuming `v` was mistakenly used
-                    if bar then
-                        local playerbar = bar:FindFirstChild("playerbar")
-                        if playerbar then
-                            task.wait(0.13)
-                            playerbar.Size = UDim2.new(1, 0, 1, 0)
-                            task.wait(0.04)
-                            local ReplicatedStorage = game:GetService("ReplicatedStorage")
-                            local reelEvent = ReplicatedStorage:FindFirstChild("events") and ReplicatedStorage.events:FindFirstChild("reelfinished")
-                            if reelEvent then
-                                reelEvent:FireServer(100, true)
-                                task.wait(0.1)
-                                reelEvent:FireServer(100, true)
-                            end
-                        end
-                    end
+       _G.InstantReel = v
+       spawn(function()
+          while _G.InstantReel do
+             task.wait(0.13)
+             for _, v in pairs(LocalPlayer.PlayerGui:GetChildren()) do
+                if v:IsA("ScreenGui") and v.Name == "reel" then
+                   local bar = v:FindFirstChild("bar")
+                   if bar then
+                      local playerbar = bar:FindFirstChild("playerbar")
+                      playerbar.Size = UDim2.new(1, 0, 1, 0)
+                      local Rod = Char:FindFirstChildOfClass("Tool")
+                     if Rod and Rod:FindFirstChild("events") and Rod.events:FindFirstChild("reset") then
+                        Rod.events.reset:FireServer()
+                        task.wait(0.01)
+                        Rod.events.reset:FireServer()
+                        task.wait(0.01)
+                        ReplicatedStorage.events.reelfinished:FireServer(100, true)
+                   end
                 end
-                task.wait(0.01)
-            end
-        end)
+             end
+          end
+       end)
     end
-})
-
+ })
+ 
  
  
  local AutoTab = Window:CreateTab("Auto", 124714113910876)
