@@ -11,7 +11,7 @@ local Rayfield = loadstring(game:HttpGet('https://raw.githubusercontent.com/zept
     ConfigurationSaving = {
        Enabled = true,
        FolderName = nil,
-       FileName = "sigma.lua"
+       FileName = "cdev.lua"
     },
     Discord = {
        Enabled = false,
@@ -227,9 +227,9 @@ local Rayfield = loadstring(game:HttpGet('https://raw.githubusercontent.com/zept
              local player = game:GetService("Players").LocalPlayer
              local Rod = Char:FindFirstChildOfClass("Tool")
              if Rod then
-                game:GetService("Players").LocalPlayer.Character:FindFirstChild(Rod).events.reset:FireServer()
+                Rod.events.reset:FireServer()
                 task.wait()
-                game:GetService("Players").LocalPlayer.Character:FindFirstChild(Rod).events.reset:FireServer()
+                Rod.events.reset:FireServer()
                 local bar = v:FindFirstChild("bar")
              if bar then
                 local playerbar = bar:FindFirstChild("playerbar")
@@ -237,7 +237,7 @@ local Rayfield = loadstring(game:HttpGet('https://raw.githubusercontent.com/zept
                    playerbar.Size = UDim2.new(1, 0, 1, 0)
                    task.wait(0.04)
                    game:GetService("ReplicatedStorage").events.reelfinished:FireServer(100, true)
-                   task.wait(0.035)
+                   task.wait(0.1)
                    game:GetService("ReplicatedStorage").events.reelfinished:FireServer(100, true)
              end
  
