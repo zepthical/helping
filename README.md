@@ -218,7 +218,6 @@ MainTab:CreateToggle({
                                         playerbar.Size = UDim2.new(1, 0, 1, 0)
                                         task.wait(0.01)
                                         ReplicatedStorage.events.reelfinished:FireServer(100, true)
-                                    end
                                 end
                             end
                         end
@@ -309,7 +308,6 @@ MainTab:CreateToggle({
                                 Rod.events.reset:FireServer()
                                 task.wait(0.01)
                                 ReplicatedStorage.events.reelfinished:FireServer(100, true)
-                            end
                         end
                     end
                 end
