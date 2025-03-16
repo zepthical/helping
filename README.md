@@ -122,29 +122,41 @@ end
  
  local MainSection = MainTab:CreateSection("Main")
  
- -- Auto Cast Toggle
- MainTab:CreateToggle({
+-- Auto Cast Toggle
+MainTab:CreateToggle({
     Name = "Auto Cast",
     Callback = function(v)
-       _G.AutoCast = v
-       spawn(function()
-          while _G.AutoCast do
-             task.wait(0.1)
-             Char = getCharacter()
-             local Rod = Char:FindFirstChildOfClass("Tool")
-             if Rod and Rod:FindFirstChild("events") and Rod.events:FindFirstChild("cast") then
-                if _G.FreezeCharacter then
-                   Char.HumanoidRootPart.Anchored = false
+        _G.AutoCast = v
+        spawn(function()
+            while _G.AutoCast do
+                task.wait(0.1)
+                local LocalPlayer = game:GetService("Players").LocalPlayer
+                local Char = LocalPlayer.Character
+                local ReplicatedStorage = game:GetService("ReplicatedStorage")
+
+                if Char then
+                    local Rod = Char:FindFirstChildOfClass("Tool")
+                    if Rod and Rod:FindFirstChild("events") and Rod.events:FindFirstChild("cast") then
+                        local RodValues = Rod:FindFirstChild("values")
+                        if RodValues and RodValues:FindFirstChild("casted") and RodValues.casted.Value == true then
+                            -- Handle freeze character setting
+                            if _G.FreezeCharacter then
+                                Char.HumanoidRootPart.Anchored = false
+                            end
+                            
+                            Rod.events.cast:FireServer(100, 1)
+                            
+                            if _G.FreezeCharacter then
+                                Char.HumanoidRootPart.Anchored = true
+                            end
+                        end
+                    end
                 end
-                Rod.events.cast:FireServer(100, 1)
-                if _G.FreezeCharacter then
-                   Char.HumanoidRootPart.Anchored = true
-                end
-             end
-          end
-       end)
+            end
+        end)
     end
- })
+})
+
  
  -- Auto Shake Toggle
  MainTab:CreateToggle({
