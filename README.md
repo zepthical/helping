@@ -382,15 +382,21 @@ local coordinates = {
   AbyssalZenith = Vector3.new(-13550, 11050, 123)
 }
 
-TeleportTab:CreateDropdown({
+local Dropdown = Tab:CreateDropdown({
    Name = "Select Island",
-   List = Islands,
-   Callback = function(selectedIsland)
+   Options = Islands,  -- Use the Islands list directly here
+   CurrentOption = {"Moosewood"},  -- Default selected option
+   MultipleOptions = false,
+   Flag = "Dropdown1",  -- Ensure each dropdown has a unique flag
+   Callback = function(Options)
+      -- The function that takes place when the selected option is changed
+      local selectedIsland = Options[1]  -- Since it's not multiple options, we get the first selected option
       if coordinates[selectedIsland] then
          game.Players.LocalPlayer.Character:SetPrimaryPartCFrame(CFrame.new(coordinates[selectedIsland]))
       end
-   end
+   end,
 })
+
 
 
 
