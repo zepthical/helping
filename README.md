@@ -327,3 +327,6 @@ AutoTab:CreateToggle({
         end)
     end
 })
+
+
+Rayfield:LoadConfiguration()
