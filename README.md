@@ -160,7 +160,7 @@ MainTab:CreateToggle({
  
  -- Auto Shake Toggle
  MainTab:CreateToggle({
-    Name = "Auto Shake[Enable with Instant Shake]",
+    Name = "Auto Shake",
     Callback = function(v)
        _G.AutoShake = v
        spawn(function()
@@ -249,7 +249,7 @@ MainTab:CreateToggle({
  local Divider = MainTab:CreateDivider()
  
  MainTab:CreateToggle({
-    Name = "Instant Shake[Enable with Auto Shake]",
+    Name = "Instant Shake",
     Callback = function(v)
     _G.InstantShake = v
        spawn(function()
@@ -311,16 +311,18 @@ MainTab:CreateToggle({
  local AutoTab = Window:CreateTab("Auto", 124714113910876)
  local AutoSection = AutoTab:CreateSection("Auto")
  
- -- Add this toggle under the other toggles in the script
- AutoTab:CreateToggle({
+AutoTab:CreateToggle({
     Name = "Auto Sell",
     Callback = function(v)
-       _G.AutoSell = v
-       spawn(function()
-          while _G.AutoSell do
-             game:GetService("ReplicatedStorage").events.SellAll:InvokeServer()
-             task.wait(1.5)
-          end
-       end)
+        _G.AutoSell = v
+        spawn(function()
+            while _G.AutoSell do
+                local SellAllEvent = game:GetService("ReplicatedStorage").events:FindFirstChild("SellAll")
+                if SellAllEvent then
+                    SellAllEvent:InvokeServer()
+                end
+                task.wait(1.5)
+            end
+        end)
     end
- })
+})
