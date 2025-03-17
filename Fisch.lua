@@ -97,7 +97,6 @@ end
  
  local CharSection = MainTab:CreateSection("Character")
  
- -- Freeze Character Toggle
  MainTab:CreateToggle({
     Name = "Freeze Character",
     Flag = "FChar",
@@ -142,7 +141,7 @@ local function Cast()
     end
 end
 
--- Auto Cast Toggle
+
 MainTab:CreateToggle({
     Name = "Auto Cast",
     Flag = "ACast",
@@ -202,7 +201,6 @@ local function Reel()
 end
 
 
--- Auto Reel Toggle
 MainTab:CreateToggle({
     Name = "Auto Reel",
     Flag = "AReel",
@@ -224,7 +222,7 @@ MainTab:CreateToggle({
 
  
  
- -- Auto Drop Bobber Toggle
+ 
  MainTab:CreateToggle({
     Name = "Auto Drop Bobber",
     Flag = "DropBob",
@@ -263,7 +261,6 @@ MainTab:CreateToggle({
 end
 
 
--- Instant Reel Toggle
 MainTab:CreateToggle({
     Name = "Instant Reel[In-dev]",
     Flag = "InsReel",
@@ -369,7 +366,7 @@ local coordinates = {
   FinalPuzNorthEXP = Vector3.new(19963, 1137, 5401)
 }
 
--- Create the dropdown for teleportation
+
 TeleportTab:CreateDropdown({
    Name = "Select Island",
    Options = Islands,
@@ -451,6 +448,9 @@ local Noclip = MiscTab:CreateToggle({
         end)
     end
 })
+
+
+
 
 local SettingsTab = Window:CreateTab("Settings", 124714113910876)
 local SettingsSection = SettingsTab:CreateSection("Save")
