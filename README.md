@@ -92,7 +92,6 @@ end
  _G.AutoShake = false
  _G.AutoReel = false
  _G.FreezeCharacter = false
- _G.InstantShake = false
  _G.AutoDropBobber = false
  _G.InstantReel = false
  
@@ -122,10 +121,6 @@ end
  
  local MainSection = MainTab:CreateSection("Main")
  
-local ReplicatedStorage = game:GetService("ReplicatedStorage")
-local Players = game:GetService("Players")
-local LocalPlayer = Players.LocalPlayer
-
 local function getRod()
     local Char = LocalPlayer.Character
     if Char then
@@ -173,9 +168,9 @@ MainTab:CreateToggle({
  MainTab:CreateToggle({
     Name = "Auto Shake",
     Callback = function(v)
-    _G.InstantShake = v
+    _G.AutoShake = v
        spawn(function()
-          while _G.InstantShake do
+          while _G.AutoShake do
              Shake()
              Shake2()
              task.wait(0.01)
