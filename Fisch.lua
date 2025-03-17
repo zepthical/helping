@@ -449,7 +449,66 @@ local Noclip = MiscTab:CreateToggle({
     end
 })
 
+local Resources = game.Players.LocalPlayer.Character:FindFirstChild("Resources")
+if Resources then
+ local gas = Resources:FindFirstChild("gas")
+ if gas then
+  local oxygen = Resources:FindFirstChild("oxygen")
+  if oxygen then
+   local peaksoxygen = Resources:FindFirstChild("oxygen(peaks)")
+   if peaksoxygen then
+    local temp = Resources:FindFirstChild("temperature")
+    if temp then
+     local heat = Resources:FindFirstChild("temperature(heat)")
+     if heat then
+      print("Resources is founded!")
+     end
+    end
+   end
+  end
+ end
+end 
 
+local gas = MiscTab:CreateToggle({
+   Name = "Disable Gas",
+   CurrentValue = false,
+   Flag = "gas", 
+   Callback = function(Value)
+   task.wait(0.1)
+   gas.Disbled = Value
+   end,
+})
+
+local oxygen = MiscTab:CreateToggle({
+   Name = "Disable oxygen",
+   CurrentValue = false,
+   Flag = "oxygen", 
+   Callback = function(Value)
+   task.wait(0.1)
+   oxygen.Disabled = Value
+   peaksoxygen.Disabled = Value
+   end,
+})
+
+local temp = MiscTab:CreateToggle({
+   Name = "Disable temperature",
+   CurrentValue = false,
+   Flag = "temp", 
+   Callback = function(Value)
+   task.wait(0.1)
+   temp.Disabled = Value
+   end,
+})
+
+local heat = MiscTab:CreateToggle({
+   Name = "Disable heat",
+   CurrentValue = false,
+   Flag = "heat", 
+   Callback = function(Value)
+   task.wait(0.1)
+   heat.Disabled = Value
+   end,
+})
 
 
 local SettingsTab = Window:CreateTab("Settings", 124714113910876)
