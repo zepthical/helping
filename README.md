@@ -122,6 +122,7 @@ end
  
  local MainSection = MainTab:CreateSection("Main")
  
+-- Auto Cast Toggle
 MainTab:CreateToggle({
     Name = "Auto Cast",
     Callback = function(v)
@@ -129,43 +130,19 @@ MainTab:CreateToggle({
         spawn(function()
             while _G.AutoCast do
                 task.wait(0.1)
-                local LocalPlayer = game:GetService("Players").LocalPlayer
-                local Char = LocalPlayer.Character
-                local ReplicatedStorage = game:GetService("ReplicatedStorage")
+                Char = getCharacter()
+                local Rod = Char and Char:FindFirstChildOfClass("Tool")
 
-                if not Char then
-                    warn("Character not found")
-                    return
-                end
-                
-                local Rod = Char:FindFirstChildOfClass("Tool")  
-                if not Rod or not Rod:FindFirstChild("events") then
-                    warn("Rod or its events not found")
-                    return
-                end
-
-                local castEvent = Rod.events:FindFirstChild("cast")
-                if not castEvent then
-                    warn("Cast event not found")
-                    return
-                end
-
-                -- Handle freeze character setting
-                if _G.FreezeCharacter then
-                    Char.HumanoidRootPart.Anchored = false
-                end
-
-                -- Fire the cast event with proper parameters
-                castEvent:FireServer(100, 1)
-
-                -- Re-freeze character if needed
-                if _G.FreezeCharacter then
-                    Char.HumanoidRootPart.Anchored = true
+                if Rod and Rod:FindFirstChild("values") and Rod.values:FindFirstChild("casted") then
+                    if Rod.values.casted.Value == false then  -- Only cast if not already casted
+                        Rod.events.cast:FireServer(100, 1)
+                    end
                 end
             end
         end)
     end
 })
+
 
  
  -- Auto Shake Toggle
@@ -214,16 +191,23 @@ local function Reel()
 end
 
 
+-- Auto Reel Toggle
 MainTab:CreateToggle({
     Name = "Auto Reel",
     Callback = function(v)
         _G.AutoReel = v
         spawn(function()
             while _G.AutoReel do
-                Reel()
-                task.wait(0.1)
-                Reel()
-                task.wait(0.1)
+                task.wait(0.01)
+                Char = getCharacter()
+                local Rod = Char:FindFirstChildOfClass("Tool")
+                
+                if Rod and Rod:FindFirstChild("values") and Rod.values:FindFirstChild("bite") then
+                    if Rod.values.bite.Value == true then
+                        Reel()  -- Runs the Reel function when the bite condition is met
+                        task.wait(1.2)
+                    end
+                end
             end
         end)
     end
@@ -297,18 +281,33 @@ MainTab:CreateToggle({
         spawn(function()
             while _G.InstantReel do
                 task.wait(0.1)
-                Reset()
-                task.wait(0.01)
-                Reset()
-               task.wait(0.07)
-               Reel()
-               task.wait(0.3)
-               Reel()
+                local Char = getCharacter()
+                local Rod = Char and Char:FindFirstChildOfClass("Tool")
+
+                if Rod and Rod:FindFirstChild("values") and Rod.values:FindFirstChild("bite") then
+                    if Rod.values.bite.Value == true then  -- Only reel instantly if a fish has bitten
+                        Reset()
+                        task.wait()
+                        Reset()
+                        task.wait(0.7)
+                        
+                        local bar = Rod:FindFirstChild("bar")
+                        if bar then
+                            local playerbar = bar:FindFirstChild("playerbar")
+                            if playerbar then
+                                playerbar.Size = UDim2.new(1, 0, 1, 0)
+                                task.wait(0.04)
+                                game:GetService("ReplicatedStorage").events.reelfinished:FireServer(100, true)
+                                task.wait(0.1)
+                                game:GetService("ReplicatedStorage").events.reelfinished:FireServer(100, true)
+                            end
+                        end
+                    end
+                end
             end
         end)
     end
 })
-
  
  
  
