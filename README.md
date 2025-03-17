@@ -122,6 +122,18 @@ end
  
  local MainSection = MainTab:CreateSection("Main")
  
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local Players = game:GetService("Players")
+local LocalPlayer = Players.LocalPlayer
+
+local function getRod()
+    local Char = LocalPlayer.Character
+    if Char then
+        return Char:FindFirstChildOfClass("Tool")
+    end
+    return nil
+end
+
 -- Auto Cast Toggle
 MainTab:CreateToggle({
     Name = "Auto Cast",
@@ -130,12 +142,13 @@ MainTab:CreateToggle({
         spawn(function()
             while _G.AutoCast do
                 task.wait(0.1)
-                Char = getCharacter()
-                local Rod = Char and Char:FindFirstChildOfClass("Tool")
-
+                local Rod = getRod()
                 if Rod and Rod:FindFirstChild("values") and Rod.values:FindFirstChild("casted") then
-                    if Rod.values.casted.Value == false then  -- Only cast if not already casted
-                        Rod.events.cast:FireServer(100, 1)
+                    if Rod.values.casted.Value == false then  -- Only cast if not already casting
+                        local castEvent = ReplicatedStorage:FindFirstChild("events") and ReplicatedStorage.events:FindFirstChild("cast")
+                        if castEvent then
+                            castEvent:FireServer(100, 1)
+                        end
                     end
                 end
             end
@@ -198,14 +211,10 @@ MainTab:CreateToggle({
         _G.AutoReel = v
         spawn(function()
             while _G.AutoReel do
-                task.wait(0.01)
-                Char = getCharacter()
-                local Rod = Char:FindFirstChildOfClass("Tool")
-                
+                task.wait(0.1)
+                local Rod = getRod()
                 if Rod and Rod:FindFirstChild("values") and Rod.values:FindFirstChild("bite") then
-                    if Rod.values.bite.Value == true then
-                        Reel()  -- Runs the Reel function when the bite condition is met
-                        task.wait(1.2)
+                    if Rod.values.bite.Value == true then  -- Only reel if fish is biting
                         Reel()
                     end
                 end
@@ -273,7 +282,6 @@ local ReplicatedStorage = game:GetService("ReplicatedStorage")
 end
 
 
- 
 -- Instant Reel Toggle
 MainTab:CreateToggle({
     Name = "Instant Reel",
@@ -282,25 +290,30 @@ MainTab:CreateToggle({
         spawn(function()
             while _G.InstantReel do
                 task.wait(0.1)
-                local Char = getCharacter()
-                local Rod = Char and Char:FindFirstChildOfClass("Tool")
-
+                local Rod = getRod()
                 if Rod and Rod:FindFirstChild("values") and Rod.values:FindFirstChild("bite") then
-                    if Rod.values.bite.Value == true then  -- Only reel instantly if a fish has bitten
+                    if Rod.values.bite.Value == true then  -- Only instant reel if fish is biting
                         Reset()
                         task.wait()
                         Reset()
                         task.wait(0.07)
-                        
-                        local bar = Rod:FindFirstChild("bar")
-                        if bar then
-                            local playerbar = bar:FindFirstChild("playerbar")
-                            if playerbar then
-                                playerbar.Size = UDim2.new(1, 0, 1, 0)
-                                task.wait(0.04)
-                                game:GetService("ReplicatedStorage").events.reelfinished:FireServer(100, true)
-                                task.wait(0.1)
-                                game:GetService("ReplicatedStorage").events.reelfinished:FireServer(100, true)
+
+                        local PlayerGUI = LocalPlayer:FindFirstChild("PlayerGui")
+                        local reelUI = PlayerGUI and PlayerGUI:FindFirstChild("reel")
+                        if reelUI then
+                            local bar = reelUI:FindFirstChild("bar")
+                            if bar then
+                                local playerbar = bar:FindFirstChild("playerbar")
+                                if playerbar then
+                                    playerbar.Size = UDim2.new(1, 0, 1, 0)
+                                    task.wait(0.04)
+                                    local reelFinished = ReplicatedStorage:FindFirstChild("events") and ReplicatedStorage.events:FindFirstChild("reelfinished")
+                                    if reelFinished then
+                                        reelFinished:FireServer(100, true)
+                                        task.wait(0.1)
+                                        reelFinished:FireServer(100, true)
+                                    end
+                                end
                             end
                         end
                     end
@@ -335,11 +348,11 @@ local TeleportTab = Window:CreateTab("Teleport", 124714113910876)
 local IslandsSection = TeleportTab:CreateSection("Islands")
 
 local Islands = {
-  "None" "Moosewood", "Statue", "Forsaken", "RoslitBay", "GrandReef", "AncientArchivesDoor", 
+  "Moosewood", "Statue", "Forsaken", "RoslitBay", "GrandReef", "AncientArchivesDoor", 
   "Altar", "DesolateDeep", "SnowCap", "Mushgrove", "CalmZone", "TheDepths", 
   "ForsakenShores", "Terrapin", "Sunstone", "TheArch", "Brine", "CraftTable", 
   "Spike", "Vertigo", "Ancient", "NorthEXP", "ChallengerDeep", "VolcanicVent", 
-  "AbyssalZenith", "Atlantis", "EtherealPuzzle", "FinalPuzNorthEXP"
+  "AbyssalZenith", "Atlantis", "EtherealPuzzle", "FinalPuzNorthEXP", "None"
 }
 
 local coordinates = {
