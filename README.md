@@ -193,38 +193,42 @@ MainTab:CreateToggle({
        end)
     end
  })
- 
--- Auto Reel Toggle
+
+local function Reel()
+      task.wait(0.15)
+      for _, v in pairs(LocalPlayer.PlayerGui:GetChildren()) do
+      if v:IsA("ScreenGui") and v.Name == "reel" then
+       local bar = v:FindFirstChild("bar")
+       if bar and ReplicatedStorage:FindFirstChild("events") then
+         local playerbar = bar:FindFirstChild("playerbar")
+         if playerbar then
+           playerbar.Size = UDim2.new(1, 0, 1, 0)
+           local reelFinished = ReplicatedStorage.events:FindFirstChild("reelfinished")
+           if reelFinished then
+             reelFinished:FireServer(100, true)
+          end   
+        end
+      end
+    end
+  end
+end
+
+
 MainTab:CreateToggle({
     Name = "Auto Reel",
     Callback = function(v)
         _G.AutoReel = v
         spawn(function()
             while _G.AutoReel do
-                task.wait(0.15)
-                local Rod = Char:FindFirstChildOfClass("Tool")
-                if Rod and Rod:FindFirstChild("values") and Rod:FindFirstChild("events") and Rod.events:FindFirstChild("reset") then
-                        for _, gui in pairs(LocalPlayer.PlayerGui:GetChildren()) do
-                            if gui:IsA("ScreenGui") and gui.Name == "reel" then
-                                local bar = gui:FindFirstChild("bar")
-                                if bar then
-                                    local playerbar = bar:FindFirstChild("playerbar")
-                                    if playerbar then
-                                        playerbar.Size = UDim2.new(1, 0, 1, 0)
-                                        task.wait(0.01)
-                                        ReplicatedStorage.events.reelfinished:FireServer(100, true)
-                                end
-                            end
-                        end
-                    end
-                end
-                if not _G.AutoReel then break end
+                Reel()
+                task.wait(0.1)
+                Reel()
+                task.wait(0.1)
             end
         end)
     end
 })
 
- 
  
  
  -- Auto Drop Bobber Toggle
@@ -269,9 +273,21 @@ MainTab:CreateToggle({
        end)
     end
  })
+
+
+local LocalPlayer = game:GetService("Players").LocalPlayer
+local Char = LocalPlayer.Character
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
  
- 
- 
+ local function Reset()
+  local Rod = Char and Char:FindFirstChildOfClass("Tool")
+  if Rod and Rod:FindFirstChild("events") and Rod.events:FindFirstChild("reset") then
+     task.wait(0.1)
+     Rod.events.reset:FireServer()
+  end                              
+end
+
+
  
 -- Instant Reel Toggle
 MainTab:CreateToggle({
@@ -280,32 +296,14 @@ MainTab:CreateToggle({
         _G.InstantReel = v
         spawn(function()
             while _G.InstantReel do
-                task.wait(0.13)
-                local LocalPlayer = game:GetService("Players").LocalPlayer
-                local Char = LocalPlayer.Character
-                local ReplicatedStorage = game:GetService("ReplicatedStorage")
-
-                for _, gui in pairs(LocalPlayer.PlayerGui:GetChildren()) do
-                    if gui:IsA("ScreenGui") and gui.Name == "reel" then
-                        local bar = gui:FindFirstChild("bar")
-                        if bar then
-                            local playerbar = bar:FindFirstChild("playerbar")
-                            if playerbar then
-                                playerbar.Size = UDim2.new(1, 0, 1, 0)
-                            end
-                        end
-
-                        local Rod = Char and Char:FindFirstChildOfClass("Tool")
-                        if Rod and Rod:FindFirstChild("events") and Rod.events:FindFirstChild("reset") then
-                                task.wait(0.2)
-                                Rod.events.reset:FireServer()
-                                task.wait(0.01)
-                                Rod.events.reset:FireServer()
-                                task.wait(0.01)
-                                ReplicatedStorage.events.reelfinished:FireServer(100, true)
-                        end
-                    end
-                end
+                task.wait(0.1)
+                Reset()
+                task.wait(0.01)
+                Reset()
+               task.wait(0.07)
+               Reel()
+               task.wait(0.3)
+               Reel()
             end
         end)
     end
