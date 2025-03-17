@@ -422,24 +422,22 @@ MiscTab:CreateToggle({
     Name = "NoClip",
     Callback = function(v)
         _G.NoClip = v
-        local function NoClipLoop()
-            while _G.NoClip do
-                local Character = game.Players.LocalPlayer.Character
-                if Character then
-                    for _, v in pairs(Character:GetDescendants()) do
-                        if v:IsA("BasePart") and v.CanCollide then
-                            v.CanCollide = false
+        if _G.NoClip then
+            local function NoClipLoop()
+                while _G.NoClip do
+                    local Character = game.Players.LocalPlayer.Character
+                    if Character then
+                        for _, v in pairs(Character:GetDescendants()) do
+                            if v:IsA("BasePart") and v.CanCollide then
+                                v.CanCollide = false
+                            end
                         end
                     end
+                    task.wait()
                 end
-                task.wait() -- Prevents freezing
             end
-        end
-        
-        if _G.NoClip then
             spawn(NoClipLoop) -- Start NoClip when enabled
         else
-            -- Re-enable collision when NoClip is turned off
             local Character = game.Players.LocalPlayer.Character
             if Character then
                 for _, v in pairs(Character:GetDescendants()) do
@@ -453,64 +451,58 @@ MiscTab:CreateToggle({
 })
 
 
+
 local Resources = game.Players.LocalPlayer.Character:FindFirstChild("Resources")
-if Resources then
- local gas = Resources:FindFirstChild("gas")
- if gas then
-  local oxygen = Resources:FindFirstChild("oxygen")
-  if oxygen then
-   local peaksoxygen = Resources:FindFirstChild("oxygen(peaks)")
-   if peaksoxygen then
-    local temp = Resources:FindFirstChild("temperature")
-    if temp then
-     local heat = Resources:FindFirstChild("temperature(heat)")
-     if heat then
-      print("Resources is founded!")
-     end
-    end
-   end
-  end
- end
-end 
+local gas = Resources and Resources:FindFirstChild("gas")
+local oxygen = Resources and Resources:FindFirstChild("oxygen")
+local peaksoxygen = Resources and Resources:FindFirstChild("oxygen(peaks)")
+local temp = Resources and Resources:FindFirstChild("temperature")
+local heat = Resources and Resources:FindFirstChild("temperature(heat)")
+
 
 MiscTab:CreateToggle({
    Name = "Disable Gas",
    CurrentValue = false,
    Flag = "gas", 
    Callback = function(Value)
-   task.wait(0.1)
-   gas.Disbled = Value
+      if gas then
+         gas.Disabled = Value
+      end
    end,
 })
 
-local oxygen = MiscTab:CreateToggle({
-   Name = "Disable oxygen",
+MiscTab:CreateToggle({
+   Name = "Disable Oxygen",
    CurrentValue = false,
    Flag = "oxygen", 
    Callback = function(Value)
-   task.wait(0.1)
-   oxygen.Disabled = Value
-   peaksoxygen.Disabled = Value
+      if oxygen then
+         oxygen.Disabled = Value
+      end
+      if peaksoxygen then
+         peaksoxygen.Disabled = Value
+      end
    end,
 })
 
 MiscTab:CreateToggle({
-   Name = "Disable temperature",
+   Name = "Disable Temperature",
    CurrentValue = false,
    Flag = "temp", 
    Callback = function(Value)
-   task.wait(0.1)
-   temp.Disabled = Value
+      if temp then
+         temp.Disabled = Value
+      end
    end,
 })
 
 MiscTab:CreateToggle({
-   Name = "Disable heat",
+   Name = "Disable Heat",
    CurrentValue = false,
    Flag = "heat", 
    Callback = function(Value)
-   task.wait(0.1)
-   heat.Disabled = Value
+      if heat then
+         heat.Disabled = Value
+      end
    end,
 })
-
