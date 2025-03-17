@@ -206,6 +206,7 @@ MainTab:CreateToggle({
                     if Rod.values.bite.Value == true then
                         Reel()  -- Runs the Reel function when the bite condition is met
                         task.wait(1.2)
+                        Reel()
                     end
                 end
             end
@@ -289,7 +290,7 @@ MainTab:CreateToggle({
                         Reset()
                         task.wait()
                         Reset()
-                        task.wait(0.7)
+                        task.wait(0.07)
                         
                         local bar = Rod:FindFirstChild("bar")
                         if bar then
@@ -334,11 +335,11 @@ local TeleportTab = Window:CreateTab("Teleport", 124714113910876)
 local IslandsSection = TeleportTab:CreateSection("Islands")
 
 local Islands = {
-  "Moosewood", "Statue", "Forsaken", "RoslitBay", "GrandReef", "AncientArchivesDoor", 
+  "None" "Moosewood", "Statue", "Forsaken", "RoslitBay", "GrandReef", "AncientArchivesDoor", 
   "Altar", "DesolateDeep", "SnowCap", "Mushgrove", "CalmZone", "TheDepths", 
   "ForsakenShores", "Terrapin", "Sunstone", "TheArch", "Brine", "CraftTable", 
   "Spike", "Vertigo", "Ancient", "NorthEXP", "ChallengerDeep", "VolcanicVent", 
-  "AbyssalZenith", "Atlantis", "EtherealPuzzle", "FinalPuzNorthEXP", "None"
+  "AbyssalZenith", "Atlantis", "EtherealPuzzle", "FinalPuzNorthEXP"
 }
 
 local coordinates = {
