@@ -396,7 +396,7 @@ TeleportTab:CreateDropdown({
 local MiscTab = Window:CreateTab("Misc", 124714113910876)
 local LPlayerSection = MiscTab:CreateSection("LocalPlayer")
 
-local WalkSpeed = MiscTab:CreateInput({
+WalkSpeed = MiscTab:CreateInput({
    Name = "WalkSpeed",
    CurrentValue = "16",
    PlaceholderText = "Value",
@@ -407,7 +407,7 @@ local WalkSpeed = MiscTab:CreateInput({
    end,
 })
 
-local JumpPower = MiscTab:CreateInput({
+MiscTab:CreateInput({
    Name = "JumpPower",
    CurrentValue = "50",
    PlaceholderText = "Value",
@@ -417,8 +417,7 @@ local JumpPower = MiscTab:CreateInput({
    game.Player.LocalPlayer.Character.Humanoid.JumpPower = Text
    end,
 })
-
-local Noclip = MiscTab:CreateToggle({
+MiscTab:CreateToggle({
     Name = "NoClip",
     Callback = function(v)
         _G.NoClip = v
@@ -469,7 +468,7 @@ if Resources then
  end
 end 
 
-local gas = MiscTab:CreateToggle({
+MiscTab:CreateToggle({
    Name = "Disable Gas",
    CurrentValue = false,
    Flag = "gas", 
@@ -490,7 +489,7 @@ local oxygen = MiscTab:CreateToggle({
    end,
 })
 
-local temp = MiscTab:CreateToggle({
+MiscTab:CreateToggle({
    Name = "Disable temperature",
    CurrentValue = false,
    Flag = "temp", 
@@ -500,7 +499,7 @@ local temp = MiscTab:CreateToggle({
    end,
 })
 
-local heat = MiscTab:CreateToggle({
+MiscTab:CreateToggle({
    Name = "Disable heat",
    CurrentValue = false,
    Flag = "heat", 
@@ -510,18 +509,3 @@ local heat = MiscTab:CreateToggle({
    end,
 })
 
-
--- [[ local SettingsTab = Window:CreateTab("Settings", 124714113910876)
-local SettingsSection = SettingsTab:CreateSection("Save")
-
-local Save = SettingsTab:CreateToggle({
-   Name = "Save",
-   CurrentValue = false,
-   Flag = "Save",
-   Callback = function(Value)
-     while Value do
-         task.wait(5)
-         Rayfield:LoadConfiguration()
-      end
-   end,
-}) ]]
