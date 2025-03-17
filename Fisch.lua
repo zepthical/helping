@@ -327,82 +327,7 @@ AutoTab:CreateToggle({
 local TeleportTab = Window:CreateTab("Teleport")  -- Removed image ID to prevent issues
 local IslandsSection = TeleportTab:CreateSection("Islands")
 
-local Islands = {
-    "Moosewood", "Statue", "Forsaken", "RoslitBay", "GrandReef", "AncientArchivesDoor", 
-    "Altar", "DesolateDeep", "SnowCap", "Mushgrove", "CalmZone", "TheDepths", 
-    "ForsakenShores", "Terrapin", "Sunstone", "TheArch", "Brine", "CraftTable", 
-    "Spike", "Vertigo", "Ancient", "NorthEXP", "ChallengerDeep", "VolcanicVent", 
-    "AbyssalZenith", "Atlantis", "EtherealPuzzle", "FinalPuzNorthEXP", "None"
-}
-
-local coordinates = {
-    Moosewood = Vector3.new(381, 135, 240),
-    Statue = Vector3.new(17.7, 160, -1044),
-    Forsaken = Vector3.new(-2500, 134, 1548),
-    RoslitBay = Vector3.new(-1447, 133, 672),
-    GrandReef = Vector3.new(-3565, 150, 535),
-    AncientArchivesDoor = Vector3.new(-3155, 754, 2193),
-    Altar = Vector3.new(-1296, 805, 298),
-    DesolateDeep = Vector3.new(-1510, 234, 2852),
-    SnowCap = Vector3.new(-2648, 142, 2521),
-    Mushgrove = Vector3.new(-2501, 131, 720),
-    CalmZone = Vector3.new(-4255, 11201, 1775),
-    TheDepths = Vector3.new(-568, 704, 1230),
-    ForsakenShores = Vector3.new(-2498, 136, 1624),
-    Terrapin = Vector3.new(-146, 145, 1914),
-    Sunstone = Vector3.new(-932, 131, 1118),
-    TheArch = Vector3.new(-998, 131, 1237),
-    Brine = Vector3.new(-1794, 142, 3302),
-    CraftTable = Vector3.new(-3159, 745, 1684),
-    Spike = Vector3.new(-1254, 137, 1554),
-    Vertigo = Vector3.new(-112, 515, 1040),
-    Ancient = Vector3.new(-6055, 195, 278),
-    NorthEXP = Vector3.new(-19990, 1136, 5536),
-    ChallengerDeep = Vector3.new(-735, 3360, 1684),
-    VolcanicVent = Vector3.new(-3181, 2036, 4017),
-    AbyssalZenith = Vector3.new(-13550, 11050, 123),
-    Atlantis = Vector3.new(-4263, -603, 1829),
-    EtherealPuzzle = Vector3.new(-4122, 602, 1820),
-    FinalPuzNorthEXP = Vector3.new(19963, 1137, 5401)
-}
-
-TeleportTab:CreateDropdown({
-    Name = "Select Island",
-    Options = Islands,
-    CurrentOption = {"None"},
-    MultipleOptions = false,
-    Flag = "IslandDropdown",
-    Callback = function(Options)
-        local selectedIsland = Options[1]  -- Get the selected island name
-        print("Selected option:", selectedIsland)
-
-        local Player = game.Players.LocalPlayer
-        if not Player then
-            warn("Player not found!")
-            return
-        end
-
-        local Character = Player.Character
-        if not Character or not Character:FindFirstChild("HumanoidRootPart") then
-            warn("Character or HumanoidRootPart not found! Try again.")
-            return
-        end
-
-        -- Save "None" as the player's current position
-        if selectedIsland == "None" then
-            coordinates["None"] = Character.HumanoidRootPart.Position
-            print("Saved current position as 'None':", coordinates["None"])
-        end
-
-        -- Check if the selected island exists in coordinates table
-        if coordinates[selectedIsland] then
-            print("Teleporting to:", selectedIsland, coordinates[selectedIsland])
-            Character.HumanoidRootPart.CFrame = CFrame.new(coordinates[selectedIsland])  -- Teleport player
-        else
-            warn("No coordinates found for the selected island!")
-        end
-    end
-})
+local Paragraph = Tab:CreateParagraph({Title = "Teleport is coming soon..", Content = "In-dev"})
 
 local MiscTab = Window:CreateTab("Misc", 124714113910876)
 local LPlayerSection = MiscTab:CreateSection("LocalPlayer")
@@ -512,6 +437,22 @@ MiscTab:CreateToggle({
    Callback = function(Value)
       if heat then
          heat.Disabled = Value
+      end
+   end,
+})
+
+
+local SettingsTab = Window:CreateTab("Settings", 124714113910876)
+local SettingsSection = SettingsTab:CreateSection("Save")
+
+local Save = SettingsTab:CreateToggle({
+   Name = "Save",
+   CurrentValue = false,
+   Flag = "Save",
+   Callback = function(Value)
+     while Value do
+         task.wait(5)
+         Rayfield:LoadConfiguration()
       end
    end,
 })
