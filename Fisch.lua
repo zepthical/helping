@@ -327,7 +327,7 @@ AutoTab:CreateToggle({
 local TeleportTab = Window:CreateTab("Teleport")  -- Removed image ID to prevent issues
 local IslandsSection = TeleportTab:CreateSection("Islands")
 
-local Paragraph = Tab:CreateParagraph({Title = "Teleport is coming soon..", Content = "In-dev"})
+local Paragraph = TeleportTab:CreateParagraph({Title = "Teleport is coming soon..", Content = "In-dev"})
 
 local MiscTab = Window:CreateTab("Misc", 124714113910876)
 local LPlayerSection = MiscTab:CreateSection("LocalPlayer")
@@ -441,18 +441,3 @@ MiscTab:CreateToggle({
    end,
 })
 
-
-local SettingsTab = Window:CreateTab("Settings", 124714113910876)
-local SettingsSection = SettingsTab:CreateSection("Save")
-
-local Save = SettingsTab:CreateToggle({
-   Name = "Save",
-   CurrentValue = false,
-   Flag = "Save",
-   Callback = function(Value)
-     while Value do
-         task.wait(5)
-         Rayfield:LoadConfiguration()
-      end
-   end,
-})
