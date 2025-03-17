@@ -157,8 +157,7 @@ MainTab:CreateToggle({
                 local Rod = getRod()
                 if Rod and Rod:FindFirstChild("values") and Rod.values:FindFirstChild("casted") then
                     if Rod.values.casted.Value == false then  -- Only cast if not already casting
-                            Cast()
-                        end
+                       Cast()
                     end
                 end
             end
