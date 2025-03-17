@@ -156,14 +156,17 @@ MainTab:CreateToggle({
                 task.wait(0.1)
                 local Rod = getRod()
                 if Rod and Rod:FindFirstChild("values") and Rod.values:FindFirstChild("casted") then
-                    if Rod.values.casted.Value == false then  -- Only cast if not already casting
-                       Cast()
+                    if Rod.values.casted.Value == false then
+                        Cast()
                     end
+                else
+                    warn("rod is missing egypt properties.")
                 end
             end
         end)
     end
 })
+
 
 
  
