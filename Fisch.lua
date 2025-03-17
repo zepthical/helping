@@ -324,11 +324,6 @@ AutoTab:CreateToggle({
     end
 })
 
-local TeleportTab = Window:CreateTab("Teleport")  -- Removed image ID to prevent issues
-local IslandsSection = TeleportTab:CreateSection("Islands")
-
-local Paragraph = TeleportTab:CreateParagraph({Title = "Teleport is coming soon..", Content = "In-dev"})
-
 local MiscTab = Window:CreateTab("Misc", 124714113910876)
 local LPlayerSection = MiscTab:CreateSection("LocalPlayer")
 
