@@ -396,8 +396,64 @@ TeleportTab:CreateDropdown({
    end
 })
 
-local Tab = Window:CreateTab("Settings", 124714113910876)
-local SettingsSection = SettingsTab:CreateSection("Save")
+local MiscTab = Window:CreateTab("Misc", 124714113910876)
+local LPlayerSection = MiscTab:CreateSection("LocalPlayer")
+
+local WalkSpeed = MiscTab:CreateInput({
+   Name = "WalkSpeed",
+   CurrentValue = "16",
+   PlaceholderText = "Value",
+   RemoveTextAfterFocusLost = false,
+   Flag = "WalkSpeed",
+   Callback = function(Text)
+   game.Player.LocalPlayer.Character.Humanoid.WalkSpeed = Text
+   end,
+})
+
+local JumpPower = MiscTab:CreateInput({
+   Name = "JumpPower",
+   CurrentValue = "50",
+   PlaceholderText = "Value",
+   RemoveTextAfterFocusLost = false,
+   Flag = "JumpPower",
+   Callback = function(Text)
+   game.Player.LocalPlayer.Character.Humanoid.JumpPower = Text
+   end,
+})
+
+local Noclip = MiscTab:CreateToggle({
+    Name = "NoClip",
+    Callback = function(v)
+        _G.NoClip = v
+        spawn(function()
+            while _G.NoClip do
+                task.wait(0.1)
+                local Char = game.Players.LocalPlayer.Character
+                if Char and Char:FindFirstChild("Humanoid") then
+                    local humanoid = Char:FindFirstChild("Humanoid")
+                    local rootPart = Char:FindFirstChild("HumanoidRootPart")
+                    if humanoid and rootPart then
+                        humanoid.PlatformStand = true  -- Disables character collisions
+                        rootPart.CanCollide = false  -- Prevents the humanoid from colliding with parts
+                    end
+                end
+            end
+            -- Reset NoClip when toggled off
+            local Char = game.Players.LocalPlayer.Character
+            if Char and Char:FindFirstChild("Humanoid") then
+                local humanoid = Char:FindFirstChild("Humanoid")
+                local rootPart = Char:FindFirstChild("HumanoidRootPart")
+                if humanoid and rootPart then
+                    humanoid.PlatformStand = false  -- Re-enable normal collision
+                    rootPart.CanCollide = true  -- Re-enable collision
+                end
+            end
+        end)
+    end
+})
+
+ local Divider = MiscTab:CreateDivider()
+
 
 
 local SettingsTab = Window:CreateTab("Settings", 124714113910876)
