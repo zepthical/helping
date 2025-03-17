@@ -452,7 +452,6 @@ local Noclip = MiscTab:CreateToggle({
     end
 })
 
- local Divider = MiscTab:CreateDivider()
 
 
 
