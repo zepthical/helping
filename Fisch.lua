@@ -452,9 +452,6 @@ local Noclip = MiscTab:CreateToggle({
     end
 })
 
-
-
-
 local SettingsTab = Window:CreateTab("Settings", 124714113910876)
 local SettingsSection = SettingsTab:CreateSection("Save")
 
