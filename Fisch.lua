@@ -28,7 +28,7 @@ local Rayfield = loadstring(game:HttpGet('https://raw.githubusercontent.com/zept
  
  Rayfield:Notify({
     Title = "Welcome to Cookie Hub!",
-    Content = "Don't forget to save the configs! [Settings]",
+    Content = "Don't forget to save the configs!",
     Duration = 6.5,
     Image = 124714113910876,
  })
@@ -511,7 +511,7 @@ local heat = MiscTab:CreateToggle({
 })
 
 
-local SettingsTab = Window:CreateTab("Settings", 124714113910876)
+-- [[ local SettingsTab = Window:CreateTab("Settings", 124714113910876)
 local SettingsSection = SettingsTab:CreateSection("Save")
 
 local Save = SettingsTab:CreateToggle({
@@ -524,4 +524,4 @@ local Save = SettingsTab:CreateToggle({
          Rayfield:LoadConfiguration()
       end
    end,
-})
+}) ]]
