@@ -417,36 +417,41 @@ MiscTab:CreateInput({
    game.Players.LocalPlayer.Character.Humanoid.JumpPower = Text
    end,
 })
+
 MiscTab:CreateToggle({
     Name = "NoClip",
     Callback = function(v)
         _G.NoClip = v
-        spawn(function()
+        local function NoClipLoop()
             while _G.NoClip do
-                task.wait(0.1)
-                local Char = game.Players.LocalPlayer.Character
-                if Char and Char:FindFirstChild("Humanoid") then
-                    local humanoid = Char:FindFirstChild("Humanoid")
-                    local rootPart = Char:FindFirstChild("HumanoidRootPart")
-                    if humanoid and rootPart then
-                        humanoid.PlatformStand = true  -- Disables character collisions
-                        rootPart.CanCollide = false  -- Prevents the humanoid from colliding with parts
+                local Character = game.Players.LocalPlayer.Character
+                if Character then
+                    for _, v in pairs(Character:GetDescendants()) do
+                        if v:IsA("BasePart") and v.CanCollide then
+                            v.CanCollide = false
+                        end
+                    end
+                end
+                task.wait() -- Prevents freezing
+            end
+        end
+        
+        if _G.NoClip then
+            spawn(NoClipLoop) -- Start NoClip when enabled
+        else
+            -- Re-enable collision when NoClip is turned off
+            local Character = game.Players.LocalPlayer.Character
+            if Character then
+                for _, v in pairs(Character:GetDescendants()) do
+                    if v:IsA("BasePart") then
+                        v.CanCollide = true
                     end
                 end
             end
-            -- Reset NoClip when toggled off
-            local Char = game.Players.LocalPlayer.Character
-            if Char and Char:FindFirstChild("Humanoid") then
-                local humanoid = Char:FindFirstChild("Humanoid")
-                local rootPart = Char:FindFirstChild("HumanoidRootPart")
-                if humanoid and rootPart then
-                    humanoid.PlatformStand = false  -- Re-enable normal collision
-                    rootPart.CanCollide = true  -- Re-enable collision
-                end
-            end
-        end)
+        end
     end
 })
+
 
 local Resources = game.Players.LocalPlayer.Character:FindFirstChild("Resources")
 if Resources then
