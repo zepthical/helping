@@ -268,11 +268,6 @@ MainTab:CreateToggle({
     end
  })
 
-
-local LocalPlayer = game:GetService("Players").LocalPlayer
-local Char = LocalPlayer.Character
-local ReplicatedStorage = game:GetService("ReplicatedStorage")
- 
  local function Reset()
   local Rod = Char and Char:FindFirstChildOfClass("Tool")
   if Rod and Rod:FindFirstChild("events") and Rod.events:FindFirstChild("reset") then
