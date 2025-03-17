@@ -134,6 +134,18 @@ local function getRod()
     return nil
 end
 
+local function Cast()
+    local Char = game:GetService("Players").LocalPlayer.Character
+    if not Char then return end
+
+    local Rod = Char:FindFirstChildOfClass("Tool") -- Finds the fishing rod
+    if Rod and Rod:FindFirstChild("events") and Rod.events:FindFirstChild("cast") then
+        Rod.events.cast:FireServer(100, 1)
+    else
+        warn("Rod or cast event not found!")
+    end
+end
+
 -- Auto Cast Toggle
 MainTab:CreateToggle({
     Name = "Auto Cast",
@@ -145,13 +157,7 @@ MainTab:CreateToggle({
                 local Rod = getRod()
                 if Rod and Rod:FindFirstChild("values") and Rod.values:FindFirstChild("casted") then
                     if Rod.values.casted.Value == false then  -- Only cast if not already casting
-                        if castEvent then
-                            local args = {
-                                     [1] = 100,
-                                     [2] = 1
-                            }
-
-                           game:GetService("Players").LocalPlayer.Character:FindFirstChild(Rod).events.cast:FireServer(unpack(args))
+                            Cast()
                         end
                     end
                 end
@@ -162,27 +168,15 @@ MainTab:CreateToggle({
 
 
  
- -- Auto Shake Toggle
  MainTab:CreateToggle({
     Name = "Auto Shake",
     Callback = function(v)
-       _G.AutoShake = v
+    _G.InstantShake = v
        spawn(function()
-          while _G.AutoShake do
+          while _G.InstantShake do
+             Shake()
+             Shake2()
              task.wait(0.01)
-             local PlayerGUI = LocalPlayer:FindFirstChild("PlayerGui")
-             local shakeUI = PlayerGUI and PlayerGUI:FindFirstChild("shakeui")
-             if shakeUI and shakeUI.Enabled then
-                local safezone = shakeUI:FindFirstChild("safezone")
-                if safezone then
-                   local button = safezone:FindFirstChild("button")
-                   if button and button:IsA("ImageButton") and button.Visible then
-                      GuiService.SelectedObject = button
-                      VirtualInputManager:SendKeyEvent(true, Enum.KeyCode.Return, false, game)
-                      VirtualInputManager:SendKeyEvent(false, Enum.KeyCode.Return, false, game)
-                   end
-                end
-             end
           end
        end)
     end
@@ -257,20 +251,6 @@ MainTab:CreateToggle({
  })
  
  local Divider = MainTab:CreateDivider()
- 
- MainTab:CreateToggle({
-    Name = "Instant Shake",
-    Callback = function(v)
-    _G.InstantShake = v
-       spawn(function()
-          while _G.InstantShake do
-             Shake()
-             Shake2()
-             task.wait(0.01)
-          end
-       end)
-    end
- })
 
  local function Reset()
   local Rod = Char and Char:FindFirstChildOfClass("Tool")
@@ -293,7 +273,7 @@ MainTab:CreateToggle({
                 if Rod and Rod:FindFirstChild("values") and Rod.values:FindFirstChild("bite") then
                     if Rod.values.bite.Value == true then  -- Only instant reel if fish is biting
                         Reset()
-                        task.wait()
+                        task.wait(0.03)
                         Reset()
                         task.wait(0.01)
 
@@ -309,7 +289,7 @@ MainTab:CreateToggle({
                                     local reelFinished = ReplicatedStorage:FindFirstChild("events") and ReplicatedStorage.events:FindFirstChild("reelfinished")
                                     if reelFinished then
                                         reelFinished:FireServer(100, true)
-                                        task.wait(0.1)
+                                        task.wait(0.04)
                                         reelFinished:FireServer(100, true)
                                     end
                                 end
