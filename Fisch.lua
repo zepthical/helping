@@ -403,7 +403,7 @@ WalkSpeed = MiscTab:CreateInput({
    RemoveTextAfterFocusLost = false,
    Flag = "WalkSpeed",
    Callback = function(Text)
-   game.Player.LocalPlayer.Character.Humanoid.WalkSpeed = Text
+   game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = Text
    end,
 })
 
@@ -414,7 +414,7 @@ MiscTab:CreateInput({
    RemoveTextAfterFocusLost = false,
    Flag = "JumpPower",
    Callback = function(Text)
-   game.Player.LocalPlayer.Character.Humanoid.JumpPower = Text
+   game.Players.LocalPlayer.Character.Humanoid.JumpPower = Text
    end,
 })
 MiscTab:CreateToggle({
