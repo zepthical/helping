@@ -28,7 +28,7 @@ local Rayfield = loadstring(game:HttpGet('https://raw.githubusercontent.com/zept
  
  Rayfield:Notify({
     Title = "Welcome to Cookie Hub!",
-    Content = "Enjoy Your Scripts!",
+    Content = "Don't forget to save the configs! [Settings]",
     Duration = 6.5,
     Image = 124714113910876,
  })
@@ -100,6 +100,7 @@ end
  -- Freeze Character Toggle
  MainTab:CreateToggle({
     Name = "Freeze Character",
+    Flag = "FChar",
     Callback = function(v)
        _G.FreezeCharacter = v
        spawn(function()
@@ -144,6 +145,7 @@ end
 -- Auto Cast Toggle
 MainTab:CreateToggle({
     Name = "Auto Cast",
+    Flag = "ACast",
     Callback = function(v)
         _G.AutoCast = v
         spawn(function()
@@ -167,6 +169,7 @@ MainTab:CreateToggle({
  
  MainTab:CreateToggle({
     Name = "Auto Shake",
+    Flag = "AShake",
     Callback = function(v)
     _G.AutoShake = v
        spawn(function()
@@ -202,6 +205,7 @@ end
 -- Auto Reel Toggle
 MainTab:CreateToggle({
     Name = "Auto Reel",
+    Flag = "AReel",
     Callback = function(v)
         _G.AutoReel = v
         spawn(function()
@@ -223,6 +227,7 @@ MainTab:CreateToggle({
  -- Auto Drop Bobber Toggle
  MainTab:CreateToggle({
     Name = "Auto Drop Bobber",
+    Flag = "DropBob",
     Callback = function(v)
        _G.AutoDropBobber = v
        spawn(function()
@@ -260,7 +265,8 @@ end
 
 -- Instant Reel Toggle
 MainTab:CreateToggle({
-    Name = "Instant Reel",
+    Name = "Instant Reel[In-dev]",
+    Flag = "InsReel",
     Callback = function(v)
         _G.InstantReel = v
         spawn(function()
@@ -306,6 +312,7 @@ MainTab:CreateToggle({
  
 AutoTab:CreateToggle({
     Name = "Auto Sell",
+    Flag = "ASell",
     Callback = function(v)
         _G.AutoSell = v
         spawn(function()
@@ -389,7 +396,21 @@ TeleportTab:CreateDropdown({
    end
 })
 
+local Tab = Window:CreateTab("Settings", 124714113910876)
+local SettingsSection = SettingsTab:CreateSection("Save")
 
 
+local SettingsTab = Window:CreateTab("Settings", 124714113910876)
+local SettingsSection = SettingsTab:CreateSection("Save")
 
-Rayfield:LoadConfiguration()
+local Save = SettingsTab:CreateToggle({
+   Name = "Save",
+   CurrentValue = false,
+   Flag = "Save",
+   Callback = function(Value)
+     while Value do
+         task.wait(5)
+         Rayfield:LoadConfiguration()
+      end
+   end,
+})
