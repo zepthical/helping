@@ -145,9 +145,13 @@ MainTab:CreateToggle({
                 local Rod = getRod()
                 if Rod and Rod:FindFirstChild("values") and Rod.values:FindFirstChild("casted") then
                     if Rod.values.casted.Value == false then  -- Only cast if not already casting
-                        local castEvent = ReplicatedStorage:FindFirstChild("events") and ReplicatedStorage.events:FindFirstChild("cast")
                         if castEvent then
-                            castEvent:FireServer(100, 1)
+                            local args = {
+                                     [1] = 100,
+                                     [2] = 1
+                            }
+
+                           game:GetService("Players").LocalPlayer.Character:FindFirstChild(Rod).events.cast:FireServer(unpack(args))
                         end
                     end
                 end
@@ -291,7 +295,7 @@ MainTab:CreateToggle({
                         Reset()
                         task.wait()
                         Reset()
-                        task.wait(0.07)
+                        task.wait(0.01)
 
                         local PlayerGUI = LocalPlayer:FindFirstChild("PlayerGui")
                         local reelUI = PlayerGUI and PlayerGUI:FindFirstChild("reel")
@@ -301,7 +305,7 @@ MainTab:CreateToggle({
                                 local playerbar = bar:FindFirstChild("playerbar")
                                 if playerbar then
                                     playerbar.Size = UDim2.new(1, 0, 1, 0)
-                                    task.wait(0.04)
+                                    task.wait(0.02)
                                     local reelFinished = ReplicatedStorage:FindFirstChild("events") and ReplicatedStorage.events:FindFirstChild("reelfinished")
                                     if reelFinished then
                                         reelFinished:FireServer(100, true)
