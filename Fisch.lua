@@ -566,10 +566,12 @@ MiscTab:CreateToggle({
     CurrentValue = false,
     Flag = "hideidentity", 
     Callback = function(Value)
-        while Value do
+        _G.HideIdentity = Value 
+
+        while _G.HideIdentity do
             local player = game.Players.LocalPlayer
             local hud = player:FindFirstChild("hud")
-            local usr = player.Character and player.Character:FindFirstChild("user")
+            local usr = HRP:FindFirstChild("user")
 
             if hud and usr then
                 
@@ -580,16 +582,21 @@ MiscTab:CreateToggle({
                 local title = usr:FindFirstChild("title")
                 local usertitle = usr:FindFirstChild("user")
 
-               
+                
                 if lvl then lvl.Text = "Cookie Hub" end
-                if coins then coins.Text = "Cookie Hub" end
-                if level then level.Text = "Cookie Hub" end
-                if streak then streak.Text = "Cookie Hub" end
-                if title then title.Text = "Cookie Hub" end
-                if usertitle then usertitle.Text = "Cookie Hub" 
-               end
+                if coins then coins.Text = "Cookie Hub"
+                  end
+                if level then level.Text = "Cookie Hub"
+                  end
+                if streak then streak.Text = "Cookie Hub"
+                  end
+                if title then title.Text = "Cookie Hub"
+                  end
+                if usertitle then usertitle.Text = "Cookie Hub"
+              end
             end
-            task.wait(0.25)
+
+            task.wait(1) 
         end
     end,
 })
