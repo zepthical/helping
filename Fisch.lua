@@ -586,9 +586,9 @@ MiscTab:CreateToggle({
                 if level then level.Text = "Cookie Hub" end
                 if streak then streak.Text = "Cookie Hub" end
                 if title then title.Text = "Cookie Hub" end
-                if usertitle then usertitle.Text = "Cookie Hub" end
+                if usertitle then usertitle.Text = "Cookie Hub" 
+               end
             end
-
             task.wait(0.25)
         end
     end,
