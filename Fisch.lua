@@ -571,7 +571,7 @@ MiscTab:CreateToggle({
         while _G.HideIdentity do
             local player = game.Players.LocalPlayer
             local hud = player:FindFirstChild("hud")
-            local usr = HRP:FindFirstChild("user")
+            local usr = game.Players.LocalPlayer.Character.HumanoidRootPart:FindFirstChild("user")
 
             if hud and usr then
                 
