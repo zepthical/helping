@@ -583,16 +583,23 @@ MiscTab:CreateToggle({
                 local usertitle = usr:FindFirstChild("user")
 
                 
-                if lvl then lvl.Text = "Cookie Hub" end
-                if coins then coins.Text = "Cookie Hub"
+                if lvl then
+                  lvl.Text = "Cookie Hub" 
+                 end
+                if coins then 
+                  coins.Text = "Cookie Hub"
                   end
-                if level then level.Text = "Cookie Hub"
+                if level then 
+                  level.Text = "Cookie Hub"
                   end
-                if streak then streak.Text = "Cookie Hub"
+                if streak then
+                  streak.Text = "Cookie Hub"
                   end
-                if title then title.Text = "Cookie Hub"
+                if title then
+                  title.Text = "Cookie Hub"
                   end
-                if usertitle then usertitle.Text = "Cookie Hub"
+                if usertitle then
+                usertitle.Text = "Cookie Hub"
               end
             end
 
