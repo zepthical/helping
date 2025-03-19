@@ -118,7 +118,22 @@ end
        end)
     end
  })
- 
+
+MainTab:CreateToggle({
+   Name = "Auto Equip Rod",
+   CurrentValue = false,
+   Flag = "AER",
+   Callback = function(Value)
+     local Rod = Char:FindFirstChildOfClass("Tool")
+    if Rod and Rod:FindFirstChild("events") and Rod.events:FindFirstChild("cast") then
+        
+    else
+        warn("Rod or cast event not found!")
+     end
+   end,
+})
+
+
  local MainSection = MainTab:CreateSection("Main")
  
 local function getRod()
@@ -571,7 +586,8 @@ MiscTab:CreateToggle({
         while _G.HideIdentity do
             local player = game.Players.LocalPlayer
             local hud = player:FindFirstChild("hud")
-            local usr = game.Players.LocalPlayer.Character.HumanoidRootPart:FindFirstChild("user")
+            local humanoidrp = Character and Character:FindFirstChild("HumanoidRootPart")
+            local usr = humanoidrp:FindFirstChild("user")
 
             if hud and usr then
                 
