@@ -211,7 +211,7 @@ MainTab:CreateToggle({
                 task.wait(0.1)
                 local Rod = getRod()
                 if Rod and Rod:FindFirstChild("values") and Rod.values:FindFirstChild("bite") then
-                    if Rod.values.bite.Value == true then  -- Only reel if fish is biting
+                    if Rod.values.bite.Value == true then 
                         Reel()
                     end
                 end
@@ -234,13 +234,13 @@ MainTab:CreateToggle({
              Char = getCharacter()
              local Rod = Char:FindFirstChildOfClass("Tool")
              if Rod and Rod:FindFirstChild("events") and Rod.events:FindFirstChild("cast") then
-                -- Temporarily unfreeze character if frozen
+                
                 if _G.FreezeCharacter then
                    Char.HumanoidRootPart.Anchored = false
                 end
-                -- Fire the cast event (drop bobber)
-                Rod.events.cast:FireServer(100, 1) -- Adjust parameters if needed
-                -- Re-freeze character if needed
+                
+                Rod.events.cast:FireServer(100, 1)
+
                 if _G.FreezeCharacter then
                    Char.HumanoidRootPart.Anchored = true
                 end
@@ -271,9 +271,9 @@ MainTab:CreateToggle({
                 task.wait(0.1)
                 local Rod = getRod()
                 if Rod and Rod:FindFirstChild("values") and Rod.values:FindFirstChild("bite") then
-                    if Rod.values.bite.Value == true then  -- Only instant reel if fish is biting
+                    if Rod.values.bite.Value == true then  
                         Reset()
-                        task.wait(0.03)
+                        task.wait(0.01)
                         Reset()
                         task.wait(0.01)
 
@@ -285,11 +285,11 @@ MainTab:CreateToggle({
                                 local playerbar = bar:FindFirstChild("playerbar")
                                 if playerbar then
                                     playerbar.Size = UDim2.new(1, 0, 1, 0)
-                                    task.wait(0.02)
+                                    task.wait(0.01)
                                     local reelFinished = ReplicatedStorage:FindFirstChild("events") and ReplicatedStorage.events:FindFirstChild("reelfinished")
                                     if reelFinished then
                                         reelFinished:FireServer(100, true)
-                                        task.wait(0.04)
+                                        task.wait(0.1)
                                         reelFinished:FireServer(100, true)
                                     end
                                 end
