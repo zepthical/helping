@@ -377,7 +377,6 @@ TeleportTab:CreateDropdown({
     Options = Islands,
     CurrentOption = {"None"},
     MultipleOptions = false,
-    Flag = "IslandDropdown",
     Callback = function(Options)
         -- Ensure the dropdown returns a valid option
         local selectedIsland = Options[1]
@@ -560,4 +559,37 @@ MiscTab:CreateToggle({
          warn("Heat not found!")
       end
    end,
+})
+
+MiscTab:CreateToggle({
+    Name = "Hide Identity",
+    CurrentValue = false,
+    Flag = "hideidentity", 
+    Callback = function(Value)
+        while Value do
+            local player = game.Players.LocalPlayer
+            local hud = player:FindFirstChild("hud")
+            local usr = player.Character and player.Character:FindFirstChild("user")
+
+            if hud and usr then
+                
+                local lvl = hud:FindFirstChild("lvl")
+                local coins = hud:FindFirstChild("coins")
+                local level = usr:FindFirstChild("level")
+                local streak = usr:FindFirstChild("streak")
+                local title = usr:FindFirstChild("title")
+                local usertitle = usr:FindFirstChild("user")
+
+               
+                if lvl then lvl.Text = "Cookie Hub" end
+                if coins then coins.Text = "Cookie Hub" end
+                if level then level.Text = "Cookie Hub" end
+                if streak then streak.Text = "Cookie Hub" end
+                if title then title.Text = "Cookie Hub" end
+                if usertitle then usertitle.Text = "Cookie Hub" end
+            end
+
+            task.wait(0.25)
+        end
+    end,
 })
