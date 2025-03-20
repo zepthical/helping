@@ -125,22 +125,25 @@ MainTab:CreateToggle({
    Flag = "AER",
    Callback = function(Value)
       _G.AutoEquipRod = Value
-      spawn(function()
-         while _G.AutoEquipRod do
-            local Char = getCharacter()
-            local Backpack = LocalPlayer:FindFirstChild("Backpack")
-            
-            if Char and Backpack then
-               local Rod = Backpack:FindFirstChildOfClass("Tool") -- Find any tool (fishing rod)
-               if Rod then
-                  Char.Humanoid:EquipTool(Rod) -- Equip the rod
-               end
+
+      while _G.AutoEquipRod do
+         local Character = LocalPlayer.Character or LocalPlayer.CharacterAdded:Wait()
+         local Backpack = LocalPlayer:FindFirstChild("Backpack")
+         
+         if Backpack and Character then
+            local Rod = Backpack:FindFirstChildOfClass("Tool")
+
+            if Rod and Rod:FindFirstChild("events") and Rod.events:FindFirstChild("cast") then
+               -- i love you
+               Rod.Parent = Character
             end
-            task.wait(0.5) -- Prevents excessive loops
          end
-      end)
+
+         task.wait(1) -- i love you so much
+      end
    end
 })
+
 
 
 
@@ -636,3 +639,63 @@ MiscTab:CreateToggle({
         end
     end
 })
+
+MiscTab:CreateToggle({
+    Name = "Low Graphics Mode",
+    CurrentValue = false,
+    Flag = "LowGraphics",
+    Callback = function(Value)
+        _G.LowGraphics = Value
+
+        if _G.LowGraphics then
+            -- Remove unnecessary graphical effects
+            local Lighting = game:GetService("Lighting")
+            Lighting.GlobalShadows = false
+            Lighting.FogEnd = 9e9
+            Lighting.Brightness = 0
+            
+            for _, v in pairs(Lighting:GetChildren()) do
+                if v:IsA("PostEffect") or v:IsA("BloomEffect") or v:IsA("BlurEffect") then
+                    v.Enabled = false
+                end
+            end
+
+            -- Reduce textures and details in workspace
+            local Terrain = workspace:FindFirstChildOfClass("Terrain")
+            if Terrain then Terrain.WaterWaveSize = 0 Terrain.WaterWaveSpeed = 0 Terrain.WaterReflectance = 0 Terrain.WaterTransparency = 0 end
+
+            for _, v in pairs(workspace:GetDescendants()) do
+                if v:IsA("Decal") or v:IsA("Texture") then
+                    v.Transparency = 1
+                elseif v:IsA("BasePart") and not v:IsA("MeshPart") then
+                    v.Material = Enum.Material.Plastic
+                end
+            end
+
+        else
+            -- Reset to default settings when disabled
+            local Lighting = game:GetService("Lighting")
+            Lighting.GlobalShadows = true
+            Lighting.FogEnd = 100000
+            Lighting.Brightness = 2
+            
+            for _, v in pairs(Lighting:GetChildren()) do
+                if v:IsA("PostEffect") or v:IsA("BloomEffect") or v:IsA("BlurEffect") then
+                    v.Enabled = true
+                end
+            end
+            
+            local Terrain = workspace:FindFirstChildOfClass("Terrain")
+            if Terrain then Terrain.WaterWaveSize = 1 Terrain.WaterWaveSpeed = 10 Terrain.WaterReflectance = 1 Terrain.WaterTransparency = 0.5 end
+
+            for _, v in pairs(workspace:GetDescendants()) do
+                if v:IsA("Decal") or v:IsA("Texture") then
+                    v.Transparency = 0
+                elseif v:IsA("BasePart") and not v:IsA("MeshPart") then
+                    v.Material = Enum.Material.SmoothPlastic
+                end
+            end
+        end
+    end
+})
+
