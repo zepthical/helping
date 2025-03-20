@@ -601,10 +601,10 @@ MiscTab:CreateToggle({
         while _G.HideIdentity do
             local player = game.Players.LocalPlayer
             local character = player.Character or player.CharacterAdded:Wait()
-            local humanoidrp = haracter:FindFirstChild("HumanoidRootPart")
-            local usr = humanoidrp:FindFirstChild("user")
+            local humanoidrp = character and character:FindFirstChild("HumanoidRootPart")
+            local usr = humanoidrp and humanoidrp:FindFirstChild("user")
             local hud = player:FindFirstChildOfClass("PlayerGui") and player.PlayerGui:FindFirstChild("hud")
-            local sfzone = hud:FinFirstChild("safezone")
+            local sfzone = hud and hud:FindFirstChild("safezone") -- Fixed typo
 
             if sfzone then
                 local lvl = sfzone:FindFirstChild("lvl")
@@ -624,17 +624,17 @@ MiscTab:CreateToggle({
                 local title = usr:FindFirstChild("title")
                 local usertitle = usr:FindFirstChild("user")
 
-                if level then 
-                    level.Value = "Cookie Hub" 
+                if level and level:IsA("TextLabel") then 
+                    level.Text = "Cookie Hub" -- Fixed incorrect property
                 end
-                if streak then 
-                    streak.Value = "Cookie Hub" 
+                if streak and streak:IsA("TextLabel") then 
+                    streak.Text = "Cookie Hub" -- Fixed incorrect property
                 end
-                if title then 
-                    title.Value = "Cookie Hub" 
+                if title and title:IsA("TextLabel") then 
+                    title.Text = "Cookie Hub" -- Fixed incorrect property
                 end
-                if usertitle then 
-                    usertitle.Value = "Cookie Hub" 
+                if usertitle and usertitle:IsA("TextLabel") then 
+                    usertitle.Text = "Cookie Hub" -- Fixed incorrect property
                 end
             end
 
@@ -642,6 +642,7 @@ MiscTab:CreateToggle({
         end
     end
 })
+
 
 MiscTab:CreateToggle({
     Name = "Low Graphics Mode",
