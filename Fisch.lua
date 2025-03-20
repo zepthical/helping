@@ -519,6 +519,8 @@ MiscTab:CreateInput({
 })
 
 local waterparts = {}
+local partSize = 200  -- Size of each individual part (e.g., 200x2x200)
+local numParts = 10   -- Number of parts in the grid (10x10 grid will be 100 parts)
 
 MiscTab:CreateToggle({
    Name = "Walk on water",
@@ -528,34 +530,33 @@ MiscTab:CreateToggle({
        _G.WalkOnWater = Value
 
        if Value then
-           -- i love you
+           -- Create the parts only once if they haven't been created already
            if #waterparts == 0 then
-               local numParts = 10  -- Number of smaller parts in the grid (can increase if needed)
-               local partSize = 200  -- Each part will have a size of 200x2x200
-
                for i = 0, numParts - 1 do
                    for j = 0, numParts - 1 do
                        local waterpart = Instance.new("Part")
                        waterpart.Size = Vector3.new(partSize, 2, partSize)
-                       waterpart.Position = Vector3.new(i * partSize, 130, j * partSize)  -- yes only you
+                       waterpart.Position = Vector3.new(i * partSize, 130, j * partSize)  -- Grid layout
                        waterpart.Anchored = true
                        waterpart.CanCollide = true
                        waterpart.Transparency = 0.8
-                       waterpart.Color = Color3.fromRGB(0, 255, 255)
+                       waterpart.Color = Color3.fromRGB(0, 255, 255)  -- Light blue color for water
                        waterpart.Parent = game.Workspace
-                       table.insert(waterparts, waterpart)  -- i love you so much
+                       
+                       table.insert(waterparts, waterpart)  -- Add part to the waterparts table
                    end
                end
            end
        else
-           -- Remove all parts when toggled off
+           -- Remove all water parts when toggled off
            for _, part in ipairs(waterparts) do
                part.Parent = nil
            end
-           waterparts = {}  -- i love you
+           waterparts = {}  -- Clear the list
        end
    end,
 })
+
 
 
 
