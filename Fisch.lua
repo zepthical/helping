@@ -518,7 +518,7 @@ MiscTab:CreateInput({
    end,
 })
 
-local waterpart
+local waterparts = {}
 
 MiscTab:CreateToggle({
    Name = "Walk on water",
@@ -528,24 +528,35 @@ MiscTab:CreateToggle({
        _G.WalkOnWater = Value
 
        if Value then
-           -- Create the part only once
-           if not waterpart then
-               waterpart = Instance.new("Part")
-               waterpart.Size = Vector3.new(math.huge, 2, math.huge) -- i love you if you see this
-               waterpart.Position = Vector3.new(0, 130, 0)
-               waterpart.Anchored = true
-               waterpart.CanCollide = true
-               waterpart.Transparency = 0.8 -- <3
-               waterpart.Parent = game.Workspace
+           -- i love you
+           if #waterparts == 0 then
+               local numParts = 10  -- Number of smaller parts in the grid (can increase if needed)
+               local partSize = 200  -- Each part will have a size of 200x2x200
+
+               for i = 0, numParts - 1 do
+                   for j = 0, numParts - 1 do
+                       local waterpart = Instance.new("Part")
+                       waterpart.Size = Vector3.new(partSize, 2, partSize)
+                       waterpart.Position = Vector3.new(i * partSize, 130, j * partSize)  -- yes only you
+                       waterpart.Anchored = true
+                       waterpart.CanCollide = true
+                       waterpart.Transparency = 0.8
+                       waterpart.Color = Color3.fromRGB(0, 255, 255)
+                       waterpart.Parent = game.Workspace
+                       table.insert(waterparts, waterpart)  -- i love you so much
+                   end
+               end
            end
-           waterpart.Parent = game.Workspace -- Show the platform
        else
-           if waterpart then
-               waterpart.Parent = nil -- Hide the platform when toggled off
+           -- Remove all parts when toggled off
+           for _, part in ipairs(waterparts) do
+               part.Parent = nil
            end
+           waterparts = {}  -- i love you
        end
    end,
 })
+
 
 
 
