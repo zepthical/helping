@@ -488,19 +488,35 @@ MiscTab:CreateInput({
    end,
 })
 
+local waterpart
+
 MiscTab:CreateToggle({
    Name = "Walk on water",
    CurrentValue = false,
    Flag = "walkonwater",  
    Callback = function(Value)
-    while Value do
-     local waterpart = Instance.new("Part")
-     waterpart.Position = Vector3.new(0,130, 0)
-     waterpart.Size = Vector3.new(math.huge, 2, math.huge)
-     task.wait(4)
-     end
+       _G.WalkOnWater = Value
+
+       if Value then
+           -- Create the part only once
+           if not waterpart then
+               waterpart = Instance.new("Part")
+               waterpart.Size = Vector3.new(math.huge, 2, math.huge) -- i love you if you see this
+               waterpart.Position = Vector3.new(0, 130, 0)
+               waterpart.Anchored = true
+               waterpart.CanCollide = true
+               waterpart.Transparency = 0.8 -- <3
+               waterpart.Parent = game.Workspace
+           end
+           waterpart.Parent = game.Workspace -- Show the platform
+       else
+           if waterpart then
+               waterpart.Parent = nil -- Hide the platform when toggled off
+           end
+       end
    end,
 })
+
 
 
 MiscTab:CreateToggle({
