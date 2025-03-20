@@ -536,7 +536,7 @@ MiscTab:CreateToggle({
                    for j = 0, numParts - 1 do
                        local waterpart = Instance.new("Part")
                        waterpart.Size = Vector3.new(partSize, 2, partSize)
-                       waterpart.Position = Vector3.new(i * partSize, 130, j * partSize)  -- Grid layout
+                       waterpart.Position = Vector3.new(i * partSize, 126, j * partSize)  -- Grid layout
                        waterpart.Anchored = true
                        waterpart.CanCollide = true
                        waterpart.Transparency = 0.8
