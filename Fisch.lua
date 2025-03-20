@@ -488,7 +488,21 @@ MiscTab:CreateInput({
    end,
 })
 
--- NoClip Toggle with Proper Loop Handling
+MiscTab:CreateToggle({
+   Name = "Walk on water",
+   CurrentValue = false,
+   Flag = "walkonwater",  
+   Callback = function(Value)
+    while Value do
+     local waterpart = Instance.new("Part")
+     waterpart.Position = Vector3.new(0,130, 0)
+     waterpart.Size = Vector3.new(math.huge, 2, math.huge)
+     task.wait(4)
+     end
+   end,
+})
+
+
 MiscTab:CreateToggle({
     Name = "NoClip",
     Callback = function(v)
