@@ -120,29 +120,31 @@ end
  })
 
 MainTab:CreateToggle({
-   Name = "Auto Equip Rod",
-   CurrentValue = false,
-   Flag = "AER",
-   Callback = function(Value)
-      _G.AutoEquipRod = Value
+    Name = "Auto Equip Rod",
+    CurrentValue = false,
+    Flag = "AutoEquipRod",
+    Callback = function(Value)
+        _G.AutoEquipRod = Value
 
-      while _G.AutoEquipRod do
-         local Character = LocalPlayer.Character or LocalPlayer.CharacterAdded:Wait()
-         local Backpack = LocalPlayer:FindFirstChild("Backpack")
-         
-         if Backpack and Character then
-            local Rod = Backpack:FindFirstChildOfClass("Tool")
+        while _G.AutoEquipRod do
+            local player = game:GetService("Players").LocalPlayer
+            local backpack = player:FindFirstChild("Backpack")
 
-            if Rod and Rod:FindFirstChild("events") and Rod.events:FindFirstChild("cast") then
-               -- i love you
-               Rod.Parent = Character
+            if backpack then
+                for _, tool in ipairs(backpack:GetChildren()) do
+                    if tool:IsA("Tool") and tool:FindFirstChild("events") and tool.events:FindFirstChild("cast") then
+                        local remote = game:GetService("ReplicatedStorage"):WaitForChild("packages"):WaitForChild("Net"):WaitForChild("RE/Backpack/Equip")
+                        remote:FireServer(tool)
+                        break -- you and only you
+                    end
+                end
             end
-         end
 
-         task.wait(1) -- i love you so much
-      end
-   end
+            task.wait(1) -- i love you
+        end
+    end
 })
+
 
 
 
