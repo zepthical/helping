@@ -171,22 +171,24 @@ local function Cast()
     end
 end
 
-
 MainTab:CreateToggle({
     Name = "Auto Cast",
     Flag = "ACast",
     Callback = function(v)
         _G.AutoCast = v
+
         spawn(function()
             while _G.AutoCast do
-                task.wait(0.1)
+                task.wait(1.5)  -- You can adjust the wait time if needed.
+                
                 local Rod = getRod()
                 if Rod and Rod:FindFirstChild("values") and Rod.values:FindFirstChild("casted") then
                     if Rod.values.casted.Value == false then
-                        Cast()
+                        Cast()  -- Perform the cast
+                        -- After casting, we don't need to repeat continuously if you want it to happen once after each toggle
                     end
                 else
-                    warn("rod is missing egypt properties.")
+                    warn("Rod is missing necessary properties.")
                 end
             end
         end)
@@ -212,24 +214,33 @@ MainTab:CreateToggle({
  })
 
 local function Reel()
-      task.wait(0.15)
-      for _, v in pairs(LocalPlayer.PlayerGui:GetChildren()) do
-      if v:IsA("ScreenGui") and v.Name == "reel" then
-       local bar = v:FindFirstChild("bar")
-       if bar and ReplicatedStorage:FindFirstChild("events") then
-         local playerbar = bar:FindFirstChild("playerbar")
-         if playerbar then
-           playerbar.Size = UDim2.new(1, 0, 1, 0)
-           local reelFinished = ReplicatedStorage.events:FindFirstChild("reelfinished")
-           if reelFinished then
-             reelFinished:FireServer(100, true)
-          end   
+    -- Wait a short delay to ensure everything is loaded
+    task.wait(0.15)
+    
+    -- Search through the player's GUI for the reel UI elements
+    for _, v in pairs(LocalPlayer.PlayerGui:GetChildren()) do
+        if v:IsA("ScreenGui") and v.Name == "reel" then
+            local bar = v:FindFirstChild("bar")
+            if bar and ReplicatedStorage:FindFirstChild("events") then
+                local playerbar = bar:FindFirstChild("playerbar")
+                if playerbar then
+                    -- Fill the player bar to simulate reeling
+                    playerbar.Size = UDim2.new(1, 0, 1, 0)
+                    
+                    -- Check for the "reelfinished" event and fire it
+                    local reelFinished = ReplicatedStorage.events:FindFirstChild("reelfinished")
+                    if reelFinished then
+                        reelFinished:FireServer(100, true)
+                    end
+                else
+                    warn("playerbar not found!")
+                end
+            else
+                warn("bar or events not found!")
+            end
         end
-      end
     end
-  end
 end
-
 
 MainTab:CreateToggle({
     Name = "Auto Reel",
@@ -238,17 +249,21 @@ MainTab:CreateToggle({
         _G.AutoReel = v
         spawn(function()
             while _G.AutoReel do
-                task.wait(0.1)
+                task.wait(0.1) -- Delay before checking again to avoid overloading the server
                 local Rod = getRod()
                 if Rod and Rod:FindFirstChild("values") and Rod.values:FindFirstChild("bite") then
+                    -- Only reel if a bite is detected
                     if Rod.values.bite.Value == true then 
                         Reel()
                     end
+                else
+                    warn("Rod or bite value not found!")
                 end
             end
         end)
     end
 })
+
 
  
  
@@ -283,13 +298,14 @@ MainTab:CreateToggle({
  local Divider = MainTab:CreateDivider()
 
  local function Reset()
-  local Rod = Char and Char:FindFirstChildOfClass("Tool")
-  if Rod and Rod:FindFirstChild("events") and Rod.events:FindFirstChild("reset") then
-     task.wait(0.1)
-     Rod.events.reset:FireServer()
-  end                              
+    local Rod = Char and Char:FindFirstChildOfClass("Tool")
+    if Rod and Rod:FindFirstChild("events") and Rod.events:FindFirstChild("reset") then
+        task.wait(0.1)
+        Rod.events.reset:FireServer()
+    else
+        warn("Rod or reset event not found!")
+    end
 end
-
 
 MainTab:CreateToggle({
     Name = "Instant Reel[In-dev]",
@@ -301,10 +317,11 @@ MainTab:CreateToggle({
                 task.wait(0.1)
                 local Rod = getRod()
                 if Rod and Rod:FindFirstChild("values") and Rod.values:FindFirstChild("bite") then
-                    if Rod.values.bite.Value == true then  
+                    if Rod.values.bite.Value == true then
+                        -- Call Reset once if required (no need to call multiple times in quick succession)
                         Reset()
-                        task.wait(0.01)
-                        Reset()
+
+                        -- Wait a short time to allow for reset and reeling
                         task.wait(0.01)
 
                         local PlayerGUI = LocalPlayer:FindFirstChild("PlayerGui")
@@ -314,23 +331,36 @@ MainTab:CreateToggle({
                             if bar then
                                 local playerbar = bar:FindFirstChild("playerbar")
                                 if playerbar then
+                                    -- Fill the player bar (reel in)
                                     playerbar.Size = UDim2.new(1, 0, 1, 0)
-                                    task.wait(0.01)
+
+                                    -- Trigger reel finished event
                                     local reelFinished = ReplicatedStorage:FindFirstChild("events") and ReplicatedStorage.events:FindFirstChild("reelfinished")
                                     if reelFinished then
                                         reelFinished:FireServer(100, true)
-                                        task.wait(0.1)
+                                        task.wait(0.1)  -- Wait a moment before re-triggering the event
                                         reelFinished:FireServer(100, true)
+                                    else
+                                        warn("Reel finished event not found!")
                                     end
+                                else
+                                    warn("Playerbar not found!")
                                 end
+                            else
+                                warn("Bar not found!")
                             end
+                        else
+                            warn("Reel UI not found!")
                         end
                     end
+                else
+                    warn("Rod or bite value not found!")
                 end
             end
         end)
     end
 })
+
  
  
  
