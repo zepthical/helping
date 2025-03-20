@@ -601,13 +601,14 @@ MiscTab:CreateToggle({
         while _G.HideIdentity do
             local player = game.Players.LocalPlayer
             local character = player.Character or player.CharacterAdded:Wait()
-            local humanoidrp = character and character:FindFirstChild("HumanoidRootPart")
-            local usr = humanoidrp and humanoidrp:FindFirstChild("user")
+            local humanoidrp = haracter:FindFirstChild("HumanoidRootPart")
+            local usr = humanoidrp:FindFirstChild("user")
             local hud = player:FindFirstChildOfClass("PlayerGui") and player.PlayerGui:FindFirstChild("hud")
+            local sfzone = hud:FinFirstChild("safezone")
 
-            if hud then
-                local lvl = hud:FindFirstChild("lvl")
-                local coins = hud:FindFirstChild("coins")
+            if sfzone then
+                local lvl = sfzone:FindFirstChild("lvl")
+                local coins = sfzone:FindFirstChild("coins")
 
                 if lvl then 
                     lvl.Text = "Cookie Hub" 
