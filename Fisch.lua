@@ -124,14 +124,24 @@ MainTab:CreateToggle({
    CurrentValue = false,
    Flag = "AER",
    Callback = function(Value)
-     local Rod = Char:FindFirstChildOfClass("Tool")
-    if Rod and Rod:FindFirstChild("events") and Rod.events:FindFirstChild("cast") then
-        
-    else
-        warn("Rod or cast event not found!")
-     end
-   end,
+      _G.AutoEquipRod = Value
+      spawn(function()
+         while _G.AutoEquipRod do
+            local Char = getCharacter()
+            local Backpack = LocalPlayer:FindFirstChild("Backpack")
+            
+            if Char and Backpack then
+               local Rod = Backpack:FindFirstChildOfClass("Tool") -- Find any tool (fishing rod)
+               if Rod then
+                  Char.Humanoid:EquipTool(Rod) -- Equip the rod
+               end
+            end
+            task.wait(0.5) -- Prevents excessive loops
+         end
+      end)
+   end
 })
+
 
 
  local MainSection = MainTab:CreateSection("Main")
@@ -585,41 +595,44 @@ MiscTab:CreateToggle({
 
         while _G.HideIdentity do
             local player = game.Players.LocalPlayer
-            local hud = player:FindFirstChild("hud")
-            local humanoidrp = Character and Character:FindFirstChild("HumanoidRootPart")
-            local usr = humanoidrp:FindFirstChild("user")
+            local character = player.Character or player.CharacterAdded:Wait()
+            local humanoidrp = character and character:FindFirstChild("HumanoidRootPart")
+            local usr = humanoidrp and humanoidrp:FindFirstChild("user")
+            local hud = player:FindFirstChildOfClass("PlayerGui") and player.PlayerGui:FindFirstChild("hud")
 
-            if hud and usr then
-                
+            if hud then
                 local lvl = hud:FindFirstChild("lvl")
                 local coins = hud:FindFirstChild("coins")
+
+                if lvl then 
+                    lvl.Text = "Cookie Hub" 
+                end
+                if coins then 
+                    coins.Text = "Cookie Hub" 
+                end
+            end
+            
+            if usr then
                 local level = usr:FindFirstChild("level")
                 local streak = usr:FindFirstChild("streak")
                 local title = usr:FindFirstChild("title")
                 local usertitle = usr:FindFirstChild("user")
 
-                
-                if lvl then
-                  lvl.Text = "Cookie Hub" 
-                 end
-                if coins then 
-                  coins.Text = "Cookie Hub"
-                  end
                 if level then 
-                  level.Text = "Cookie Hub"
-                  end
-                if streak then
-                  streak.Text = "Cookie Hub"
-                  end
-                if title then
-                  title.Text = "Cookie Hub"
-                  end
-                if usertitle then
-                usertitle.Text = "Cookie Hub"
-              end
+                    level.Value = "Cookie Hub" 
+                end
+                if streak then 
+                    streak.Value = "Cookie Hub" 
+                end
+                if title then 
+                    title.Value = "Cookie Hub" 
+                end
+                if usertitle then 
+                    usertitle.Value = "Cookie Hub" 
+                end
             end
 
-            task.wait(1) 
+            task.wait(1) -- i love you guys :D
         end
-    end,
+    end
 })
