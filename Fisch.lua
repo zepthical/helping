@@ -376,7 +376,7 @@ MainTab:CreateToggle({
                 local Rod = getRod()
                 if Rod and Rod:FindFirstChild("values") and Rod.values:FindFirstChild("bite") then
                     if Rod.values.bite.Value == true then
-			task.wait(1)
+			task.wait(0.5)
                         Reel() -- Reel once when bite is detected
 			task.wait(2)
 			Reel()
@@ -435,8 +435,9 @@ MainTab:CreateToggle({
                 if Rod and Rod:FindFirstChild("values") and Rod.values:FindFirstChild("bite") then
                     if Rod.values.bite.Value == true then
                         -- Reset the rod to trigger instant reeling
+			Reel()
                         Reset()
-
+                        Reel()
                         task.wait(0.4) -- Wait a short time for the reset to complete
 
                         -- Search for the reel UI and simulate filling the bar
