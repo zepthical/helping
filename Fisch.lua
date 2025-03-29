@@ -376,7 +376,7 @@ MainTab:CreateToggle({
                 local Rod = getRod()
                 if Rod and Rod:FindFirstChild("values") and Rod.values:FindFirstChild("bite") then
                     if Rod.values.bite.Value == true then
-			task.wait(0.85)
+			task.wait(0.15)
                         Reel() -- Reel once when bite is detected
 			task.wait(1)
 			Reel()
@@ -435,6 +435,8 @@ MainTab:CreateToggle({
                 if Rod and Rod:FindFirstChild("values") and Rod.values:FindFirstChild("bite") then
                     if Rod.values.bite.Value == true then
                         -- Reset the rod to trigger instant reeling
+			Rod.events.reset:FireServer()
+			task.wait(0.2)
 			Reel()
 			task.wait(0.1)
                         Reset()
