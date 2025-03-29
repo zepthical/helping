@@ -371,14 +371,14 @@ MainTab:CreateToggle({
 
         spawn(function()
             while _G.AutoReel do
-                task.wait(0.85) -- Prevents excessive checking
+                task.wait(0.1) -- Prevents excessive checking
 
                 local Rod = getRod()
                 if Rod and Rod:FindFirstChild("values") and Rod.values:FindFirstChild("bite") then
                     if Rod.values.bite.Value == true then
-			task.wait(0.95)
+			task.wait(0.85)
                         Reel() -- Reel once when bite is detected
-			task.wait(2)
+			task.wait(1)
 			Reel()
                         Reset()
                         repeat task.wait(0.1) until Rod.values.bite.Value == false
@@ -392,7 +392,7 @@ MainTab:CreateToggle({
     end
 })
  
- MainTab:CreateToggle({
+ --[[ MainTab:CreateToggle({
     Name = "Auto Drop Bobber",
     Flag = "DropBob",
     Callback = function(v)
@@ -417,7 +417,7 @@ MainTab:CreateToggle({
           end
        end)
     end
- })
+ }) ]]
  
 local Divider = MainTab:CreateDivider()
 
@@ -436,8 +436,9 @@ MainTab:CreateToggle({
                     if Rod.values.bite.Value == true then
                         -- Reset the rod to trigger instant reeling
 			Reel()
+			task.wait(0.1)
                         Reset()
-			tassk.wait(0.5)
+			task.wait(0.5)
                         Reel()
                         task.wait(0.4) -- Wait a short time for the reset to complete
 
