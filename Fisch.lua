@@ -321,7 +321,7 @@ MainTab:CreateToggle({
 
         spawn(function()
             while _G.InstantReel do
-                task.wait(0.1) -- Prevent excessive calls
+                task.wait(0.175) -- Prevent excessive calls
 
                 local Rod = getRod()
                 if Rod and Rod:FindFirstChild("values") and Rod.values:FindFirstChild("bite") then
@@ -341,7 +341,7 @@ MainTab:CreateToggle({
 
                                     local reelFinished = ReplicatedStorage:FindFirstChild("events") and ReplicatedStorage.events:FindFirstChild("reelfinished")
                                     if reelFinished then
-                                        reelFinished:FireServer(100, true)
+                                        Reel()
                                     end
                                 end
                             end
