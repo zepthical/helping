@@ -364,7 +364,7 @@ MainTab:CreateToggle({
 
         spawn(function()
             while _G.AutoReel do
-                task.wait(0.1) -- Prevents excessive checking
+                task.wait(1.5) -- Prevents excessive checking
 
                 local Rod = getRod()
                 if Rod and Rod:FindFirstChild("values") and Rod.values:FindFirstChild("bite") then
@@ -423,7 +423,7 @@ MainTab:CreateToggle({
 
         spawn(function()
             while _G.InstantReel do
-                task.wait(0.175) -- Prevent excessive calls
+                task.wait(1.5) -- Prevent excessive calls
 
                 local Rod = getRod()
                 if Rod and Rod:FindFirstChild("values") and Rod.values:FindFirstChild("bite") then
