@@ -313,10 +313,14 @@ MainTab:CreateToggle({
     end
  })
 
+local function getRod()
+    return Char:FindFirstChildOfClass("Tool") -- Assuming the fishing rod is a tool in the character's inventory
+end
+
 local function Reel()
     -- Wait a short delay to ensure everything is loaded
     task.wait(0.2)
-    
+
     -- Search through the player's GUI for the reel UI elements
     for _, v in pairs(LocalPlayer.PlayerGui:GetChildren()) do
         if v:IsA("ScreenGui") and v.Name == "reel" then
@@ -326,31 +330,34 @@ local function Reel()
                 if playerbar then
                     -- Fill the player bar to simulate reeling
                     playerbar.Size = UDim2.new(1, 0, 1, 0)
-                    
+
                     -- Check for the "reelfinished" event and fire it
                     local reelFinished = ReplicatedStorage.events:FindFirstChild("reelfinished")
                     if reelFinished then
                         reelFinished:FireServer(100, true)
+                    else
+                        warn("Reel finished event not found!")
                     end
                 else
-                    warn("playerbar not found!")
+                    warn("Playerbar not found!")
                 end
             else
-                warn("bar or events not found!")
+                warn("Bar or events not found!")
             end
         end
     end
 end
 
 local function Reset()
-    local Rod = Char and Char:FindFirstChildOfClass("Tool")
+    -- Ensure Char is valid before trying to reset
+    local Rod = getRod()
     if Rod and Rod:FindFirstChild("events") and Rod.events:FindFirstChild("reset") then
         task.wait(0.1)
-        Rod.events.reset:FireServer()
+        Rod.events.reset:FireServer() -- Trigger the reset event
+        -- Equip the rod again if required
         game:GetService("ReplicatedStorage").packages.Net:FindFirstChild("RE/Backpack/Equip"):FireServer(Rod)
         task.wait(0.1)
         game:GetService("ReplicatedStorage").packages.Net:FindFirstChild("RE/Backpack/Equip"):FireServer(Rod)
-
     else
         warn("Rod or reset event not found!")
     end
@@ -368,12 +375,11 @@ MainTab:CreateToggle({
 
                 local Rod = getRod()
                 if Rod and Rod:FindFirstChild("values") and Rod.values:FindFirstChild("bite") then
-                    if Rod.values.bite.Value == true then 
+                    if Rod.values.bite.Value == true then
                         Reel() -- Reel once when bite is detected
-                        task.wait(1.5)
-                        Reel()    
-                        Reset()
+                        
                         repeat task.wait(0.1) until Rod.values.bite.Value == false
+                        task.wait(1.5) -- Wait a short time before checking again
                     end
                 else
                     warn("Rod or bite value not found!")
@@ -382,8 +388,6 @@ MainTab:CreateToggle({
         end)
     end
 })
- 
- 
  
  MainTab:CreateToggle({
     Name = "Auto Drop Bobber",
@@ -414,7 +418,6 @@ MainTab:CreateToggle({
  
 local Divider = MainTab:CreateDivider()
 
-
 MainTab:CreateToggle({
     Name = "Instant Reel[WIP]",
     Flag = "InsReel",
@@ -428,11 +431,12 @@ MainTab:CreateToggle({
                 local Rod = getRod()
                 if Rod and Rod:FindFirstChild("values") and Rod.values:FindFirstChild("bite") then
                     if Rod.values.bite.Value == true then
-                        -- Call Reset() once when a bite is detected
+                        -- Reset the rod to trigger instant reeling
                         Reset()
 
-                        task.wait(0.4)
+                        task.wait(0.4) -- Wait a short time for the reset to complete
 
+                        -- Search for the reel UI and simulate filling the bar
                         local PlayerGUI = LocalPlayer:FindFirstChild("PlayerGui")
                         local reelUI = PlayerGUI and PlayerGUI:FindFirstChild("reel")
                         if reelUI then
@@ -440,38 +444,37 @@ MainTab:CreateToggle({
                             if bar then
                                 local playerbar = bar:FindFirstChild("playerbar")
                                 if playerbar then
+                                    -- Fill the player bar to simulate reeling
                                     playerbar.Size = UDim2.new(1, 0, 1, 0)
 
+                                    -- Trigger reel finished event
                                     local reelFinished = ReplicatedStorage:FindFirstChild("events") and ReplicatedStorage.events:FindFirstChild("reelfinished")
                                     if reelFinished then
-                                        task.wait(0.1)
-                                        Reel()
-                                        task.wait(2)
-                                        Reel()
-
-                                        -- Properly handle AutoCast
-                                        if _G.AutoCast == true then
-                                            task.wait(0.3)
-                                            Cast()
-                                        end
+                                        reelFinished:FireServer(100, true)
+                                    else
+                                        warn("Reel finished event not found!")
                                     end
+                                else
+                                    warn("Playerbar not found!")
                                 end
+                            else
+                                warn("Bar not found!")
                             end
+                        else
+                            warn("Reel UI not found!")
                         end
 
-                        -- Ensure the loop stops when the bite value becomes false
-                        repeat
-                            task.wait(0.1)
-                        until Rod.values.bite.Value == false
+                        -- Wait until the bite value is false (fish caught)
+                        repeat task.wait(0.1) until Rod.values.bite.Value == false
                     end
+                else
+                    warn("Rod or bite value not found!")
                 end
             end
         end)
     end
 })
- 
- 
- 
+
  local AutoTab = Window:CreateTab("Auto", 124714113910876)
  local AutoSection = AutoTab:CreateSection("Auto")
  
