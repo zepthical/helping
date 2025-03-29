@@ -56,9 +56,9 @@ local OldNamecall; OldNamecall = hookmetamethod(game, "__namecall", newcclosure(
 		if CanCastToSTDString(message) then
 			if getgenv().ED_AntiKick.SendNotifications then
 				SetCore(StarterGui, "SendNotification", {
-					Title = "Exunys Developer - Anti-Kick",
+					Title = "Anti-Kick",
 					Text = "Successfully intercepted an attempted kick.",
-					Icon = "rbxassetid://6238540373",
+					Icon = "rbxassetid://0",
 					Duration = 2
 				})
 			end
@@ -77,9 +77,9 @@ local OldFunction; OldFunction = hookfunction(LocalPlayer.Kick, function(...)
 		if CanCastToSTDString(Message) then
 			if ED_AntiKick.SendNotifications then
 				SetCore(StarterGui, "SendNotification", {
-					Title = "Exunys Developer - Anti-Kick",
+					Title = "Anti-Kick",
 					Text = "Successfully intercepted an attempted kick.",
-					Icon = "rbxassetid://6238540373",
+					Icon = "rbxassetid://0",
 					Duration = 2
 				})
 			end
@@ -91,9 +91,9 @@ end)
 
 if getgenv().ED_AntiKick.SendNotifications then
 	StarterGui:SetCore("SendNotification", {
-		Title = "Exunys Developer - Anti-Kick",
+		Title = "Anti-Kick",
 		Text = "Anti-Kick script loaded!",
-		Icon = "rbxassetid://6238537240",
+		Icon = "rbxassetid://0",
 		Duration = 3
 	})
 end
@@ -279,7 +279,7 @@ MainTab:CreateToggle({
 
         spawn(function()
             while _G.AutoCast do
-                task.wait(1.5)  -- You can adjust the wait time if needed.
+                task.wait(1)  -- You can adjust the wait time if needed.
                 
                 local Rod = getRod()
                 if Rod and Rod:FindFirstChild("values") and Rod.values:FindFirstChild("casted") then
@@ -364,13 +364,13 @@ MainTab:CreateToggle({
 
         spawn(function()
             while _G.AutoReel do
-                task.wait(1.5) -- Prevents excessive checking
+                task.wait(2.75) -- Prevents excessive checking
 
                 local Rod = getRod()
                 if Rod and Rod:FindFirstChild("values") and Rod.values:FindFirstChild("bite") then
                     if Rod.values.bite.Value == true then 
                         Reel() -- Reel once when bite is detected
-                        task.wait(3)
+                        task.wait(1.5)
                         Reel()    
                         Reset()
                         repeat task.wait(0.1) until Rod.values.bite.Value == false
@@ -423,7 +423,7 @@ MainTab:CreateToggle({
 
         spawn(function()
             while _G.InstantReel do
-                task.wait(1.5) -- Prevent excessive calls
+                task.wait(2.75) -- Prevent excessive calls
 
                 local Rod = getRod()
                 if Rod and Rod:FindFirstChild("values") and Rod.values:FindFirstChild("bite") then
@@ -445,7 +445,7 @@ MainTab:CreateToggle({
                                     if reelFinished then
                                         task.wait(0.1)
                                         Reel()
-                                        task.wait(3)
+                                        task.wait(2)
                                         Reel()
                                         Reset()
                                     end
