@@ -215,7 +215,7 @@ MainTab:CreateToggle({
 
 local function Reel()
     -- Wait a short delay to ensure everything is loaded
-    task.wait(0.15)
+    task.wait(0.55)
     
     -- Search through the player's GUI for the reel UI elements
     for _, v in pairs(LocalPlayer.PlayerGui:GetChildren()) do
@@ -255,7 +255,6 @@ MainTab:CreateToggle({
                 local Rod = getRod()
                 if Rod and Rod:FindFirstChild("values") and Rod.values:FindFirstChild("bite") then
                     if Rod.values.bite.Value == true then 
-                        task.wait(0.2)
                         Reel() -- Reel once when bite is detected
                         task.wait(1)
                         Reel()                    
@@ -329,7 +328,7 @@ MainTab:CreateToggle({
                     if Rod.values.bite.Value == true then
                         Reset()
 
-                        task.wait(0.01)
+                        task.wait(0.1)
 
                         local PlayerGUI = LocalPlayer:FindFirstChild("PlayerGui")
                         local reelUI = PlayerGUI and PlayerGUI:FindFirstChild("reel")
