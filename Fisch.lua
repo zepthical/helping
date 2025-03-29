@@ -135,7 +135,7 @@ MainTab:CreateToggle({
                     if tool:IsA("Tool") and tool:FindFirstChild("events") and tool.events:FindFirstChild("cast") then
                         local remote = game:GetService("ReplicatedStorage"):WaitForChild("packages"):WaitForChild("Net"):WaitForChild("RE/Backpack/Equip")
                         remote:FireServer(tool)
-                        break -- you and only you
+                        brea7k -- you and only you
                     end
                 end
             end
@@ -300,14 +300,23 @@ MainTab:CreateToggle({
  
  local Divider = MainTab:CreateDivider()
 
+
+-- Function to equip the tool if it has specific children
+local function equipItem()
+    local rod = char and char:FindFirstChildOfClass("Tool")
+    if rod and rod:FindFirstChild("events") and rod.events:FindFirstChild("reset") then
+        player.Character.Humanoid:EquipTool(rod)
+    else
+        warn("No valid tool found in character.")
+    end
+end
+
  local function Reset()
     local Rod = Char and Char:FindFirstChildOfClass("Tool")
     if Rod and Rod:FindFirstChild("events") and Rod.events:FindFirstChild("reset") then
         task.wait(0.1)
         Rod.events.reset:FireServer()
-        game:GetService("ReplicatedStorage").packages.Net:FindFirstChild("RE/Backpack/Equip"):FireServer(Rod)
-        game:GetService("ReplicatedStorage").packages.Net:FindFirstChild("RE/Backpack/Equip"):FireServer(Rod)
-
+        equipItem()
     else
         warn("Rod or reset event not found!")
     end
