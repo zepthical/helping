@@ -311,11 +311,21 @@ local function equipItem()
     end
 end
 
+local function unequipItem()
+    local rod = char and char:FindFirstChildOfClass("Tool")
+    if rod and rod:FindFirstChild("events") and rod.events:FindFirstChild("reset") then
+        player.Character.Humanoid:UnequipTools()
+    else
+        warn("No valid tool found to unequip.")
+    end
+end
+
  local function Reset()
     local Rod = Char and Char:FindFirstChildOfClass("Tool")
     if Rod and Rod:FindFirstChild("events") and Rod.events:FindFirstChild("reset") then
         task.wait(0.1)
         Rod.events.reset:FireServer()
+        unequipItem()
         equipItem()
     else
         warn("Rod or reset event not found!")
