@@ -135,7 +135,7 @@ MainTab:CreateToggle({
                     if tool:IsA("Tool") and tool:FindFirstChild("events") and tool.events:FindFirstChild("cast") then
                         local remote = game:GetService("ReplicatedStorage"):WaitForChild("packages"):WaitForChild("Net"):WaitForChild("RE/Backpack/Equip")
                         remote:FireServer(tool)
-                        brea7k -- you and only you
+                        break -- you and only you
                     end
                 end
             end
@@ -305,14 +305,17 @@ MainTab:CreateToggle({
     if Rod and Rod:FindFirstChild("events") and Rod.events:FindFirstChild("reset") then
         task.wait(0.1)
         Rod.events.reset:FireServer()
-        Rod.events.reset:FireServer()
+        game:GetService("ReplicatedStorage").packages.Net:FindFirstChild("RE/Backpack/Equip"):FireServer(Rod)
+        task.wait(0.1)
+        game:GetService("ReplicatedStorage").packages.Net:FindFirstChild("RE/Backpack/Equip"):FireServer(Rod)
+
     else
         warn("Rod or reset event not found!")
     end
 end
 
 MainTab:CreateToggle({
-    Name = "Instant Reel[In-dev]",
+    Name = "Instant Reel[WIP]",
     Flag = "InsReel",
     Callback = function(v)
         _G.InstantReel = v
