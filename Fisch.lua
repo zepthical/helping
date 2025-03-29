@@ -428,6 +428,7 @@ MainTab:CreateToggle({
                 local Rod = getRod()
                 if Rod and Rod:FindFirstChild("values") and Rod.values:FindFirstChild("bite") then
                     if Rod.values.bite.Value == true then
+                        -- Call Reset() once when a bite is detected
                         Reset()
 
                         task.wait(0.4)
@@ -447,18 +448,21 @@ MainTab:CreateToggle({
                                         Reel()
                                         task.wait(2)
                                         Reel()
-                                        Reset(
-					if _G.AutoCast == true then
-					  task.wait(0.3)
-					  Cast()
-					else then return end
-	
+
+                                        -- Properly handle AutoCast
+                                        if _G.AutoCast == true then
+                                            task.wait(0.3)
+                                            Cast()
+                                        end
                                     end
                                 end
                             end
                         end
 
-                        repeat task.wait(0.1) until Rod.values.bite.Value == false
+                        -- Ensure the loop stops when the bite value becomes false
+                        repeat
+                            task.wait(0.1)
+                        until Rod.values.bite.Value == false
                     end
                 end
             end
