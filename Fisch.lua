@@ -371,12 +371,12 @@ MainTab:CreateToggle({
 
         spawn(function()
             while _G.AutoReel do
-                task.wait(0.5) -- Prevents excessive checking
+                task.wait(0.85) -- Prevents excessive checking
 
                 local Rod = getRod()
                 if Rod and Rod:FindFirstChild("values") and Rod.values:FindFirstChild("bite") then
                     if Rod.values.bite.Value == true then
-			task.wait(0.5)
+			task.wait(0.95)
                         Reel() -- Reel once when bite is detected
 			task.wait(2)
 			Reel()
