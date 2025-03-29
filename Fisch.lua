@@ -371,7 +371,7 @@ MainTab:CreateToggle({
 
         spawn(function()
             while _G.AutoReel do
-                task.wait(1) -- Prevents excessive checking
+                task.wait(0.5) -- Prevents excessive checking
 
                 local Rod = getRod()
                 if Rod and Rod:FindFirstChild("values") and Rod.values:FindFirstChild("bite") then
@@ -437,6 +437,7 @@ MainTab:CreateToggle({
                         -- Reset the rod to trigger instant reeling
 			Reel()
                         Reset()
+			tassk.wait(0.5)
                         Reel()
                         task.wait(0.4) -- Wait a short time for the reset to complete
 
@@ -454,9 +455,9 @@ MainTab:CreateToggle({
                                     -- Trigger reel finished event
                                     local reelFinished = ReplicatedStorage:FindFirstChild("events") and ReplicatedStorage.events:FindFirstChild("reelfinished")
                                     if reelFinished then
-					task.wait(0.5)
+					task.wait()
                                         Reel()
-					task.wait(0.5)
+					task.wait()
 					Reset()
                                     else
                                         warn("Reel finished event not found!")
@@ -473,6 +474,7 @@ MainTab:CreateToggle({
 
                         -- Wait until the bite value is false (fish caught)
                         repeat task.wait(0.1) until Rod.values.bite.Value == false
+		        Reset()
                     end
                 else
                     warn("Rod or bite value not found!")
