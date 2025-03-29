@@ -247,14 +247,19 @@ MainTab:CreateToggle({
     Flag = "AReel",
     Callback = function(v)
         _G.AutoReel = v
+
         spawn(function()
             while _G.AutoReel do
-                task.wait(0.1) -- Delay before checking again to avoid overloading the server
+                task.wait(0.1) -- Prevents excessive checking
+
                 local Rod = getRod()
                 if Rod and Rod:FindFirstChild("values") and Rod.values:FindFirstChild("bite") then
-                    -- Only reel if a bite is detected
                     if Rod.values.bite.Value == true then 
-                        Reel()
+                        task.wait(0.175)
+                        Reel() -- Reel once when bite is detected
+                        task.wait(1)
+                        Reel()                    
+                        repeat task.wait(0.1) until Rod.values.bite.Value == false
                     end
                 else
                     warn("Rod or bite value not found!")
@@ -263,8 +268,6 @@ MainTab:CreateToggle({
         end)
     end
 })
-
-
  
  
  
@@ -302,6 +305,9 @@ MainTab:CreateToggle({
     if Rod and Rod:FindFirstChild("events") and Rod.events:FindFirstChild("reset") then
         task.wait(0.1)
         Rod.events.reset:FireServer()
+        game:GetService("ReplicatedStorage").packages.Net:FindFirstChild("RE/Backpack/Equip"):FireServer(Rod)
+        game:GetService("ReplicatedStorage").packages.Net:FindFirstChild("RE/Backpack/Equip"):FireServer(Rod)
+
     else
         warn("Rod or reset event not found!")
     end
@@ -312,16 +318,16 @@ MainTab:CreateToggle({
     Flag = "InsReel",
     Callback = function(v)
         _G.InstantReel = v
+
         spawn(function()
             while _G.InstantReel do
-                task.wait(0.1)
+                task.wait(0.1) -- Prevent excessive calls
+
                 local Rod = getRod()
                 if Rod and Rod:FindFirstChild("values") and Rod.values:FindFirstChild("bite") then
                     if Rod.values.bite.Value == true then
-                        -- Call Reset once if required (no need to call multiple times in quick succession)
                         Reset()
 
-                        -- Wait a short time to allow for reset and reeling
                         task.wait(0.01)
 
                         local PlayerGUI = LocalPlayer:FindFirstChild("PlayerGui")
@@ -331,36 +337,23 @@ MainTab:CreateToggle({
                             if bar then
                                 local playerbar = bar:FindFirstChild("playerbar")
                                 if playerbar then
-                                    -- Fill the player bar (reel in)
                                     playerbar.Size = UDim2.new(1, 0, 1, 0)
 
-                                    -- Trigger reel finished event
                                     local reelFinished = ReplicatedStorage:FindFirstChild("events") and ReplicatedStorage.events:FindFirstChild("reelfinished")
                                     if reelFinished then
                                         reelFinished:FireServer(100, true)
-                                        task.wait(0.1)  -- Wait a moment before re-triggering the event
-                                        reelFinished:FireServer(100, true)
-                                    else
-                                        warn("Reel finished event not found!")
                                     end
-                                else
-                                    warn("Playerbar not found!")
                                 end
-                            else
-                                warn("Bar not found!")
                             end
-                        else
-                            warn("Reel UI not found!")
                         end
+
+                        repeat task.wait(0.1) until Rod.values.bite.Value == false
                     end
-                else
-                    warn("Rod or bite value not found!")
                 end
             end
         end)
     end
 })
-
  
  
  
@@ -761,7 +754,31 @@ MiscTab:CreateToggle({
                 end
             end
             
-            local Terrain = workspace:FindFirstChildOfClass("Terrain")
+            local Terrain = worksMainTab:CreateToggle({
+    Name = "Auto Reel",
+    Flag = "AReel",
+    Callback = function(v)
+        _G.AutoReel = v
+
+        spawn(function()
+            while _G.AutoReel do
+                task.wait(0.1) -- Prevents excessive checking
+
+                local Rod = getRod()
+                if Rod and Rod:FindFirstChild("values") and Rod.values:FindFirstChild("bite") then
+                    if Rod.values.bite.Value == true then 
+                        Reel() -- Reel once when bite is detected
+
+                        -- Wait until the bite value is false again (fish caught or lost)
+                        repeat task.wait(0.1) until Rod.values.bite.Value == false
+                    end
+                else
+                    warn("Rod or bite value not found!")
+                end
+            end
+        end)
+    end
+})pace:FindFirstChildOfClass("Terrain")
             if Terrain then Terrain.WaterWaveSize = 1 Terrain.WaterWaveSpeed = 10 Terrain.WaterReflectance = 1 Terrain.WaterTransparency = 0.5 end
 
             for _, v in pairs(workspace:GetDescendants()) do
