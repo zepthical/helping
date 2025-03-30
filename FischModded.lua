@@ -302,7 +302,7 @@ end
 
 local function Reel()
     -- Wait a short delay to ensure everything is loaded
-    task.wait(0.2)
+    task.wait(0.1)
 
     -- Search through the player's GUI for the reel UI elements
     for _, v in pairs(LocalPlayer.PlayerGui:GetChildren()) do
@@ -361,7 +361,7 @@ MainTab:CreateToggle({
                     if Rod.values.bite.Value == true then
 			task.wait(0.01)
                         Reel() -- Reel once when bite is detected
-			task.wait(1)
+			task.wait(0.1)
 			Reel()
                         Reset()
                         repeat task.wait(0.1) until Rod.values.bite.Value == false
@@ -418,13 +418,8 @@ MainTab:CreateToggle({
                 if Rod and Rod:FindFirstChild("values") and Rod.values:FindFirstChild("bite") then
                     if Rod.values.bite.Value == true then
                         -- Reset the rod to trigger instant reeling
+			Rod.events.reset:FireServer()
 			
-			task.wait(0.01)
-			Reel()
-			task.wait(0.2)
-                        Reel()
-                        task.wait(0.2) -- Wait a short time for the reset to complete
-
                         -- Search for the reel UI and simulate filling the bar
                         local PlayerGUI = LocalPlayer:FindFirstChild("PlayerGui")
                         local reelUI = PlayerGUI and PlayerGUI:FindFirstChild("reel")
