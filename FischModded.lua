@@ -275,9 +275,14 @@ MainTab:CreateToggle({
     _G.AutoShake = v
        spawn(function()
           while _G.AutoShake do
-             Shake()
-             Shake()
-             task.wait(0.01)
+if Rod and Rod:FindFirstChild("values") and Rod.values:FindFirstChild("bite") then
+	if Rod.events.casted.value == true then
+          Shake()
+          Shake()
+          task.wait(0.01)
+    else
+        warn("Rod or cast event not found!")
+	     end 
           end
        end)
     end
@@ -404,14 +409,13 @@ MainTab:CreateToggle({
                 local Rod = getRod()
                 if Rod and Rod:FindFirstChild("values") and Rod.values:FindFirstChild("bite") then
                     if Rod.values.bite.Value == true then
-                        -- Reset the rod to trigger instant reeling
-		                  	Rod.events.reset:FireServer()
+                        -- Reset the rod to trigger instant reelin
 		                  	task.wait(0.01)
 		                   	Reel()
 		                  	task.wait(0.1)
-                        Reset()
+                                        Reset()
 		                  	task.wait(1)
-                        Reel()
+                                        Reel()
                         task.wait(0.4) -- Wait a short time for the reset to complete
 
                         -- Search for the reel UI and simulate filling the bar
