@@ -421,11 +421,9 @@ MainTab:CreateToggle({
 			
 			task.wait(0.01)
 			Reel()
-			task.wait(0.1)
-                        Reset()
-			task.wait(1)
+			task.wait(0.2)
                         Reel()
-                        task.wait(0.4) -- Wait a short time for the reset to complete
+                        task.wait(0.2) -- Wait a short time for the reset to complete
 
                         -- Search for the reel UI and simulate filling the bar
                         local PlayerGUI = LocalPlayer:FindFirstChild("PlayerGui")
