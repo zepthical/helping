@@ -152,6 +152,20 @@ if shakeUI and shakeUI.Enabled then
         local button = safezone:FindFirstChild("button")
         if button and button:IsA("ImageButton") and button.Visible then
           game:GetService("Players").LocalPlayer.PlayerGui.shakeui.safezone.button.RemoteEvent:FireServer()
+    end
+  end
+end
+
+local function Shake2()
+   local PlayerGUI = LocalPlayer:FindFirstChild("PlayerGui")
+local shakeUI = PlayerGUI and PlayerGUI:FindFirstChild("shakeui")
+
+if shakeUI and shakeUI.Enabled then
+    local safezone = shakeUI:FindFirstChild("safezone")
+    if safezone then
+        local button = safezone:FindFirstChild("button")
+        if button and button:IsA("ImageButton") and button.Visible then
+          game:GetService("Players").LocalPlayer.PlayerGui.shakeui.safezone.button.RemoteEvent:FireServer()
        end
     end
   end
@@ -286,13 +300,9 @@ MainTab:CreateToggle({
     _G.AutoShake = v
        spawn(function()
           while _G.AutoShake do
-local Rod = getRod()
-if Rod and Rod:FindFirstChild("values") and Rod.values:FindFirstChild("casted") then
-	if Rod.events.casted.value == true then
-          Shake()
-          Shake()
-          task.wait(0.01)
-	     end
+             Shake()
+             Shake2()
+             task.wait(0.01)
           end
        end)
     end
@@ -304,7 +314,7 @@ end
 
 local function Reel()
     -- Wait a short delay to ensure everything is loaded
-    task.wait(0.1)
+    task.wait(0.2)
 
     -- Search through the player's GUI for the reel UI elements
     for _, v in pairs(LocalPlayer.PlayerGui:GetChildren()) do
@@ -361,10 +371,10 @@ MainTab:CreateToggle({
                 local Rod = getRod()
                 if Rod and Rod:FindFirstChild("values") and Rod.values:FindFirstChild("bite") then
                     if Rod.values.bite.Value == true then
-                  			task.wait(0.01)
+			task.wait(0.01)
                         Reel() -- Reel once when bite is detected
-	                  		task.wait(1)
-                  			Reel()
+			task.wait(1)
+			Reel()
                         Reset()
                         repeat task.wait(0.1) until Rod.values.bite.Value == false
                         task.wait(1.5) -- Wait a short time before checking again
@@ -419,13 +429,14 @@ MainTab:CreateToggle({
                 local Rod = getRod()
                 if Rod and Rod:FindFirstChild("values") and Rod.values:FindFirstChild("bite") then
                     if Rod.values.bite.Value == true then
-                        -- Reset the rod to trigger instant reelin
-		                  	task.wait(0.01)
-		                   	Reel()
-		                  	task.wait(0.1)
-                                        Reset()
-		                  	task.wait(1)
-                                        Reel()
+                        -- Reset the rod to trigger instant reeling
+			
+			task.wait(0.01)
+			Reel()
+			task.wait(0.1)
+                        Reset()
+			task.wait(1)
+                        Reel()
                         task.wait(0.4) -- Wait a short time for the reset to complete
 
                         -- Search for the reel UI and simulate filling the bar
@@ -495,7 +506,7 @@ AutoTab:CreateToggle({
 local TeleportTab = Window:CreateTab("Teleport")
 
 -- Create Section
- local IslandsSection = TeleportTab:CreateSection("Islands")
+local IslandsSection = TeleportTab:CreateSection("Islands")
 
 -- Island List
 local Islands = {
@@ -536,7 +547,7 @@ local coordinates = {
     Atlantis = Vector3.new(-4263, -603, 1829),
     EtherealPuzzle = Vector3.new(-4122, 602, 1820),
     FinalPuzNorthEXP = Vector3.new(19963, 1137, 5401)
-} 
+}
 
 -- Teleport Dropdown
 TeleportTab:CreateDropdown({
