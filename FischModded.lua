@@ -359,9 +359,9 @@ MainTab:CreateToggle({
                 local Rod = getRod()
                 if Rod and Rod:FindFirstChild("values") and Rod.values:FindFirstChild("bite") then
                     if Rod.values.bite.Value == true then
-			task.wait(0.01)
+			task.wait(0.2)
                         Reel() -- Reel once when bite is detected
-			task.wait(0.1)
+			task.wait(0.2)
 			Reel()
                         Reset()
                         repeat task.wait(0.1) until Rod.values.bite.Value == false
@@ -434,8 +434,10 @@ MainTab:CreateToggle({
                                     -- Trigger reel finished event
                                     local reelFinished = ReplicatedStorage:FindFirstChild("events") and ReplicatedStorage.events:FindFirstChild("reelfinished")
                                     if reelFinished then
-					task.wait()
+					task.wait(1)
                                         Reel()
+					Reel()
+					Reel()
 					task.wait()
 					Reset()
                                     else
