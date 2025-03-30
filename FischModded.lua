@@ -143,7 +143,18 @@ local Rayfield = loadstring(game:HttpGet('https://raw.githubusercontent.com/zept
  --------------------------------------------------------------------
 
 local function Shake()
-   game:GetService("Players").LocalPlayer.PlayerGui.shakeui.safezone.button.RemoteEvent:FireServer()
+   local PlayerGUI = LocalPlayer:FindFirstChild("PlayerGui")
+local shakeUI = PlayerGUI and PlayerGUI:FindFirstChild("shakeui")
+
+if shakeUI and shakeUI.Enabled then
+    local safezone = shakeUI:FindFirstChild("safezone")
+    if safezone then
+        local button = safezone:FindFirstChild("button")
+        if button and button:IsA("ImageButton") and button.Visible then
+          game:GetService("Players").LocalPlayer.PlayerGui.shakeui.safezone.button.RemoteEvent:FireServer()
+       end
+    end
+  end
 end
 
 --------------------------------------------------------------------
@@ -275,14 +286,13 @@ MainTab:CreateToggle({
     _G.AutoShake = v
        spawn(function()
           while _G.AutoShake do
-if Rod and Rod:FindFirstChild("values") and Rod.values:FindFirstChild("bite") then
+local Rod = getRod()
+if Rod and Rod:FindFirstChild("values") and Rod.values:FindFirstChild("casted") then
 	if Rod.events.casted.value == true then
           Shake()
           Shake()
           task.wait(0.01)
-    else
-        warn("Rod or cast event not found!")
-	     end 
+	     end
           end
        end)
     end
