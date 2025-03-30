@@ -151,21 +151,9 @@ if shakeUI and shakeUI.Enabled then
     if safezone then
         local button = safezone:FindFirstChild("button")
         if button and button:IsA("ImageButton") and button.Visible then
-          game:GetService("Players").LocalPlayer.PlayerGui.shakeui.safezone.button.RemoteEvent:FireServer()
-    end
-  end
-end
-
-local function Shake2()
-   local PlayerGUI = LocalPlayer:FindFirstChild("PlayerGui")
-local shakeUI = PlayerGUI and PlayerGUI:FindFirstChild("shakeui")
-
-if shakeUI and shakeUI.Enabled then
-    local safezone = shakeUI:FindFirstChild("safezone")
-    if safezone then
-        local button = safezone:FindFirstChild("button")
-        if button and button:IsA("ImageButton") and button.Visible then
-          game:GetService("Players").LocalPlayer.PlayerGui.shakeui.safezone.button.RemoteEvent:FireServer()
+          GuiService.SelectedObject = button
+          VirtualInputManager:SendKeyEvent(true, Enum.KeyCode.Return, false, game)
+          VirtualInputManager:SendKeyEvent(false, Enum.KeyCode.Return, false, game)
        end
     end
   end
@@ -301,7 +289,7 @@ MainTab:CreateToggle({
        spawn(function()
           while _G.AutoShake do
              Shake()
-             Shake2()
+             Shake()
              task.wait(0.01)
           end
        end)
