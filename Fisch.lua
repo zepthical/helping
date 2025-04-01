@@ -459,7 +459,7 @@ TeleportTab:CreateDropdown({
 }) ]]
 
 
-local MiscTab = Window:CreateTab("Misc")
+--[[local MiscTab = Window:CreateTab("Misc")
 local LPlayerSection = MiscTab:CreateSection("LocalPlayer")
 
 -- WalkSpeed Input with Number Validation
@@ -710,5 +710,5 @@ MiscTab:CreateToggle({
             end
         end
     end
-})
+}) ]]
 
