@@ -2,20 +2,14 @@ local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/xHept
 
 local Window = Library.CreateLib("CookieHub", "OceanTheme")
 
+ -- Define essential variables
  local Players = game:GetService("Players")
  local LocalPlayer = Players.LocalPlayer
  local ReplicatedStorage = game:GetService("ReplicatedStorage")
  local VirtualInputManager = game:GetService("VirtualInputManager")
  local GuiService = game:GetService("GuiService")
-
- _G.AutoCast = false
- _G.AutoShake = false
- _G.AutoReel = false
- _G.FreezeCharacter = false
- _G.AutoDropBobber = false
- _G.InstantReel = false
-
--- func --
+ 
+ --------------------------------------------------------------------
 
 local function Shake()
    local PlayerGUI = LocalPlayer:FindFirstChild("PlayerGui")
@@ -33,6 +27,42 @@ if shakeUI and shakeUI.Enabled then
     end
   end
 end
+
+local function Shake1()
+   local PlayerGUI = LocalPlayer:FindFirstChild("PlayerGui")
+local shakeUI = PlayerGUI and PlayerGUI:FindFirstChild("shakeui")
+
+if shakeUI and shakeUI.Enabled then
+    local safezone = shakeUI:FindFirstChild("safezone")
+    if safezone then
+        local button = safezone:FindFirstChild("button")
+        if button and button:IsA("ImageButton") and button.Visible then
+          GuiService.SelectedObject = button
+          VirtualInputManager:SendKeyEvent(true, Enum.KeyCode.Return, false, game)
+          VirtualInputManager:SendKeyEvent(false, Enum.KeyCode.Return, false, game)
+       end
+    end
+  end
+end
+
+--------------------------------------------------------------------
+
+
+ -- Ensure Character Loads Properly
+ local function getCharacter()
+    return LocalPlayer.Character or LocalPlayer.CharacterAdded:Wait()
+ end
+ 
+ local Char = getCharacter()
+ local Backpack = LocalPlayer:FindFirstChild("Backpack")
+ 
+ -- Auto Variables
+ _G.AutoCast = false
+ _G.AutoShake = false
+ _G.AutoReel = false
+ _G.FreezeCharacter = false
+ _G.AutoDropBobber = false
+ _G.InstantReel = false
 
 local function getRod()
     local Char = game.Players.LocalPlayer.Character
@@ -114,10 +144,10 @@ MainSection:NewToggle("Auto Cast", "Cast for you", function(state)
                         Cast()
                     end
                 else
-                    warn("rod is missing egypt properties.")
-                end
+                 warn("rod is missing egypt properties.")
             end
-        end)
+        end
+    end)
 end)
 
 MainSection:NewToggle("Auto Shake", "Shake for you", function(state)
