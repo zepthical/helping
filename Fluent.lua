@@ -1,4 +1,4 @@
-local Fluent = loadstring(game:HttpGet("https://github.com/stevex26/Fluent/releases/latest/download/source.lua"))()
+local Fluent = loadstring(game:HttpGet("https://raw.githubusercontent.com/stevex26/Fluent/releases/latest/download/source.lua"))()
 
 -- Create the window
 local Window = Fluent:CreateWindow({
