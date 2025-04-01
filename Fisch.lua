@@ -274,8 +274,7 @@ MainTab:CreateToggle({
                 local Rod = getRod()
                 if Rod and Rod:FindFirstChild("values") and Rod.values:FindFirstChild("bite") then
                     if Rod.values.bite.Value == true then
-                        Reel()  -- Reel once
-			task.wait(1)
+			task.wait(1.85)
 			Reel()
                         repeat task.wait(0.1) until Rod.values.bite.Value == false
                     end
@@ -315,65 +314,22 @@ MainTab:CreateToggle({
 local Divider = MainTab:CreateDivider()
 
 MainTab:CreateToggle({
-    Name = "Instant Reel[WIP]",
+    Name = "Instant Reel",
     Flag = "InsReel",
     Callback = function(v)
-        _G.InstantReel = v
+        _G.AutoReel = v
 
         spawn(function()
-            while _G.InstantReel do
+            while _G.AutoReel do
                 task.wait(1) -- Prevent excessive calls
 
                 local Rod = getRod()
                 if Rod and Rod:FindFirstChild("values") and Rod.values:FindFirstChild("bite") then
                     if Rod.values.bite.Value == true then
-                        -- Reset the rod to trigger instant reeling
-			Rod.events.reset:FireServer()
-			task.wait(0.2)
+			task.wait(1.2)
 			Reel()
-			task.wait(0.1)
-                        Reset()
-			task.wait(0.5)
-                        Reel()
-                        task.wait(0.4) -- Wait a short time for the reset to complete
-
-                        -- Search for the reel UI and simulate filling the bar
-                        local PlayerGUI = LocalPlayer:FindFirstChild("PlayerGui")
-                        local reelUI = PlayerGUI and PlayerGUI:FindFirstChild("reel")
-                        if reelUI then
-                            local bar = reelUI:FindFirstChild("bar")
-                            if bar then
-                                local playerbar = bar:FindFirstChild("playerbar")
-                                if playerbar then
-                                    -- Fill the player bar to simulate reeling
-                                    playerbar.Size = UDim2.new(1, 0, 1, 0)
-
-                                    -- Trigger reel finished event
-                                    local reelFinished = ReplicatedStorage:FindFirstChild("events") and ReplicatedStorage.events:FindFirstChild("reelfinished")
-                                    if reelFinished then
-					task.wait()
-                                        Reel()
-					task.wait()
-					Reset()
-                                    else
-                                        warn("Reel finished event not found!")
-                                    end
-                                else
-                                    warn("Playerbar not found!")
-                                end
-                            else
-                                warn("Bar not found!")
-                            end
-                        else
-                            warn("Reel UI not found!")
-                        end
-
-                        -- Wait until the bite value is false (fish caught)
                         repeat task.wait(0.1) until Rod.values.bite.Value == false
-		        Reset()
                     end
-                else
-                    warn("Rod or bite value not found!")
                 end
             end
         end)
