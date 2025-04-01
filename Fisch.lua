@@ -231,12 +231,11 @@ local function Reel()
                     playerbar.Size = UDim2.new(1, 0, 1, 0)
 
                     -- Check for the "reelfinished" event and fire it
-                    local reelFinished = ReplicatedStorage.events:FindFirstChild("reelfinished")
+                    local reelFinished = ReplicatedStorage:FindFirstChild("events") and ReplicatedStorage.events:FindFirstChild("reelfinished")
                     if reelFinished then
                         reelFinished:FireServer(100, true)
                     else
-                        warn("Reel finished event not found!")
-                    end
+                        warn("reelfinished event not found!")					end
                 else
                     warn("Playerbar not found!")
                 end
