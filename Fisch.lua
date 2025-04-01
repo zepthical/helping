@@ -641,48 +641,51 @@ MiscTab:CreateInput({
    end,
 })
 
-local waterparts = {}
-local partSize = 200  -- Size of each individual part (e.g., 200x2x200)
-local numParts = 10   -- Number of parts in the grid (10x10 grid will be 100 parts)
-
-MiscTab:CreateToggle({
-   Name = "Walk on water",
-   CurrentValue = false,
-   Flag = "walkonwater",  
-   Callback = function(Value)
-       _G.WalkOnWater = Value
-
-       if Value then
-           -- Create the parts only once if they haven't been created already
-           if #waterparts == 0 then
-               for i = 0, numParts - 1 do
-                   for j = 0, numParts - 1 do
-                       local waterpart = Instance.new("Part")
-                       waterpart.Size = Vector3.new(partSize, 2, partSize)
-                       waterpart.Position = Vector3.new(i * partSize, 126, j * partSize)  -- Grid layout
-                       waterpart.Anchored = true
-                       waterpart.CanCollide = true
-                       waterpart.Transparency = 0.8
-                       waterpart.Color = Color3.fromRGB(0, 255, 255)  -- Light blue color for water
-                       waterpart.Parent = game.Workspace
+local waterparts = {}  
+local partSize = 200  -- Size of each individual part (e.g., 200x2x200)  
+local numParts = 150  -- Number of parts in each direction (adjust as needed for your map size)  
+local mapSize = 30000 -- Approximate map size (in studs), adjust as needed  
+  
+MiscTab:CreateToggle({  
+   Name = "Walk on water",  
+   CurrentValue = false,  
+   Flag = "walkonwater",    
+   Callback = function(Value)  
+       _G.WalkOnWater = Value  
+  
+       if Value then  
+           -- Create the parts only once if they haven't been created already  
+           if #waterparts == 0 then  
+               local offsetX = mapSize / 2  -- Adjust for centering the grid
+               local offsetZ = mapSize / 2  -- Adjust for centering the grid
+               
+               for i = 0, numParts - 1 do  
+                   for j = 0, numParts - 1 do  
+                       local waterpart = Instance.new("Part")  
+                       waterpart.Size = Vector3.new(partSize, 2, partSize)  
                        
-                       table.insert(waterparts, waterpart)  -- Add part to the waterparts table
-                   end
-               end
-           end
-       else
-           -- Remove all water parts when toggled off
-           for _, part in ipairs(waterparts) do
-               part.Parent = nil
-           end
-           waterparts = {}  -- Clear the list
-       end
-   end,
+                       -- Center the grid on the map
+                       waterpart.Position = Vector3.new((i * partSize) - offsetX, 126, (j * partSize) - offsetZ)  
+                       
+                       waterpart.Anchored = true  
+                       waterpart.CanCollide = true  
+                       waterpart.Transparency = 0.8  
+                       waterpart.Color = Color3.fromRGB(0, 255, 255)  -- Light blue color for water  
+                       waterpart.Parent = game.Workspace  
+                         
+                       table.insert(waterparts, waterpart)  -- Add part to the waterparts table  
+                   end  
+               end  
+           end  
+       else  
+           -- Remove all water parts when toggled off  
+           for _, part in ipairs(waterparts) do  
+               part.Parent = nil  
+           end  
+           waterparts = {}  -- Clear the list  
+       end  
+   end,  
 })
-
-
-
-
 
 MiscTab:CreateToggle({
     Name = "NoClip",
