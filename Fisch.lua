@@ -24,7 +24,7 @@ local Rayfield = loadstring(game:HttpGet('https://raw.githubusercontent.com/zept
 
 -- Tables --
 
-local Islands = {
+--[[local Islands = {
     "Moosewood", "Statue", "Forsaken", "RoslitBay", "GrandReef", "AncientArchivesDoor", 
     "Altar", "DesolateDeep", "SnowCap", "Mushgrove", "CalmZone", "TheDepths", 
     "ForsakenShores", "Terrapin", "Sunstone", "TheArch", "Brine", "CraftTable", 
@@ -558,7 +558,7 @@ return {
         ["Diamond Discus"] = { Price = "1200", Rarity = "Uncommon", WeightPool = {800, 1750}, From = "Calm Zone" },
         ["Coral Emperor"] = { Price = "4000", Rarity = "Legendary", WeightPool = {150, 300}, From = "Grand Reef" },
    }
-}
+} ]]
 
 ------------
  
@@ -1207,7 +1207,7 @@ MiscTab:CreateToggle({
     end
 }) ]]
 
-local function removeBlacklistedItems()
+--[[local function removeBlacklistedItems()
     if backpack then
         for _, item in pairs(backpack:GetChildren()) do
             if table.find(Fish, item.Name) then
@@ -1223,4 +1223,4 @@ MiscTab:CreateButton({
    Callback = function()
    	removeBlacklistedItems()
    end,
-})
+}) ]]
