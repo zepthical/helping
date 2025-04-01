@@ -153,11 +153,9 @@ MainTab:CreateToggle({
  local MainSection = MainTab:CreateSection("Main")
  
 local function getRod()
-    local Char = LocalPlayer.Character
-    if Char then
-        return Char:FindFirstChildOfClass("Tool")
-    end
-    return nil
+    local Char = game.Players.LocalPlayer.Character
+    if not Char then return nil end
+    return Char:FindFirstChildOfClass("Tool")
 end
 
 local function Cast()
@@ -272,21 +270,16 @@ MainTab:CreateToggle({
 
         spawn(function()
             while _G.AutoReel do
-                task.wait(0.1) -- Prevents excessive checking
+                task.wait(1) -- Prevent excessive calls
 
                 local Rod = getRod()
                 if Rod and Rod:FindFirstChild("values") and Rod.values:FindFirstChild("bite") then
                     if Rod.values.bite.Value == true then
-			task.wait(0.15)
-                        Reel() -- Reel once when bite is detected
+                        Reel()  -- Reel once
 			task.wait(1)
 			Reel()
-                        Reset()
                         repeat task.wait(0.1) until Rod.values.bite.Value == false
-                        task.wait(1.5) -- Wait a short time before checking again
                     end
-                else
-                    warn("Rod or bite value not found!")
                 end
             end
         end)
