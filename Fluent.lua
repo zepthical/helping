@@ -1,43 +1,54 @@
-local Fluent = loadstring(game:HttpGet("https://github.com/dawid-scripts/Fluent/releases/latest/download/main.lua"))()
+local Fluent = loadstring(game:HttpGet("https://raw.githubusercontent.com/ForgeNet/Fluent/main/source.lua"))()
 
+-- Create the window
 local Window = Fluent:CreateWindow({
-    Title = "Fluent " .. Fluent.Version,
-    SubTitle = "by dawid",
-    TabWidth = 160,
-    Size = UDim2.fromOffset(580, 460),
-    Acrylic = true, -- The blur may be detectable, setting this to false disables blur entirely
-    Theme = "Dark",
-    MinimizeKey = Enum.KeyCode.LeftControl -- Used when theres no MinimizeKeybind
+    Title = "My Fluent UI",
+    SubTitle = "Fluent UI Example",
+    TabWidth = 160
 })
 
-local Options = Fluent.Options
-
-Fluent:Notify({
-        Title = "Notification",
-        Content = "This is a notification",
-        SubContent = "SubContent", -- Optional
-        Duration = 5 -- Set to nil to make the notification not disappear
-})
-
--- Fluent provides Lucide Icons, they are optional
+-- Add tabs
 local Tabs = {
-    Main = Window:AddTab({ Title = "Main", Icon = "" })
+    Main = Window:AddTab({ Title = "Main", Icon = "home" }),
+    Settings = Window:AddTab({ Title = "Settings", Icon = "settings" })
 }
 
-Window:SelectTab(1)
-
-local Section = MainTab:AddSection("Main")
-
-local Toggle = MainTab:AddToggle("MyToggle", 
-{
-    Title = "Toggle", 
-    Description = "Toggle description",
-    Default = false
+-- Add a toggle
+local Toggle = Tabs.Main:AddToggle({
+    Title = "My Toggle",
+    Description = "This is a toggle example",
+    Default = false,
     Callback = function(state)
-	if state then
-	    print("Toggle On")
-	else
-	    print("Toggle Off")
+        if state then
+            print("Toggle On")
+            Window:Notify({
+                Title = "Toggle Status",
+                Content = "Toggle is now ON",
+                Duration = 2
+            })
+        else
+            print("Toggle Off")
+            Window:Notify({
+                Title = "Toggle Status",
+                Content = "Toggle is now OFF",
+                Duration = 2
+            })
         end
-    end 
+    end
 })
+
+-- Add a button
+local Button = Tabs.Main:AddButton({
+    Title = "Click Me",
+    Description = "This is a button example",
+    Callback = function()
+        Window:Notify({
+            Title = "Button Clicked",
+            Content = "You clicked the button!",
+            Duration = 2
+        })
+    end
+})
+
+-- Show the UI
+Window:SelectTab(Tabs.Main)
