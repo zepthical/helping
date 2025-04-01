@@ -132,19 +132,15 @@ end)
 MainSection:NewToggle("Auto Reel", "Reel for you", function(state)
         _G.AutoReel = state
         spawn(function()
-        while _G.AutoReel do
-        task.wait(1) -- Prevent excessive calls
-
-        local Rod = getRod()
-        if Rod and Rod:FindFirstChild("values") and Rod.values:FindFirstChild("bite") then
-            if Rod.values.bite.Value == true then
-	          	task.wait(1.85)
-		        Reel()
-		        task.wait(0.5)
-		        Reset				
-                repeat task.wait(0.1) until Rod.values.bite.Value == false
+            while _G.AutoReel do
+                task.wait(0.1)
+                local Rod = getRod()
+                if Rod and Rod:FindFirstChild("values") and Rod.values:FindFirstChild("bite") then
+                    if Rod.values.bite.Value == true then  -- Only reel if fish is biting
+                        Reel()
+                    end
+                end
             end
-        end
-    end
+        end)
 end)
 
