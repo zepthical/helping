@@ -37,9 +37,11 @@ if shakeUI and shakeUI.Enabled then
 end
 
 local function getRod()
-    local Char = game.Players.LocalPlayer.Character
-    if not Char then return nil end
-    return Char:FindFirstChildOfClass("Tool")
+    local Char = LocalPlayer.Character
+    if Char then
+        return Char:FindFirstChildOfClass("Tool")
+    end
+    return nil
 end
 
 local function Cast()
@@ -85,7 +87,6 @@ local function Reel()
 end
 
 local function Reset()
-    -- Ensure Char is valid before trying to reset
     local Rod = getRod()
     if Rod and Rod:FindFirstChild("events") and Rod.events:FindFirstChild("reset") then
         task.wait(0.1)
@@ -123,7 +124,7 @@ Main:AddToggle("Auto Cast",
 {
     Title = "Auto Cast", 
     Description = "Cast For you",
-    Default = false
+    Default = false,
     Callback = function(state)
 	    _G.AutoCast = state
 
@@ -147,7 +148,7 @@ MainTab:AddToggle("Auto Shake",
 {
     Title = "Auto Shake", 
     Description = "Shake for you",
-    Default = false
+    Default = false,
     Callback = function(state)
 	    _G.AutoShake = state
 
@@ -163,24 +164,27 @@ MainTab:AddToggle("Auto Reel",
 {
     Title = "Auto Reel", 
     Description = "Reel for you",
-    Default = false
+    Default = false,
     Callback = function(state)
-	  _G.AutoReel = state
+        _G.AutoReel = state
 
-     spawn(function()
+        spawn(function()
             while _G.AutoReel do
                 task.wait(1) -- Prevent excessive calls
 
                 local Rod = getRod()
                 if Rod and Rod:FindFirstChild("values") and Rod.values:FindFirstChild("bite") then
                     if Rod.values.bite.Value == true then
-	          		      task.wait(1.85)
-		                	Reel()
-		          	      task.wait(0.5)
-		                	Reset				
-                repeat task.wait(0.1) until Rod.values.bite.Value == false
-              end
-           end
-        end
+                        task.wait(1.85)
+                        Reel()
+                        task.wait(0.5)
+                        Reset() -- Fix missing parenthesis
+
+                        -- Ensure the loop waits until the bite value resets
+                        repeat task.wait(0.1) until not Rod.values.bite.Value
+                    end
+                end
+            end
+        end)
     end 
 })
