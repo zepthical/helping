@@ -1,6 +1,7 @@
 local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/xHeptc/Kavo-UI-Library/main/source.lua"))()
 
-local Window = Library.CreateLib("CookieHub", "DarkTheme")
+local Window = Library.CreateLib("My Kavo UI", "DarkTheme") -- Themes: "DarkTheme", "LightTheme", "BloodTheme", "GrapeTheme", etc.
+
 
  -- Define essential variables
  local Players = game:GetService("Players")
