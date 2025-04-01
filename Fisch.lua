@@ -712,20 +712,3 @@ MiscTab:CreateToggle({
     end
 })
 
-local function removeBlacklistedItems()
-    if backpack then
-        for _, item in pairs(backpack:GetChildren()) do
-            if table.find(Fish, item.Name) then
-                item:Destroy()
-                print("Removed:", item.Name)
-            end
-        end
-    end
-end
-		
-MiscTab:CreateButton({
-   Name = "Remove Fish(Irreversible)",
-   Callback = function()
-   	removeBlacklistedItems()
-   end,
-})
