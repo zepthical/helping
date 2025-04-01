@@ -26,9 +26,9 @@ local Tabs = {
 
 Window:SelectTab(1)
 
-local Section = Tab:AddSection("Main")
+local Section = Tabs.Main:AddSection("Main")
 
-local Toggle = Tab:AddToggle("MyToggle", 
+local Toggle = Tabs.Main:AddToggle("MyToggle", 
 {
     Title = "Toggle", 
     Description = "Toggle description",
