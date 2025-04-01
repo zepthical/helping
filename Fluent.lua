@@ -1,4 +1,13 @@
-local Fluent = loadstring(game:HttpGet("https://raw.githubusercontent.com/ForgeNet/Fluent/main/source.lua"))()
+task.wait(1) -- Wait for executor to be ready
+
+local success, Fluent = pcall(function()
+    return loadstring(game:HttpGet("https://raw.githubusercontent.com/ForgeNet/Fluent/main/source.lua"))()
+end)
+
+if not success or not Fluent then
+    print("Failed to load Fluent UI. Check the URL or your executor.")
+    return
+end
 
 -- Create the window
 local Window = Fluent:CreateWindow({
@@ -19,34 +28,7 @@ local Toggle = Tabs.Main:AddToggle({
     Description = "This is a toggle example",
     Default = false,
     Callback = function(state)
-        if state then
-            print("Toggle On")
-            Window:Notify({
-                Title = "Toggle Status",
-                Content = "Toggle is now ON",
-                Duration = 2
-            })
-        else
-            print("Toggle Off")
-            Window:Notify({
-                Title = "Toggle Status",
-                Content = "Toggle is now OFF",
-                Duration = 2
-            })
-        end
-    end
-})
-
--- Add a button
-local Button = Tabs.Main:AddButton({
-    Title = "Click Me",
-    Description = "This is a button example",
-    Callback = function()
-        Window:Notify({
-            Title = "Button Clicked",
-            Content = "You clicked the button!",
-            Duration = 2
-        })
+        print(state and "Toggle On" or "Toggle Off")
     end
 })
 
