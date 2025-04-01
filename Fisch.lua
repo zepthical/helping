@@ -562,7 +562,7 @@ return {
 
 ------------
  
- local MainTab = Window:CreateTab("Main", 124714113910876)
+ --[[local MainTab = Window:CreateTab("Main", 124714113910876)
  
  
  Rayfield:Notify({
@@ -822,7 +822,7 @@ MainTab:CreateToggle({
             end
         end)
     end
-})
+}) ]]
  
  --[[ MainTab:CreateToggle({
     Name = "Auto Drop Bobber",
@@ -851,7 +851,7 @@ MainTab:CreateToggle({
     end
  }) ]]
  
-local Divider = MainTab:CreateDivider()
+--[[ local Divider = MainTab:CreateDivider()
 
 MainTab:CreateToggle({
     Name = "Instant Reel",
@@ -876,7 +876,7 @@ MainTab:CreateToggle({
             end
         end)
     end
-})
+}) ]]
 
  local AutoTab = Window:CreateTab("Auto", 124714113910876)
  local AutoSection = AutoTab:CreateSection("Auto")
@@ -955,7 +955,7 @@ TeleportTab:CreateDropdown({
 
 
 local MiscTab = Window:CreateTab("Misc")
---[[local LPlayerSection = MiscTab:CreateSection("LocalPlayer")
+local LPlayerSection = MiscTab:CreateSection("LocalPlayer")
 
 -- WalkSpeed Input with Number Validation
 MiscTab:CreateInput({
@@ -1205,9 +1205,9 @@ MiscTab:CreateToggle({
             end
         end
     end
-}) ]]
+})
 
---[[local function removeBlacklistedItems()
+local function removeBlacklistedItems()
     if backpack then
         for _, item in pairs(backpack:GetChildren()) do
             if table.find(Fish, item.Name) then
@@ -1223,4 +1223,4 @@ MiscTab:CreateButton({
    Callback = function()
    	removeBlacklistedItems()
    end,
-}) ]]
+})
