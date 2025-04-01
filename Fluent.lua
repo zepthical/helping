@@ -1,7 +1,7 @@
 local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/xHeptc/Kavo-UI-Library/main/source.lua"))()
-
-local Window = Library.CreateLib("My Kavo UI", "DarkTheme") -- Themes: "DarkTheme", "LightTheme", "BloodTheme", "GrapeTheme", etc.
-
+local Window = Library.CreateLib("My Kavo UI", "DarkTheme")
+local MainTab = Window:NewTab("Main")
+local MainSection = MainTab:NewSection("Main Features")
 
  -- Define essential variables
  local Players = game:GetService("Players")
@@ -130,10 +130,6 @@ end
 
 ----------
 
-local MainTab = Window:NewTab("Main")
-
-local MainSection = MainTab:NewSection("Main")
-
 MainSection:NewToggle("Auto Cast", "Cast for you", function(state)
     G.AutoCast = state
         spawn(function()
@@ -162,16 +158,20 @@ end)
 
 MainSection:NewToggle("Auto Reel", "Reel for you", function(state)
     _G.AutoReel = state
-    task.spawn(function()
-        while _G.AutoReel do
-            task.wait(0.1)
-            local Rod = getRod()
-            if Rod and Rod:FindFirstChild("values") and Rod.values:FindFirstChild("bite") then
-                if Rod.values.bite.Value == true then  -- Only reel if fish is biting
-                    task.wait(1.85)
-                    Reel()
+    if state then
+        task.spawn(function()
+            while _G.AutoReel do
+                task.wait(0.1)  -- Adjust the wait time to prevent too much strain on the server
+                local Rod = getRod()
+                if Rod and Rod:FindFirstChild("values") and Rod.values:FindFirstChild("bite") then
+                    if Rod.values.bite.Value == true then  -- Only reel if fish is biting
+                        task.wait(1.85)  -- Adjusted wait time between actions (for realism)
+                        Reel()  -- Assuming this function is correctly defined elsewhere
+                    end
                 end
             end
-        end
-    end)
+        end)
+    else
+        _G.AutoReel = false  -- Ensuring it stops if the toggle is turned off
+    end
 end)
