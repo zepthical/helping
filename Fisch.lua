@@ -725,68 +725,18 @@ local peaksoxygen = Resources and Resources:FindFirstChild("oxygen(peaks)")
 local temp = Resources and Resources:FindFirstChild("temperature")
 local heat = Resources and Resources:FindFirstChild("temperature(heat)")
 
-
-
--- Toggle for Disabling Gas
 MiscTab:CreateToggle({
-   Name = "Disable Gas",
+   Name = "Disable Resources",
    CurrentValue = false,
-   Flag = "gas", 
-   Callback = function(Value)
-      if gas then
-         gas.Disabled = Value
-      else
-         warn("Gas not found!")
-      end
+   Flag = "resources",
+   Callback = function(v)
+      gas.Disabled = v
+      oxygen.Disbaled = v
+      peaksoxygen.Disabled = v
+      temp.Disabled = v
+      heat.Disabled = v
    end,
-})
-
--- Toggle for Disabling Oxygen
-MiscTab:CreateToggle({
-   Name = "Disable Oxygen",
-   CurrentValue = false,
-   Flag = "oxygen", 
-   Callback = function(Value)
-      if oxygen then
-         oxygen.Disabled = Value
-      else
-         warn("Oxygen not found!")
-      end
-      if peaksoxygen then
-         peaksoxygen.Disabled = Value
-      else
-         warn("Peaks Oxygen not found!")
-      end
-   end,
-})
-
--- Toggle for Disabling Temperature
-MiscTab:CreateToggle({
-   Name = "Disable Temperature",
-   CurrentValue = false,
-   Flag = "temp", 
-   Callback = function(Value)
-      if temp then
-         temp.Disabled = Value
-      else
-         warn("Temperature not found!")
-      end
-   end,
-})
-
--- Toggle for Disabling Heat
-MiscTab:CreateToggle({
-   Name = "Disable Heat",
-   CurrentValue = false,
-   Flag = "heat", 
-   Callback = function(Value)
-      if heat then
-         heat.Disabled = Value
-      else
-         warn("Heat not found!")
-      end
-   end,
-})
+})ĺ
 
 MiscTab:CreateToggle({
     Name = "Hide Identity",
