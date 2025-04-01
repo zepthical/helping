@@ -725,6 +725,8 @@ local peaksoxygen = Resources and Resources:FindFirstChild("oxygen(peaks)")
 local temp = Resources and Resources:FindFirstChild("temperature")
 local heat = Resources and Resources:FindFirstChild("temperature(heat)")
 
+
+
 -- Toggle for Disabling Gas
 MiscTab:CreateToggle({
    Name = "Disable Gas",
@@ -885,30 +887,7 @@ MiscTab:CreateToggle({
             end
             
             local Terrain = worksMainTab:CreateToggle({
-    Name = "Auto Reel",
-    Flag = "AReel",
-    Callback = function(v)
-        _G.AutoReel = v
-
-        spawn(function()
-            while _G.AutoReel do
-                task.wait(0.1) -- Prevents excessive checking
-
-                local Rod = getRod()
-                if Rod and Rod:FindFirstChild("values") and Rod.values:FindFirstChild("bite") then
-                    if Rod.values.bite.Value == true then 
-                        Reel() -- Reel once when bite is detected
-
-                        -- Wait until the bite value is false again (fish caught or lost)
-                        repeat task.wait(0.1) until Rod.values.bite.Value == false
-                    end
-                else
-                    warn("Rod or bite value not found!")
-                end
-            end
-        end)
-    end
-})pace:FindFirstChildOfClass("Terrain")
+            pace:FindFirstChildOfClass("Terrain")
             if Terrain then Terrain.WaterWaveSize = 1 Terrain.WaterWaveSpeed = 10 Terrain.WaterReflectance = 1 Terrain.WaterTransparency = 0.5 end
 
             for _, v in pairs(workspace:GetDescendants()) do
