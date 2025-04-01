@@ -1,6 +1,6 @@
 local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/xHeptc/Kavo-UI-Library/main/source.lua"))()
 
-local Window = Library.CreateLib("CookieHub", "OceanTheme")
+local Window = Library.CreateLib("CookieHub", "DarkTheme")
 
  -- Define essential variables
  local Players = game:GetService("Players")
@@ -160,17 +160,17 @@ MainSection:NewToggle("Auto Shake", "Shake for you", function(state)
 end)
 
 MainSection:NewToggle("Auto Reel", "Reel for you", function(state)
-        _G.AutoReel = state
-        spawn(function()
-            while _G.AutoReel do
-                task.wait(0.1)
-                local Rod = getRod()
-                if Rod and Rod:FindFirstChild("values") and Rod.values:FindFirstChild("bite") then
-                    if Rod.values.bite.Value == true then  -- Only reel if fish is biting
-                        Reel()
-                    end
+    _G.AutoReel = state
+    task.spawn(function()
+        while _G.AutoReel do
+            task.wait(0.1)
+            local Rod = getRod()
+            if Rod and Rod:FindFirstChild("values") and Rod.values:FindFirstChild("bite") then
+                if Rod.values.bite.Value == true then  -- Only reel if fish is biting
+                    task.wait(1.85)
+                    Reel()
                 end
             end
-        end)
+        end
+    end)
 end)
-
