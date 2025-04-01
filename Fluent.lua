@@ -132,6 +132,7 @@ end
 
 MainSection:NewToggle("Auto Cast", "Cast for you", function(state)
     G.AutoCast = state
+      if state then
         spawn(function()
             while _G.AutoCast do
                 task.wait(1)
@@ -144,15 +145,22 @@ MainSection:NewToggle("Auto Cast", "Cast for you", function(state)
                  warn("rod is missing egypt properties.")
             end
         end
+    else
+     _G.AutoCast = false
+      end
     end)
 end)
 
 MainSection:NewToggle("Auto Shake", "Shake for you", function(state)
     _G.AutoShake = state
-    while G.AutoShake do
+  if state then
+    while _G.AutoShake do
         Shake()
         Shake()
         task.wait(0.1)
+   end
+  else
+   _G.AutoShake = false
     end
 end)
 
