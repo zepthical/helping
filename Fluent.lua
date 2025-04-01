@@ -120,7 +120,7 @@ local Tabs = {
 
 Main:AddSection("Main")
 
-local Toggle = Tab:AddToggle("Main", 
+local Toggle = MainTab:AddToggle("Main", 
 {
     Title = "Auto Cast", 
     Description = "Cast For you",
@@ -144,7 +144,7 @@ local Toggle = Tab:AddToggle("Main",
     end 
 })
 
-local Toggle = Tab:AddToggle("Main", 
+local Toggle = MainTab:AddToggle("Main", 
 {
     Title = "Auto Shake", 
     Description = "Shake for you",
@@ -160,7 +160,7 @@ local Toggle = Tab:AddToggle("Main",
     end 
 })
 
-local Toggle = Tab:AddToggle("Main", 
+local Toggle = MainTab:AddToggle("Main", 
 {
     Title = "Auto Reel", 
     Description = "Reel for you",
