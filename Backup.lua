@@ -230,7 +230,7 @@ MainTab:CreateToggle({
                                     local playerbar = bar:FindFirstChild("playerbar")
                                     if playerbar then
                                        playerbar.Size = UDim2.new(1, 0, 1, 0)
-                                       task.wait(1)
+                                       task.wait(0.5)
                                        reelFinished:FireServer(100, true)
                                    end
                                 end
@@ -295,10 +295,9 @@ MainTab:CreateToggle({
                                 local playerbar = bar:FindFirstChild("playerbar")
                                 if playerbar then
                                     playerbar.Size = UDim2.new(1, 0, 1, 0)
-                                    task.wait(0.02)
+                                    task.wait(0.01)
                                     local reelFinished = ReplicatedStorage:FindFirstChild("events") and ReplicatedStorage.events:FindFirstChild("reelfinished")
                                     if reelFinished then
-                                        task.wait(0.2)
                                         reelFinished:FireServer(100, true)
                                         task.wait(0.5)
                                         Reset()
