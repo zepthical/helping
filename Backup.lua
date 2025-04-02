@@ -285,8 +285,9 @@ MainTab:CreateToggle({
                                     task.wait(0.02)
                                     local reelFinished = ReplicatedStorage:FindFirstChild("events") and ReplicatedStorage.events:FindFirstChild("reelfinished")
                                     if reelFinished then
+                                        task.wait(0.2)
+                                        Reel()
                                         task.wait(0.5)
-                                        reelFinished:FireServer(100, true)
                                         Reset()
                                     end
                                 end
