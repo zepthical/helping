@@ -22,7 +22,7 @@ local Rayfield = loadstring(game:HttpGet('https://raw.githubusercontent.com/zept
     KeySystem = false,
  })
 
--- Tables --
+--[[ Tables --
 
 local Islands = {
     "Moosewood", "Statue", "Forsaken", "RoslitBay", "GrandReef", "AncientArchivesDoor", 
@@ -75,7 +75,7 @@ local MainTab = Window:CreateTab("Main", 124714113910876)
     Content = "Don't forget to save the configs!",
     Duration = 6.5,
     Image = 124714113910876,
- })
+ }) ]]
  
  -- Define essential variables
  local Players = game:GetService("Players")
