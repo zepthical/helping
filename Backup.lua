@@ -201,20 +201,14 @@ local function Reel()
 end
 
 
-local function Reset()
-    -- Ensure Char is valid before trying to reset
-    local Rod = getRod()
-    if Rod and Rod:FindFirstChild("events") and Rod.events:FindFirstChild("reset") then
-        task.wait(0.1)
-        Rod.events.reset:FireServer() -- Trigger the reset event
-        -- Equip the rod again if required
-        game:GetService("ReplicatedStorage").packages.Net:FindFirstChild("RE/Backpack/Equip"):FireServer(Rod)
-        task.wait(0.1)
-        game:GetService("ReplicatedStorage").packages.Net:FindFirstChild("RE/Backpack/Equip"):FireServer(Rod)
-    else
-        warn("Rod or reset event not found!")
-    end
+ local function Reset()
+  local Rod = Char and Char:FindFirstChildOfClass("Tool")
+  if Rod and Rod:FindFirstChild("events") and Rod.events:FindFirstChild("reset") then
+     task.wait(0.1)
+     Rod.events.reset:FireServer()
+  end                              
 end
+
 
 MainTab:CreateToggle({
     Name = "Auto Reel",
@@ -227,10 +221,7 @@ MainTab:CreateToggle({
                 local Rod = getRod()
                 if Rod and Rod:FindFirstChild("values") and Rod.values:FindFirstChild("bite") then
                     if Rod.values.bite.Value == true then  -- Only reel if fish is biting
-                        task.wait(1.85)
                         Reel()
-                        task.wait(0.5)
-                        Reset()
                     end
                 end
             end
@@ -292,10 +283,8 @@ MainTab:CreateToggle({
                                     task.wait(0.02)
                                     local reelFinished = ReplicatedStorage:FindFirstChild("events") and ReplicatedStorage.events:FindFirstChild("reelfinished")
                                     if reelFinished then
+                                        task.wait(0.85)
                                         reelFinished:FireServer(100, true)
-                                        task.wait(1)
-                                        reelFinished:FireServer(100, true)
-                                        task.wait(0.5)
                                         Reset()
                                     end
                                 end
