@@ -200,16 +200,6 @@ local function Reel()
   end
 end
 
-
- local function Reset()
-  local Rod = Char and Char:FindFirstChildOfClass("Tool")
-  if Rod and Rod:FindFirstChild("events") and Rod.events:FindFirstChild("reset") then
-     task.wait(0.1)
-     Rod.events.reset:FireServer()
-  end                              
-end
-
-
 MainTab:CreateToggle({
     Name = "Auto Reel",
     Flag = "AReel",
