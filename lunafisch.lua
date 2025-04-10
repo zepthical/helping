@@ -206,7 +206,7 @@ local autocast = MainTab:CreateToggle({
             task.wait(0.1)
         end
     end
-})  -- <-- Missing closing parenthesis
+})  -- <-- This is the closing parenthesis for CreateToggle
 
 
 local autoshake = MainTab:CreateToggle({
@@ -215,14 +215,14 @@ local autoshake = MainTab:CreateToggle({
 	CurrentValue = AutoShake,
     	Callback = function(Value)
 	print("Toggled AutoCast: " .. tostring(Value))
-       	 AutoShake = Value
-         while AutoShake do
-            Shake()
-            Shake()
-            task.wait(0.1)
-         end
-    	end
-}
+       	AutoShake = Value
+        while AutoShake do
+        Shake()
+        Shake()
+        task.wait(0.1)
+     end
+  end
+})
 
 local autoreel = MainTab:CreateToggle({
 	Name = "Auto Reel",
@@ -237,19 +237,19 @@ local autoreel = MainTab:CreateToggle({
             if Rod and Rod:FindFirstChild("values") and Rod.values:FindFirstChild("bite") then
                 -- ทำงานจนกว่าจะไม่มี bite
                 while Rod.values.bite.Value do
-                    -- รีลในขณะที่ยังมี bite
-                    local success, errorMessage = pcall(function()
-                        Reel()
-                    end)
-                    if not success then
-                        warn("Error in Reel: " .. errorMessage)
-                    end
+                     -- รีลในขณะที่ยังมี bite
+                     local success, errorMessage = pcall(function()
+                     Reel()
+                 end)
+              if not success then
+                 warn("Error in Reel: " .. errorMessage)
+              end
 
-                    -- ใช้เวลารอให้เร็วที่สุด แต่ไม่บัค
-                    task.wait(0.1) -- ใช้ wait แบบเร็วเพื่อไม่ให้เกิดการหน่วงมากเกินไป
-                end
-            end
-            task.wait(0.1)
-         end
-    	end
-}
+               -- ใช้เวลารอให้เร็วที่สุด แต่ไม่บัค
+               task.wait(0.1) -- ใช้ wait แบบเร็วเพื่อไม่ให้เกิดการหน่วงมากเกินไป
+           end
+        end
+        task.wait(0.1)
+     end
+  end
+})
