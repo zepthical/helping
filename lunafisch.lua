@@ -37,7 +37,7 @@ local Window = Luna:CreateWindow({
 		}
 	}
 })
-
+print("Window created successfully!")
 
 ---- functions
 local function getCharacter()
@@ -157,6 +157,7 @@ local MainTab = Window:CreateTab({
 	ImageSource = "Home",
 	ShowTitle = true -- This will determine whether the big header text in the tab will show
 })
+print("MainTab created successfully!")
 
 MainTab:CreateSection("Configs")
 
