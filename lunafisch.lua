@@ -155,19 +155,18 @@ local success, errorMsg = pcall(function()
     local MainTab = Window:CreateTab({
         Name = "Main",
         Icon = "view_in_ar",
-        ImageSource = "rbxassetid://82795327169782",  -- Comma added here
-        ShowTitle = true  -- This is the last element, no comma needed
+        ImageSource = "rbxassetid://82795327169782",  -- Valid asset ID with a comma after it
+        ShowTitle = true
     })
     print("MainTab created successfully!")
+    
+    -- Now that MainTab is created successfully, we can create the section
+    MainTab:CreateSection("Configs")
 end)
 
 if not success then
-    warn("Error in CreateTab: " .. errorMsg)
+    warn("Error in CreateTab or CreateSection: " .. errorMsg)
 end
-
-
-
-MainTab:CreateSection("Configs")
 
 local autoequip = MainTab:CreateToggle({
     Name = "Auto Equip Rod",
