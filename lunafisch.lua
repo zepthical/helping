@@ -161,26 +161,28 @@ local MainTab = Window:CreateTab({
 MainTab:CreateSection("Configs")
 
 local autoequip = MainTab:CreateToggle({
-	Name = "Auto Equip Rod",
-	Description = nil,
-	CurrentValue = _G.AutoEquipRod,
-    	Callback = function(Value)
-       	 _G.AutoEquipRod = Value
-         while _G.AutoEquipRod do
+    Name = "Auto Equip Rod",
+    Description = nil,
+    CurrentValue = _G.AutoEquipRod,
+    Callback = function(Value)
+        _G.AutoEquipRod = Value
+        while _G.AutoEquipRod do
             local backpack = LocalPlayer:FindFirstChild("Backpack")
             if backpack then
                 for _, tool in ipairs(backpack:GetChildren()) do
                     if tool:IsA("Tool") and tool:FindFirstChild("events") and tool.events:FindFirstChild("cast") then
                         local remote = ReplicatedStorage.packages.Net:FindFirstChild("RE/Backpack/Equip")
-                        if remote then remote:FireServer(tool) end
+                        if remote then 
+                            remote:FireServer(tool) 
+                        end
                         break
                     end
                 end
             end
-            task.wati(0.1)
-         end
-    	end
-}
+            task.wait(0.1)  -- Ensures the loop doesn't run too quickly
+        end
+    end
+})
 
 local autocast = MainTab:CreateToggle({
 	Name = "Auto Cast",
