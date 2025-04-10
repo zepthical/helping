@@ -194,6 +194,7 @@ local autocast = MainTab:CreateToggle({
        	 _G.AutoCast = Value
          while _G.AutoCast do
             local Rod = GetRod()
+	    print("Checking for rod:", Rod.Name)
             if Rod and Rod:FindFirstChild("values") then
                 local casted = Rod.values:FindFirstChild("casted")
                 if casted and casted.Value == false then
@@ -231,6 +232,7 @@ local autoreel = MainTab:CreateToggle({
        	 AutoReel = Value
          while AutoReel do
             local Rod = GetRod()
+	    print("Checking for rod:", Rod.Name)
             if Rod and Rod:FindFirstChild("values") and Rod.values:FindFirstChild("bite") then
                 -- ทำงานจนกว่าจะไม่มี bite
                 while Rod.values.bite.Value do
