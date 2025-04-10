@@ -155,14 +155,16 @@ local success, errorMsg = pcall(function()
     local MainTab = Window:CreateTab({
         Name = "Main",
         Icon = "view_in_ar",
-        ImageSource = "rbxassetid://82795327169782"  -- Replace with a valid asset ID
-        ShowTitle = true
+        ImageSource = "rbxassetid://82795327169782",  -- Comma added here
+        ShowTitle = true  -- This is the last element, no comma needed
     })
     print("MainTab created successfully!")
 end)
+
 if not success then
     warn("Error in CreateTab: " .. errorMsg)
 end
+
 
 
 MainTab:CreateSection("Configs")
