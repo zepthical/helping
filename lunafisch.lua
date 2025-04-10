@@ -165,6 +165,7 @@ local autoequip = MainTab:CreateToggle({
     Description = nil,
     CurrentValue = _G.AutoEquipRod,
     Callback = function(Value)
+	print("Toggled AutoCast: " .. tostring(Value))
         _G.AutoEquipRod = Value
         while _G.AutoEquipRod do
             local backpack = LocalPlayer:FindFirstChild("Backpack")
@@ -189,6 +190,7 @@ local autocast = MainTab:CreateToggle({
 	Description = nil,
 	CurrentValue = _G.AutoCast,
     	Callback = function(Value)
+	print("Toggled AutoCast: " .. tostring(Value))
        	 _G.AutoCast = Value
          while _G.AutoCast do
             local Rod = GetRod()
@@ -210,6 +212,7 @@ local autoshake = MainTab:CreateToggle({
 	Description = nil,
 	CurrentValue = AutoShake,
     	Callback = function(Value)
+	print("Toggled AutoCast: " .. tostring(Value))
        	 AutoShake = Value
          while AutoShake do
             Shake()
@@ -224,6 +227,7 @@ local autoreel = MainTab:CreateToggle({
 	Description = nil,
 	CurrentValue = AutoReel,
     	Callback = function(Value)
+	print("Toggled AutoCast: " .. tostring(Value))
        	 AutoReel = Value
          while AutoReel do
             local Rod = GetRod()
