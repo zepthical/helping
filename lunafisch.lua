@@ -155,7 +155,7 @@ local success, errorMsg = pcall(function()
     local MainTab = Window:CreateTab({
         Name = "Main",
         Icon = "view_in_ar",
-        ImageSource = "Home",
+        ImageSource = "rbxassetid://82795327169782"  -- Replace with a valid asset ID
         ShowTitle = true
     })
     print("MainTab created successfully!")
