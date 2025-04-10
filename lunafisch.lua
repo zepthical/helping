@@ -151,13 +151,19 @@ _G.AutoReel = false
 _G.InstantReel = false
 _G.AutoEquipRod = false
 
-local MainTab = Window:CreateTab({
-	Name = "Main",
-	Icon = "view_in_ar",
-	ImageSource = "Home",
-	ShowTitle = true -- This will determine whether the big header text in the tab will show
-})
-print("MainTab created successfully!")
+local success, errorMsg = pcall(function()
+    local MainTab = Window:CreateTab({
+        Name = "Main",
+        Icon = "view_in_ar",
+        ImageSource = "Home",
+        ShowTitle = true
+    })
+    print("MainTab created successfully!")
+end)
+if not success then
+    warn("Error in CreateTab: " .. errorMsg)
+end
+
 
 MainTab:CreateSection("Configs")
 
