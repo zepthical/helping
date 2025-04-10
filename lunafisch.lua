@@ -1,4 +1,4 @@
--- Services
+--[[ Services
 local Players = game:GetService("Players")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local VirtualInputManager = game:GetService("VirtualInputManager")
@@ -260,4 +260,26 @@ local autoreel = MainTab:CreateToggle({
         task.wait(0.1)
      end
   end
+}) ]]
+
+local Luna = loadstring(game:HttpGet("https://raw.githubusercontent.com/Nebula-Softworks/Luna-Interface-Suite/main/Library.lua"))()
+
+local Window = Luna:Window({
+    Name = "My Cool Script",
+    ConfigFolder = "CoolScriptSettings"
 })
+
+local Tab = Window:Tab("Main")
+
+Tab:Button("Print Hello", function()
+    print("Hello World!")
+end)
+
+Tab:Toggle("Auto Something", false, function(state)
+    print("Auto Something: ", state)
+end)
+
+Tab:Keybind("Toggle UI", Enum.KeyCode.RightShift, function()
+    Window:Toggle()
+end)
+
