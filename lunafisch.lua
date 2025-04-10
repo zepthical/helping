@@ -186,15 +186,15 @@ local autoequip = MainTab:CreateToggle({
 })
 
 local autocast = MainTab:CreateToggle({
-	Name = "Auto Cast",
-	Description = nil,
-	CurrentValue = _G.AutoCast,
-    	Callback = function(Value)
-	print("Toggled AutoCast: " .. tostring(Value))
-       	 _G.AutoCast = Value
-         while _G.AutoCast do
+    Name = "Auto Cast",
+    Description = nil,
+    CurrentValue = _G.AutoCast,
+    Callback = function(Value)
+        print("Toggled AutoCast: " .. tostring(Value))
+        _G.AutoCast = Value
+        while _G.AutoCast do
             local Rod = GetRod()
-	    print("Checking for rod:", Rod.Name)
+            print("Checking for rod:", Rod)
             if Rod and Rod:FindFirstChild("values") then
                 local casted = Rod.values:FindFirstChild("casted")
                 if casted and casted.Value == false then
@@ -204,9 +204,10 @@ local autocast = MainTab:CreateToggle({
                 end
             end
             task.wait(0.1)
-         end
-    	end
-}
+        end
+    end
+})  -- <-- Missing closing parenthesis
+
 
 local autoshake = MainTab:CreateToggle({
 	Name = "Auto Shake",
