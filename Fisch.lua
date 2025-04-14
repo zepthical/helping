@@ -138,6 +138,7 @@ end
  _G.FreezeCharacter = false
  _G.AutoDropBobber = false
  _G.InstantReel = false
+ _G.ar = false
  
  local CharSection = MainTab:CreateSection("Character")
  
@@ -270,9 +271,8 @@ local function Reel()
             if bar and ReplicatedStorage:FindFirstChild("events") then
                 local playerbar = bar:FindFirstChild("playerbar")
                 if playerbar then
-                    -- Fill the player bar to simulate reeling
+                    bar:Destroy()
                     playerbar.Size = UDim2.new(1, 0, 1, 0)
-
                     -- Check for the "reelfinished" event and fire it
                     local reelFinished = ReplicatedStorage:FindFirstChild("events") and ReplicatedStorage.events:FindFirstChild("reelfinished")
                     if reelFinished then
@@ -309,18 +309,47 @@ MainTab:CreateToggle({
     Flag = "AReel",
     Callback = function(v)
         _G.AutoReel = v
-
         spawn(function()
             while _G.AutoReel do
                 task.wait(1) -- Prevent excessive calls
-
+		
                 local Rod = getRod()
                 if Rod and Rod:FindFirstChild("values") and Rod.values:FindFirstChild("bite") then
                     if Rod.values.bite.Value == true then
-			task.wait(1.85)
-			Reel()
-			task.wait(0.5)
-			Reset				
+			task.wait(0.2)
+			Rod.events.reset:FireServer()
+			Rod.events.reset:FireServer()
+
+								
+    -- Search through the player's GUI for the reel UI elements
+    for _, v in pairs(LocalPlayer.PlayerGui:GetChildren()) do
+        if v:IsA("ScreenGui") and v.Name == "reel" then
+            local bar = v:FindFirstChild("bar")
+            if bar and ReplicatedStorage:FindFirstChild("events") then
+                local playerbar = bar:FindFirstChild("playerbar")
+                if playerbar then
+                    bar:Destroy()
+                    playerbar.Size = UDim2.new(1, 0, 1, 0)
+                    -- Check for the "reelfinished" event and fire it
+                    local reelFinished = ReplicatedStorage:FindFirstChild("events") and ReplicatedStorage.events:FindFirstChild("reelfinished")
+                    if reelFinished then
+                        reelFinished:FireServer(100, true)
+                    else
+                        warn("reelfinished event not found!")					end
+                else
+                    warn("Playerbar not found!")
+                end
+            else
+                warn("Bar or events not found!")
+            end
+        end
+    end
+end
+							task.wait(1)
+							if Rod.values.bite.Value == false then
+								Reset()
+							end
+							
                         repeat task.wait(0.1) until Rod.values.bite.Value == false
                     end
                 end
