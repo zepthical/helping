@@ -32,7 +32,7 @@ while _G.Shake do
   local shakeui = PlayerGui and PlayerGui:FindFirstChild("shakeui")
 
   if shakeui and shakeui.Enabled = true then
-    local safezone = shakeUI:FindFirstChild("safezone")
+    local safezone = shakeui:FindFirstChild("safezone")
     if safezone then
         local button = safezone:FindFirstChild("button")
         if button and button:IsA("ImageButton") and button.Visible then
@@ -51,7 +51,7 @@ while _G.Reel do
       if v:IsA("Tool") and v.Name:lower():find("rod") then
         if v:FindFirstChild("events") and v.events:FindFirstChild("reelfinished") then
           local reel = v.events.reelfinished
-          if v:FindFirstChildA("values") and v.values:FindFirstChild("bite") and v.values.bite.Value == true then
+          if v:FindFirstChild("values") and v.values:FindFirstChild("bite") and v.values.bite.Value == true then
             for i, f in pairs(LocalPlayer:GetChildren()) do
               if f:IsA("ScreenGui") and f.Name == "reel" then
                   if f:FindFirstChild("bar") and f.bar:FindFirstChild("playerbar") then
