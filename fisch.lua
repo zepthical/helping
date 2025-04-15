@@ -12,7 +12,7 @@ _G.Cast = false
 
 -- 🟡 LOOP 1: CAST
 task.spawn(function()
-    while _G.Cast do
+    while true do
         pcall(function()
             for i, v in pairs(LocalPlayer.Character:GetChildren()) do
                 if v:IsA("Tool") and v.Name:lower():find("rod") then
@@ -32,7 +32,7 @@ end)
 
 -- 🟡 LOOP 2: SHAKE
 task.spawn(function()
-    while _G.Shake do
+    while true do
         pcall(function()
             local PlayerGui = LocalPlayer:FindFirstChild("PlayerGui") -- 🔧 FIXED: was "LocalPlayerL"
             local shakeui = PlayerGui and PlayerGui:FindFirstChild("shakeui")
@@ -55,30 +55,15 @@ end)
 
 -- 🟡 LOOP 3: REEL
 task.spawn(function()
-    while _G.Reel do
+    while true do
         pcall(function()
-            for i, v in pairs(LocalPlayer.Character:GetChildren()) do
-                if v:IsA("Tool") and v.Name:lower():find("rod") then
-                    if v:FindFirstChild("events") and v.events:FindFirstChild("reelfinished") then
-                        local reel = v.events.reelfinished
-                        if v:FindFirstChild("values") and v.values:FindFirstChild("bite") and v.values.bite.Value == true then
-                            for i, f in pairs(LocalPlayer:GetChildren()) do
-                                if f:IsA("ScreenGui") and f.Name == "reel" then
-                                    if f:FindFirstChild("bar") and f.bar:FindFirstChild("playerbar") then
-                                        f.bar.playerbar.Size = UDim2.new(1, 0, 1, 0)
-                                        f.bar:Destroy()
-                                        reel:FireServer(100, true)
-                                        task.wait(0.5)
-                                        ReplicatedStorage.packages.Net:FindFirstChild("RE/Backpack/Equip"):FireServer(v)
-                                        task.wait(0.2)
-                                        ReplicatedStorage.packages.Net:FindFirstChild("RE/Backpack/Equip"):FireServer(v)
-                                    end
-                                end
-                            end
-                        end
-                    end
-                end
-            end
+            local args = {
+    [1] = 100,
+    [2] = true
+}
+
+game:GetService("ReplicatedStorage").events:FindFirstChild("reelfinished "):FireServer(unpack(args))
+
         end)
         task.wait()
     end
